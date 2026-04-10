@@ -17,6 +17,7 @@ import { QuestionBoolean } from 'src/controls/Boolean';
 import { QuestionChoice } from 'src/controls/Choice';
 import { Display } from 'src/controls/Display';
 import { EditableGroup } from 'src/controls/EditableGroup';
+import { Col, Grid, Group, Gtable, MainCard, Row, Section, SectionWithDivider, SubCard } from 'src/controls/Group';
 import { GroupTable } from 'src/controls/GroupTable';
 import { GroupTabs } from 'src/controls/GroupTabs';
 import { GroupVoice } from 'src/controls/GroupVoice';
@@ -33,20 +34,7 @@ import { QuestionSlider } from 'src/controls/Slider';
 import { QuestionEmail, QuestionString, QuestionText } from 'src/controls/String';
 import { UploadFileControl } from 'src/controls/UploadFileControl';
 
-import {
-    Col,
-    Grid,
-    Group,
-    Gtable,
-    MDEditorControl,
-    MainCard,
-    QuestionPhone,
-    Row,
-    Section,
-    SectionWithDivider,
-    SubCard,
-    TimeRangePickerControl,
-} from './widgets';
+import { MDEditorControl, QuestionPhone, TimeRangePickerControl } from './widgets';
 
 export const itemComponents: QuestionItemComponentMapping = {
     text: QuestionText,

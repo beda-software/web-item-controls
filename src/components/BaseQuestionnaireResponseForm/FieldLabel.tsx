@@ -2,9 +2,9 @@ import { useContext } from 'react';
 import { FCEQuestionnaireItem } from 'sdc-qrf';
 
 import { ItemHelpText } from 'src/components/BaseQuestionnaireResponseForm/ItemHelpText';
+import { GroupContext } from 'src/controls/Group/context';
 
 import { S } from './BaseQuestionnaireResponseForm.styles';
-import { GroupContext } from './widgets/Group/context';
 
 export function FieldLabel({ questionItem }: { questionItem: FCEQuestionnaireItem }) {
     const { type, text, helpText } = questionItem;
