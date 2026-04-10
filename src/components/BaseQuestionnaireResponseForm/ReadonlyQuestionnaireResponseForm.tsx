@@ -26,10 +26,10 @@ import { MarkdownCard, MarkdownDisplay, MarkdownRenderControl } from 'src/readon
 import { QuestionInteger, QuestionDecimal, QuestionQuantity } from 'src/readonly-controls/Number';
 import { QuestionReference } from 'src/readonly-controls/Reference';
 import { AnxietyScore, DepressionScore } from 'src/readonly-controls/Score';
+import { QuestionText, TextWithInput } from 'src/readonly-controls/String';
 import { service } from 'src/services/fhir';
 import { evaluate } from 'src/utils/fhirpath';
 
-import { QuestionText, TextWithInput } from './readonly-widgets/string';
 import { TimeRangePickerControl } from './readonly-widgets/TimeRangePickerControl';
 import { UploadFile } from './readonly-widgets/UploadFile';
 
