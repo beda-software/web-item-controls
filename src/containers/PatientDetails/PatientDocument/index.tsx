@@ -12,10 +12,10 @@ import { RemoteDataResult } from '@beda.software/remote-data';
 import { Text } from 'src/components';
 import { AlertMessage } from 'src/components/AlertMessage';
 import { BaseQuestionnaireResponseForm } from 'src/components/BaseQuestionnaireResponseForm';
-import { AnxietyScore, DepressionScore } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/score';
 import { Spinner } from 'src/components/Spinner';
 import { QuestionnaireResponseDraftService, QuestionnaireResponseFormSaveResponse } from 'src/hooks';
 import { useQuestionnaireResponseDraft } from 'src/hooks/useQuestionnaireResponseDraft';
+import { AnxietyScore, DepressionScore } from 'src/readonly-controls/Score';
 
 import s from './PatientDocument.module.scss';
 import { S } from './PatientDocument.styles';

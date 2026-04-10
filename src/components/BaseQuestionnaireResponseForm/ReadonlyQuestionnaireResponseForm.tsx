@@ -25,10 +25,10 @@ import { GroupWizardVertical } from 'src/readonly-controls/GroupWizard';
 import { MarkdownCard, MarkdownDisplay, MarkdownRenderControl } from 'src/readonly-controls/MarkdownRender';
 import { QuestionInteger, QuestionDecimal, QuestionQuantity } from 'src/readonly-controls/Number';
 import { QuestionReference } from 'src/readonly-controls/Reference';
+import { AnxietyScore, DepressionScore } from 'src/readonly-controls/Score';
 import { service } from 'src/services/fhir';
 import { evaluate } from 'src/utils/fhirpath';
 
-import { AnxietyScore, DepressionScore } from './readonly-widgets/score';
 import { QuestionText, TextWithInput } from './readonly-widgets/string';
 import { TimeRangePickerControl } from './readonly-widgets/TimeRangePickerControl';
 import { UploadFile } from './readonly-widgets/UploadFile';
