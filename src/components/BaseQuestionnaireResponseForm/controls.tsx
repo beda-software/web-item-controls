@@ -15,6 +15,7 @@ import { Barcode } from 'src/controls/Barcode';
 import { QuestionBoolean } from 'src/controls/Boolean';
 import { QuestionChoice } from 'src/controls/Choice';
 import { Display } from 'src/controls/Display';
+import { QuestionInputInsideText } from 'src/controls/InsideText';
 import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls/Number';
 import { QuestionDateTime } from 'src/controls/QuestionDateTime';
 import { QuestionSolidRadio } from 'src/controls/Radio';
@@ -31,7 +32,6 @@ import {
     InlineChoice,
     MDEditorControl,
     MainCard,
-    QuestionInputInsideText,
     QuestionPhone,
     Row,
     Section,

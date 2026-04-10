@@ -1,7 +1,8 @@
 import { QuestionItemProps } from 'sdc-qrf';
 
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
+
 import InputInsideText from './InputInsideText';
-import { useFieldController } from '../hooks';
 
 export function QuestionInputInsideText({ parentPath, questionItem }: QuestionItemProps) {
     const { linkId } = questionItem;
