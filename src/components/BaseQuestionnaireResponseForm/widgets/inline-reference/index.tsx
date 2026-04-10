@@ -6,9 +6,8 @@ import { formatError, RenderRemoteData } from '@beda.software/fhir-react';
 
 import { Spinner } from 'src/components/Spinner';
 import { Text } from 'src/components/Typography';
+import { AnswerReferenceProps, useAnswerReference } from 'src/controls/Reference';
 import { getDisplay } from 'src/utils';
-
-import { AnswerReferenceProps, useAnswerReference } from '../reference';
 
 function InlineReferenceUnsafe<R extends Resource = any, IR extends Resource = any>(
     props: AnswerReferenceProps<R, IR>,
@@ -37,7 +36,7 @@ function InlineReferenceUnsafe<R extends Resource = any, IR extends Resource = a
                             repeats ? (
                                 <Checkbox
                                     key={JSON.stringify(answerOption)}
-                                    checked={!!value?.find((v) => _.isEqual(v.value, answerOption.value))}
+                                    checked={!!value?.find((v: any) => _.isEqual(v.value, answerOption.value))}
                                     disabled={disabled}
                                     onChange={() => onMultiChange(answerOption)}
                                 >
@@ -46,7 +45,7 @@ function InlineReferenceUnsafe<R extends Resource = any, IR extends Resource = a
                             ) : (
                                 <Radio
                                     key={JSON.stringify(answerOption)}
-                                    checked={!!value?.find((v) => _.isEqual(v.value, answerOption.value))}
+                                    checked={!!value?.find((v: any) => _.isEqual(v.value, answerOption.value))}
                                     disabled={disabled}
                                     onChange={() => onSelect(answerOption)}
                                     data-testid={`inline-choice__${_.kebabCase(

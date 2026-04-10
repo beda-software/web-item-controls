@@ -8,12 +8,11 @@ import { AnswerValue, FormAnswerItems, parseFhirQueryExpression, QuestionItemPro
 import { ResourcesMap, useService } from '@beda.software/fhir-react';
 import { buildQueryParams, isLoading, isSuccess } from '@beda.software/remote-data';
 
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 import { AsyncSelect } from 'src/components/Select';
 import { LoadResourceOption, loadResourceOptions } from 'src/services/questionnaire';
 import { evaluate } from 'src/utils';
 import { getAnswerCode, getAnswerDisplay } from 'src/utils/questionnaire';
-
-import { useFieldController } from '../hooks';
 
 export type AnswerReferenceProps<R extends Resource, IR extends Resource> = QuestionItemProps & {
     overrideGetDisplay?: (resource: R, includedResources: ResourcesMap<R | IR>) => string;

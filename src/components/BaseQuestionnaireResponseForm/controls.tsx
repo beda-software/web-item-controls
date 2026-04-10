@@ -18,6 +18,7 @@ import { Display } from 'src/controls/Display';
 import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls/Number';
 import { QuestionDateTime } from 'src/controls/QuestionDateTime';
 import { QuestionSolidRadio } from 'src/controls/Radio';
+import { QuestionReference } from 'src/controls/Reference';
 
 import {
     BloodPressure,
@@ -47,7 +48,6 @@ import { GroupVoice } from './widgets/GroupVoice';
 import { GroupWizard, GroupWizardVertical, GroupWizardWithTooltips } from './widgets/GroupWizard';
 import { InlineReference } from './widgets/inline-reference';
 import { PasswordInput } from './widgets/PasswordInput';
-import { QuestionReference } from './widgets/reference';
 import { UploadFileControl } from './widgets/UploadFileControl';
 
 export const itemComponents: QuestionItemComponentMapping = {
