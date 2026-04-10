@@ -15,6 +15,7 @@ import { Barcode } from 'src/controls/Barcode';
 import { QuestionBoolean } from 'src/controls/Boolean';
 import { QuestionChoice } from 'src/controls/Choice';
 import { Display } from 'src/controls/Display';
+import { EditableGroup } from 'src/controls/EditableGroup';
 import { GroupTable } from 'src/controls/GroupTable';
 import { QuestionInputInsideText } from 'src/controls/InsideText';
 import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls/Number';
@@ -41,7 +42,6 @@ import {
     SubCard,
     TimeRangePickerControl,
 } from './widgets';
-import { EditableGroup } from './widgets/EditableGroup';
 import { GroupTabs } from './widgets/GroupTabs';
 import { GroupVoice } from './widgets/GroupVoice';
 import { GroupWizard, GroupWizardVertical, GroupWizardWithTooltips } from './widgets/GroupWizard';
