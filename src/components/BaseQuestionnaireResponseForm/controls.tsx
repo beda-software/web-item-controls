@@ -28,6 +28,7 @@ import { QuestionInputInsideText } from 'src/controls/InsideText';
 import { MDEditorControl } from 'src/controls/MDEditorControl';
 import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls/Number';
 import { PasswordInput } from 'src/controls/PasswordInput';
+import { QuestionPhone } from 'src/controls/PhoneInput';
 import { QuestionDateTime } from 'src/controls/QuestionDateTime';
 import { QuestionSolidRadio } from 'src/controls/Radio';
 import { QuestionReference } from 'src/controls/Reference';
@@ -35,7 +36,7 @@ import { QuestionSlider } from 'src/controls/Slider';
 import { QuestionEmail, QuestionString, QuestionText } from 'src/controls/String';
 import { UploadFileControl } from 'src/controls/UploadFileControl';
 
-import { QuestionPhone, TimeRangePickerControl } from './widgets';
+import { TimeRangePickerControl } from './widgets';
 
 export const itemComponents: QuestionItemComponentMapping = {
     text: QuestionText,
