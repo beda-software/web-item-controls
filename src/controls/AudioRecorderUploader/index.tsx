@@ -9,8 +9,8 @@ import { isSuccess } from '@beda.software/remote-data';
 
 import { AudioPlayer as AudioPlayerControl, AudioRecorder as AudioRecorderControl } from 'src/components/AudioRecorder';
 import { useAudioRecorder } from 'src/components/AudioRecorder/hooks';
-import { UploadFileControl } from 'src/components/BaseQuestionnaireResponseForm/widgets/UploadFileControl';
-import { useUploader } from 'src/components/BaseQuestionnaireResponseForm/widgets/UploadFileControl/hooks';
+import { UploadFileControl } from 'src/controls/UploadFileControl';
+import { useUploader } from 'src/controls/UploadFileControl/hooks';
 
 import { S } from './styles';
 

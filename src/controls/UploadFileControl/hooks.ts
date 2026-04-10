@@ -6,14 +6,13 @@ import { FormAnswerItems, QuestionItemProps } from 'sdc-qrf';
 import { formatError } from '@beda.software/fhir-react';
 import { isSuccess } from '@beda.software/remote-data';
 
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 import {
     generateDownloadUrl,
     generateUploadUrl,
     uploadFileWithXHR,
     CustomUploadRequestOption,
 } from 'src/services/file-upload';
-
-import { useFieldController } from '../../hooks';
 
 export function useUploader({ parentPath, questionItem }: QuestionItemProps) {
     const { linkId, repeats, mimeType } = questionItem;

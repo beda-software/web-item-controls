@@ -2,10 +2,10 @@ import classNames from 'classnames';
 import { QuestionItemProps } from 'sdc-qrf';
 
 import { AudioPlayerRecord } from 'src/components/AudioRecorder';
+import { useUploader } from 'src/controls/UploadFileControl/hooks';
 
 import s from './ReadonlyWidgets.module.scss';
 import { S } from './ReadonlyWidgets.styles';
-import { useUploader } from '../widgets/UploadFileControl/hooks';
 
 export function AudioAttachment(props: QuestionItemProps) {
     const { questionItem } = props;

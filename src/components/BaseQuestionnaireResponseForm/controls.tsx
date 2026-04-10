@@ -23,6 +23,7 @@ import { QuestionSolidRadio } from 'src/controls/Radio';
 import { QuestionReference } from 'src/controls/Reference';
 import { QuestionSlider } from 'src/controls/Slider';
 import { QuestionEmail, QuestionString, QuestionText } from 'src/controls/String';
+import { UploadFileControl } from 'src/controls/UploadFileControl';
 
 import {
     BloodPressure,
@@ -46,7 +47,6 @@ import { GroupVoice } from './widgets/GroupVoice';
 import { GroupWizard, GroupWizardVertical, GroupWizardWithTooltips } from './widgets/GroupWizard';
 import { InlineReference } from './widgets/inline-reference';
 import { PasswordInput } from './widgets/PasswordInput';
-import { UploadFileControl } from './widgets/UploadFileControl';
 
 export const itemComponents: QuestionItemComponentMapping = {
     text: QuestionText,
