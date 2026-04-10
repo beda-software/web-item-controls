@@ -1,4 +1,4 @@
-import { MarkdownRender } from 'src/readonly-controls/MarkdownRender';
+import { MarkdownRender } from 'src/readonly-controls';
 
 import { useRenderFormItemReadOnly } from './hooks';
 import { S } from './styles';

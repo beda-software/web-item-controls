@@ -14,21 +14,31 @@ import {
     ItemControlQuestionItemReadonlyWidgetsContext,
 } from 'src/components/BaseQuestionnaireResponseForm/context';
 import { Barcode } from 'src/controls/Barcode';
-import { AudioAttachment } from 'src/readonly-controls/AudioAttachment';
-import { QuestionBoolean } from 'src/readonly-controls/Boolean';
-import { QuestionChoice } from 'src/readonly-controls/Choice';
-import { QuestionDateTime } from 'src/readonly-controls/DateTime';
-import { Display } from 'src/readonly-controls/Display';
-import { Col, Group, Row } from 'src/readonly-controls/Group';
-import { NavigationGroup } from 'src/readonly-controls/Group/NavigationGroup';
-import { GroupWizardVertical } from 'src/readonly-controls/GroupWizard';
-import { MarkdownCard, MarkdownDisplay, MarkdownRenderControl } from 'src/readonly-controls/MarkdownRender';
-import { QuestionInteger, QuestionDecimal, QuestionQuantity } from 'src/readonly-controls/Number';
-import { QuestionReference } from 'src/readonly-controls/Reference';
-import { AnxietyScore, DepressionScore } from 'src/readonly-controls/Score';
-import { QuestionText, TextWithInput } from 'src/readonly-controls/String';
-import { TimeRangePickerControl } from 'src/readonly-controls/TimeRangePickerControl';
-import { UploadFile } from 'src/readonly-controls/UploadFile';
+import {
+    AudioAttachment,
+    QuestionBoolean,
+    QuestionChoice,
+    QuestionDateTime,
+    Display,
+    Col,
+    Group,
+    Row,
+    GroupWizardVertical,
+    MarkdownCard,
+    MarkdownDisplay,
+    MarkdownRenderControl,
+    NavigationGroup,
+    QuestionInteger,
+    QuestionDecimal,
+    QuestionQuantity,
+    QuestionReference,
+    AnxietyScore,
+    DepressionScore,
+    QuestionText,
+    TextWithInput,
+    TimeRangePickerControl,
+    UploadFile,
+} from 'src/readonly-controls';
 import { service } from 'src/services/fhir';
 import { evaluate } from 'src/utils/fhirpath';
 

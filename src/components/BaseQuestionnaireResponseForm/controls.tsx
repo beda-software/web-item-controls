@@ -48,7 +48,7 @@ import {
     TimeRangePickerControl,
     UploadFileControl,
 } from 'src/controls';
-import { MarkdownCard, MarkdownDisplay } from 'src/readonly-controls/MarkdownRender';
+import { MarkdownCard, MarkdownDisplay } from 'src/readonly-controls';
 
 export const itemComponents: QuestionItemComponentMapping = {
     text: QuestionText,

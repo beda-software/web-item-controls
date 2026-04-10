@@ -15,7 +15,7 @@ import { BaseQuestionnaireResponseForm } from 'src/components/BaseQuestionnaireR
 import { Spinner } from 'src/components/Spinner';
 import { QuestionnaireResponseDraftService, QuestionnaireResponseFormSaveResponse } from 'src/hooks';
 import { useQuestionnaireResponseDraft } from 'src/hooks/useQuestionnaireResponseDraft';
-import { AnxietyScore, DepressionScore } from 'src/readonly-controls/Score';
+import { AnxietyScore, DepressionScore } from 'src/readonly-controls';
 
 import s from './PatientDocument.module.scss';
 import { S } from './PatientDocument.styles';

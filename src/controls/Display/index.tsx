@@ -2,7 +2,7 @@ import { QuestionItemProps } from 'sdc-qrf';
 
 import { ItemHelpText } from 'src/components/BaseQuestionnaireResponseForm/ItemHelpText';
 import { Paragraph } from 'src/components/Typography';
-import { MarkdownRender } from 'src/readonly-controls/MarkdownRender';
+import { MarkdownRender } from 'src/readonly-controls';
 
 import { S } from './styles';
 

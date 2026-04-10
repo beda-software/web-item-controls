@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { QuestionItemProps } from 'sdc-qrf';
 
 import { TextWithLink } from 'src/controls/Display';
-import { MarkdownRender } from 'src/readonly-controls/MarkdownRender';
+import { MarkdownRender } from 'src/readonly-controls';
 import s from 'src/readonly-controls/ReadonlyWidgets.module.scss';
 import { S } from 'src/readonly-controls/ReadonlyWidgets.styles';
 
