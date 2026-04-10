@@ -15,6 +15,7 @@ import {
 } from 'src/components/BaseQuestionnaireResponseForm/context';
 import { Barcode } from 'src/controls/Barcode';
 import { AudioAttachment } from 'src/readonly-controls/AudioAttachment';
+import { QuestionBoolean } from 'src/readonly-controls/Boolean';
 import { Col, Group, Row } from 'src/readonly-controls/Group';
 import { NavigationGroup } from 'src/readonly-controls/Group/NavigationGroup';
 import { GroupWizardVertical } from 'src/readonly-controls/GroupWizard';
@@ -22,7 +23,6 @@ import { MarkdownCard, MarkdownDisplay, MarkdownRenderControl } from 'src/readon
 import { service } from 'src/services/fhir';
 import { evaluate } from 'src/utils/fhirpath';
 
-import { QuestionBoolean } from './readonly-widgets/boolean';
 import { QuestionChoice } from './readonly-widgets/choice';
 import { QuestionDateTime } from './readonly-widgets/date';
 import { Display } from './readonly-widgets/display';
