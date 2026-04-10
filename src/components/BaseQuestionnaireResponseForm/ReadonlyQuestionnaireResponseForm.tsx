@@ -27,10 +27,10 @@ import { QuestionInteger, QuestionDecimal, QuestionQuantity } from 'src/readonly
 import { QuestionReference } from 'src/readonly-controls/Reference';
 import { AnxietyScore, DepressionScore } from 'src/readonly-controls/Score';
 import { QuestionText, TextWithInput } from 'src/readonly-controls/String';
+import { TimeRangePickerControl } from 'src/readonly-controls/TimeRangePickerControl';
 import { service } from 'src/services/fhir';
 import { evaluate } from 'src/utils/fhirpath';
 
-import { TimeRangePickerControl } from './readonly-widgets/TimeRangePickerControl';
 import { UploadFile } from './readonly-widgets/UploadFile';
 
 interface Props extends Partial<QRFContextData> {
