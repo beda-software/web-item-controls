@@ -3,9 +3,8 @@ import { QuestionItemProps } from 'sdc-qrf';
 
 import { AudioPlayerRecord } from 'src/components/AudioRecorder';
 import { useUploader } from 'src/controls/UploadFileControl/hooks';
-
-import s from './ReadonlyWidgets.module.scss';
-import { S } from './ReadonlyWidgets.styles';
+import s from 'src/readonly-controls/ReadonlyWidgets.module.scss';
+import { S } from 'src/readonly-controls/ReadonlyWidgets.styles';
 
 export function AudioAttachment(props: QuestionItemProps) {
     const { questionItem } = props;

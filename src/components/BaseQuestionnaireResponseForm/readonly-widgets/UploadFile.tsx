@@ -3,9 +3,8 @@ import classNames from 'classnames';
 import { QuestionItemProps } from 'sdc-qrf';
 
 import { useUploader } from 'src/controls/UploadFileControl/hooks';
-
-import s from './ReadonlyWidgets.module.scss';
-import { S } from './ReadonlyWidgets.styles';
+import s from 'src/readonly-controls/ReadonlyWidgets.module.scss';
+import { S } from 'src/readonly-controls/ReadonlyWidgets.styles';
 
 export function UploadFile(props: QuestionItemProps) {
     const { questionItem } = props;

@@ -4,10 +4,9 @@ import _ from 'lodash';
 import { AnswerValue, QuestionItemProps } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
+import s from 'src/readonly-controls/ReadonlyWidgets.module.scss';
+import { S } from 'src/readonly-controls/ReadonlyWidgets.styles';
 import { formatUnit } from 'src/utils/unit';
-
-import s from './ReadonlyWidgets.module.scss';
-import { S } from './ReadonlyWidgets.styles';
 
 export function QuestionInteger({ parentPath, questionItem }: QuestionItemProps) {
     const { linkId, text, hidden } = questionItem;

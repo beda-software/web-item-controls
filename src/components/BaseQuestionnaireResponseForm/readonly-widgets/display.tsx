@@ -3,9 +3,8 @@ import { QuestionItemProps } from 'sdc-qrf';
 
 import { MarkdownRender } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
 import { TextWithLink } from 'src/controls/Display';
-
-import s from './ReadonlyWidgets.module.scss';
-import { S } from './ReadonlyWidgets.styles';
+import s from 'src/readonly-controls/ReadonlyWidgets.module.scss';
+import { S } from 'src/readonly-controls/ReadonlyWidgets.styles';
 
 export function Display({ questionItem }: QuestionItemProps) {
     const { text, hidden, itemControl } = questionItem;

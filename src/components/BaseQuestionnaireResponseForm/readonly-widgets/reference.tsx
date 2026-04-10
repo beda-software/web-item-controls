@@ -2,10 +2,9 @@ import classNames from 'classnames';
 import { Resource } from 'fhir/r4b';
 
 import { AnswerReferenceProps, useAnswerReference } from 'src/controls/Reference';
+import s from 'src/readonly-controls/ReadonlyWidgets.module.scss';
+import { S } from 'src/readonly-controls/ReadonlyWidgets.styles';
 import { getArrayDisplay } from 'src/utils/questionnaire';
-
-import s from './ReadonlyWidgets.module.scss';
-import { S } from './ReadonlyWidgets.styles';
 
 function QuestionReferenceUnsafe<R extends Resource = any, IR extends Resource = any>(
     props: AnswerReferenceProps<R, IR>,

@@ -2,10 +2,9 @@ import classNames from 'classnames';
 import { QuestionItemProps } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
+import s from 'src/readonly-controls/ReadonlyWidgets.module.scss';
+import { S } from 'src/readonly-controls/ReadonlyWidgets.styles';
 import { renderTextWithInput } from 'src/utils/renderTextWithInput';
-
-import s from './ReadonlyWidgets.module.scss';
-import { S } from './ReadonlyWidgets.styles';
 
 export function QuestionText({ parentPath, questionItem }: QuestionItemProps) {
     const { linkId, text, hidden } = questionItem;

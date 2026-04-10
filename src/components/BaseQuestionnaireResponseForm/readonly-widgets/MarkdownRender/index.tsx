@@ -7,10 +7,10 @@ import remarkGfm from 'remark-gfm';
 import { QuestionItemProps } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
-import s from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/ReadonlyWidgets.module.scss';
-import { S as ROWidgetsStyles } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/ReadonlyWidgets.styles';
 import { RenderImage } from 'src/components/RenderImage';
 import { RenderImageCacheProvider } from 'src/components/RenderImage/cache';
+import s from 'src/readonly-controls/ReadonlyWidgets.module.scss';
+import { S as ROWidgetsStyles } from 'src/readonly-controls/ReadonlyWidgets.styles';
 
 import { S } from './styles';
 import { remarkAdmonition, remarkRestoreUnsupportedDirectives } from './utils';

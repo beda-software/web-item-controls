@@ -2,10 +2,9 @@ import classNames from 'classnames';
 import { FormAnswerItems, QuestionItemProps } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
+import s from 'src/readonly-controls/ReadonlyWidgets.module.scss';
+import { S } from 'src/readonly-controls/ReadonlyWidgets.styles';
 import { getArrayDisplay, getDisplay } from 'src/utils/questionnaire';
-
-import s from './ReadonlyWidgets.module.scss';
-import { S } from './ReadonlyWidgets.styles';
 
 export function QuestionChoice({ parentPath, questionItem }: QuestionItemProps) {
     const { linkId, text, repeats, hidden, choiceColumn } = questionItem;

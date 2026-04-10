@@ -3,10 +3,9 @@ import _ from 'lodash';
 import { GroupItemProps } from 'sdc-qrf';
 
 import { useTimeRangePickerControl } from 'src/controls/TimeRangePickerControl/hooks';
+import s from 'src/readonly-controls/ReadonlyWidgets.module.scss';
+import { S } from 'src/readonly-controls/ReadonlyWidgets.styles';
 import { getDisplay } from 'src/utils/questionnaire';
-
-import s from './ReadonlyWidgets.module.scss';
-import { S } from './ReadonlyWidgets.styles';
 
 export function TimeRangePickerControl(props: GroupItemProps) {
     const { questionItem } = props;

@@ -19,10 +19,10 @@ import {
     MarkdownRenderControl,
 } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
 import { Barcode } from 'src/controls/Barcode';
+import { AudioAttachment } from 'src/readonly-controls/AudioAttachment';
 import { service } from 'src/services/fhir';
 import { evaluate } from 'src/utils/fhirpath';
 
-import { AudioAttachment } from './readonly-widgets/AudioAttachment';
 import { QuestionBoolean } from './readonly-widgets/boolean';
 import { QuestionChoice } from './readonly-widgets/choice';
 import { QuestionDateTime } from './readonly-widgets/date';
