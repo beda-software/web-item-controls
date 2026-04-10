@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { FHIRDateFormat, formatFHIRDateTime, parseFHIRDateTime } from '@beda.software/fhir-react';
 
-import { days } from 'src/containers/Scheduling/available-time';
+export const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 function praseSlotDuration(slotDuration: string) {
     const [hours, minutes, seconds] = slotDuration.split(':').map((v) => parseInt(v));
