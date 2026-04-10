@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { ItemContext } from 'sdc-qrf';
 
-import { InlineReference } from 'src/components/BaseQuestionnaireResponseForm/widgets/inline-reference';
+import { InlineReference } from 'src/controls/InlineReference';
 import { QuestionReference } from 'src/controls/Reference';
 import { WithQuestionFormProviderDecorator, withColorSchemeDecorator } from 'src/storybook/decorators';
 

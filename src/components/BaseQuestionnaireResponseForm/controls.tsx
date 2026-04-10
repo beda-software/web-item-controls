@@ -21,6 +21,7 @@ import { GroupTable } from 'src/controls/GroupTable';
 import { GroupTabs } from 'src/controls/GroupTabs';
 import { GroupVoice } from 'src/controls/GroupVoice';
 import { GroupWizard, GroupWizardVertical, GroupWizardWithTooltips } from 'src/controls/GroupWizard';
+import { InlineReference } from 'src/controls/InlineReference';
 import { QuestionInputInsideText } from 'src/controls/InsideText';
 import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls/Number';
 import { QuestionDateTime } from 'src/controls/QuestionDateTime';
@@ -45,7 +46,6 @@ import {
     SubCard,
     TimeRangePickerControl,
 } from './widgets';
-import { InlineReference } from './widgets/inline-reference';
 import { PasswordInput } from './widgets/PasswordInput';
 
 export const itemComponents: QuestionItemComponentMapping = {
