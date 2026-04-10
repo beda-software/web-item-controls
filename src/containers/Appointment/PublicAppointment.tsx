@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import { uuid4 } from '@beda.software/fhir-react';
 
 import { PageContainer } from 'src/components/BaseLayout/PageContainer';
-import { DateTimeSlotPicker } from 'src/components/BaseQuestionnaireResponseForm/widgets';
 import { QuestionnaireResponseForm } from 'src/components/QuestionnaireResponseForm';
 import { Spinner } from 'src/components/Spinner';
+import { DateTimeSlotPicker } from 'src/controls/DateTimeSlotPicker';
 import { questionnaireIdLoader } from 'src/hooks/questionnaire-response-form-data';
 import { getToken } from 'src/services/auth';
 import { axiosInstance } from 'src/services/fhir';
