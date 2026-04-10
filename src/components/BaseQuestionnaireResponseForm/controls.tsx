@@ -25,6 +25,7 @@ import { GroupWizard, GroupWizardVertical, GroupWizardWithTooltips } from 'src/c
 import { InlineChoice } from 'src/controls/InlineChoice';
 import { InlineReference } from 'src/controls/InlineReference';
 import { QuestionInputInsideText } from 'src/controls/InsideText';
+import { MDEditorControl } from 'src/controls/MDEditorControl';
 import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls/Number';
 import { PasswordInput } from 'src/controls/PasswordInput';
 import { QuestionDateTime } from 'src/controls/QuestionDateTime';
@@ -34,7 +35,7 @@ import { QuestionSlider } from 'src/controls/Slider';
 import { QuestionEmail, QuestionString, QuestionText } from 'src/controls/String';
 import { UploadFileControl } from 'src/controls/UploadFileControl';
 
-import { MDEditorControl, QuestionPhone, TimeRangePickerControl } from './widgets';
+import { QuestionPhone, TimeRangePickerControl } from './widgets';
 
 export const itemComponents: QuestionItemComponentMapping = {
     text: QuestionText,

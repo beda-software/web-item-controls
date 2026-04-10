@@ -4,9 +4,9 @@ import { Patient, Practitioner } from 'fhir/r4b';
 
 import { WithId } from '@beda.software/fhir-react';
 
-import { MDEditorControl } from 'src/components/BaseQuestionnaireResponseForm/widgets/MDEditorControl';
 import { ModalTrigger } from 'src/components/ModalTrigger';
 import { QuestionnaireResponseForm } from 'src/components/QuestionnaireResponseForm';
+import { MDEditorControl } from 'src/controls/MDEditorControl';
 import { questionnaireIdLoader } from 'src/hooks/questionnaire-response-form-data';
 import { selectCurrentUserRoleResource } from 'src/utils/role';
 
