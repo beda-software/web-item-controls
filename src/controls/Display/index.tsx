@@ -2,8 +2,9 @@ import { QuestionItemProps } from 'sdc-qrf';
 
 import { ItemHelpText } from 'src/components/BaseQuestionnaireResponseForm/ItemHelpText';
 import { MarkdownRender } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
-import { S } from 'src/components/BaseQuestionnaireResponseForm/widgets/styles';
 import { Paragraph } from 'src/components/Typography';
+
+import { S } from './styles';
 
 export function Display({ questionItem }: QuestionItemProps) {
     const { text, helpText, itemControl } = questionItem;
