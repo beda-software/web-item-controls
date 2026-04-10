@@ -9,13 +9,13 @@ import {
     MarkdownCard,
     MarkdownDisplay,
 } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
-import { GroupTable } from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupTable';
 import { TextWithMacroFill } from 'src/components/TextWithMacroFill';
 import { AudioRecorderUploader } from 'src/controls/AudioRecorderUploader';
 import { Barcode } from 'src/controls/Barcode';
 import { QuestionBoolean } from 'src/controls/Boolean';
 import { QuestionChoice } from 'src/controls/Choice';
 import { Display } from 'src/controls/Display';
+import { GroupTable } from 'src/controls/GroupTable';
 import { QuestionInputInsideText } from 'src/controls/InsideText';
 import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls/Number';
 import { QuestionDateTime } from 'src/controls/QuestionDateTime';

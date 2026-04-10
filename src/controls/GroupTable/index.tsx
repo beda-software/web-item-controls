@@ -2,8 +2,8 @@ import { PlusOutlined } from '@ant-design/icons';
 import { t } from '@lingui/macro';
 import { Alert, Button, Flex, Space, Switch, Table, Typography } from 'antd';
 
-import { useGroupTable } from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupTable/hooks';
 import { ModalQuestionnaireGroupItem } from 'src/components/ModalQuestionnaireGroupItem';
+import { useGroupTable } from 'src/controls/GroupTable/hooks';
 
 import { GroupTableChart } from './GroupTableChart';
 import { S } from './styles';

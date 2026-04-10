@@ -5,9 +5,9 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { FormItems, GroupItemProps, RepeatableFormGroupItems } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
-import { RenderFormItemReadOnly } from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupTable/RenderFormItemReadOnly';
-import { GroupTableItem, GroupTableRow } from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupTable/types';
-import { getColumnWidth, getDataSource } from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupTable/utils';
+import { RenderFormItemReadOnly } from 'src/controls/GroupTable/RenderFormItemReadOnly';
+import { GroupTableItem, GroupTableRow } from 'src/controls/GroupTable/types';
+import { getColumnWidth, getDataSource } from 'src/controls/GroupTable/utils';
 
 export function useEditableGroup(props: GroupItemProps) {
     const { parentPath, questionItem } = props;

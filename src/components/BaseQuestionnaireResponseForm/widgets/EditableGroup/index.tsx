@@ -2,11 +2,11 @@ import { t } from '@lingui/macro';
 import { Alert, Button, Flex, Table, Typography } from 'antd';
 import { GroupItemProps } from 'sdc-qrf';
 
-import { GroupTableRow } from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupTable/types';
 import { ModalQuestionnaireGroupItem } from 'src/components/ModalQuestionnaireGroupItem';
+import { S } from 'src/controls/GroupTable/styles';
+import { GroupTableRow } from 'src/controls/GroupTable/types';
 
 import { useEditableGroup } from './hooks';
-import { S } from '../GroupTable/styles';
 
 export function EditableGroup(props: GroupItemProps) {
     const {

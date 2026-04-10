@@ -9,9 +9,9 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { FCEQuestionnaireItem, FormItems, RepeatableFormGroupItems, populateItemKey } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
-import { RenderFormItemReadOnly } from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupTable/RenderFormItemReadOnly';
 import { ColumnFilterValue, SearchBarColumn } from 'src/components/SearchBar/types';
 import { TableFilter } from 'src/components/Table/TableFilter';
+import { RenderFormItemReadOnly } from 'src/controls/GroupTable/RenderFormItemReadOnly';
 
 import { S } from './styles';
 import { GroupTableItem, GroupTableProps, GroupTableRow } from './types';
