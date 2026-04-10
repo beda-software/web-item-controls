@@ -14,6 +14,7 @@ import { TextWithMacroFill } from 'src/components/TextWithMacroFill';
 import { Barcode } from 'src/controls/Barcode';
 import { QuestionBoolean } from 'src/controls/Boolean';
 import { QuestionChoice } from 'src/controls/Choice';
+import { Display } from 'src/controls/Display';
 import { QuestionDateTime } from 'src/controls/QuestionDateTime';
 
 import {
@@ -42,7 +43,6 @@ import {
     TimeRangePickerControl,
 } from './widgets';
 import { AudioRecorderUploader } from './widgets/AudioRecorderUploader';
-import { Display } from './widgets/display';
 import { EditableGroup } from './widgets/EditableGroup';
 import { GroupTabs } from './widgets/GroupTabs';
 import { GroupVoice } from './widgets/GroupVoice';
