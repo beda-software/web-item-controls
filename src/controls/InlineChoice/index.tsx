@@ -2,9 +2,8 @@ import { Checkbox, Form, Radio, Space } from 'antd';
 import _ from 'lodash';
 import { FormAnswerItems, QuestionItemProps, toAnswerValue } from 'sdc-qrf';
 
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 import { getDisplay } from 'src/utils/questionnaire';
-
-import { useFieldController } from '../../hooks';
 
 export function InlineChoice(props: QuestionItemProps) {
     const { parentPath, questionItem } = props;

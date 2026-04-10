@@ -21,6 +21,7 @@ import { GroupTable } from 'src/controls/GroupTable';
 import { GroupTabs } from 'src/controls/GroupTabs';
 import { GroupVoice } from 'src/controls/GroupVoice';
 import { GroupWizard, GroupWizardVertical, GroupWizardWithTooltips } from 'src/controls/GroupWizard';
+import { InlineChoice } from 'src/controls/InlineChoice';
 import { InlineReference } from 'src/controls/InlineReference';
 import { QuestionInputInsideText } from 'src/controls/InsideText';
 import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls/Number';
@@ -36,7 +37,6 @@ import {
     Grid,
     Group,
     Gtable,
-    InlineChoice,
     MDEditorControl,
     MainCard,
     QuestionPhone,
