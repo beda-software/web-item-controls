@@ -28,10 +28,9 @@ import { QuestionReference } from 'src/readonly-controls/Reference';
 import { AnxietyScore, DepressionScore } from 'src/readonly-controls/Score';
 import { QuestionText, TextWithInput } from 'src/readonly-controls/String';
 import { TimeRangePickerControl } from 'src/readonly-controls/TimeRangePickerControl';
+import { UploadFile } from 'src/readonly-controls/UploadFile';
 import { service } from 'src/services/fhir';
 import { evaluate } from 'src/utils/fhirpath';
-
-import { UploadFile } from './readonly-widgets/UploadFile';
 
 interface Props extends Partial<QRFContextData> {
     formData: QuestionnaireResponseFormData;
