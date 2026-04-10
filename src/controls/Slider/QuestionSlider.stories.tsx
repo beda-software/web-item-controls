@@ -1,9 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { ItemContext } from 'sdc-qrf';
 
+import { QuestionSlider } from 'src/controls/Slider';
 import { WithQuestionFormProviderDecorator, withColorSchemeDecorator } from 'src/storybook/decorators';
-
-import { QuestionSlider } from './index';
 
 const meta: Meta<typeof QuestionSlider> = {
     title: 'Questionnaire / questions / slider',

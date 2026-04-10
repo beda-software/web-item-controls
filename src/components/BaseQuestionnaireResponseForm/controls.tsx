@@ -19,6 +19,7 @@ import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls
 import { QuestionDateTime } from 'src/controls/QuestionDateTime';
 import { QuestionSolidRadio } from 'src/controls/Radio';
 import { QuestionReference } from 'src/controls/Reference';
+import { QuestionSlider } from 'src/controls/Slider';
 
 import {
     BloodPressure,
@@ -32,7 +33,6 @@ import {
     QuestionEmail,
     QuestionInputInsideText,
     QuestionPhone,
-    QuestionSlider,
     QuestionString,
     QuestionText,
     Row,

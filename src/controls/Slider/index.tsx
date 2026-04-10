@@ -2,9 +2,8 @@ import { Form, Slider } from 'antd';
 import type { SliderMarks } from 'antd/es/slider';
 import { QuestionItemProps } from 'sdc-qrf';
 
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 import { Paragraph } from 'src/components/Typography';
-
-import { useFieldController } from '../hooks';
 
 interface QuestionSliderExtensions {
     start?: number;
