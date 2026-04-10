@@ -10,32 +10,48 @@ import {
     MarkdownDisplay,
 } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
 import { TextWithMacroFill } from 'src/components/TextWithMacroFill';
-import { AudioRecorderUploader } from 'src/controls/AudioRecorderUploader';
-import { Barcode } from 'src/controls/Barcode';
-import { BloodPressure } from 'src/controls/BloodPressure';
-import { QuestionBoolean } from 'src/controls/Boolean';
-import { QuestionChoice } from 'src/controls/Choice';
-import { Display } from 'src/controls/Display';
-import { EditableGroup } from 'src/controls/EditableGroup';
-import { Col, Grid, Group, Gtable, MainCard, Row, Section, SectionWithDivider, SubCard } from 'src/controls/Group';
-import { GroupTable } from 'src/controls/GroupTable';
-import { GroupTabs } from 'src/controls/GroupTabs';
-import { GroupVoice } from 'src/controls/GroupVoice';
-import { GroupWizard, GroupWizardVertical, GroupWizardWithTooltips } from 'src/controls/GroupWizard';
-import { InlineChoice } from 'src/controls/InlineChoice';
-import { InlineReference } from 'src/controls/InlineReference';
-import { QuestionInputInsideText } from 'src/controls/InsideText';
-import { MDEditorControl } from 'src/controls/MDEditorControl';
-import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls/Number';
-import { PasswordInput } from 'src/controls/PasswordInput';
-import { QuestionPhone } from 'src/controls/PhoneInput';
-import { QuestionDateTime } from 'src/controls/QuestionDateTime';
-import { QuestionSolidRadio } from 'src/controls/Radio';
-import { QuestionReference } from 'src/controls/Reference';
-import { QuestionSlider } from 'src/controls/Slider';
-import { QuestionEmail, QuestionString, QuestionText } from 'src/controls/String';
-import { TimeRangePickerControl } from 'src/controls/TimeRangePickerControl';
-import { UploadFileControl } from 'src/controls/UploadFileControl';
+import {
+    AudioRecorderUploader,
+    Barcode,
+    BloodPressure,
+    QuestionBoolean,
+    QuestionChoice,
+    Display,
+    EditableGroup,
+    Col,
+    Grid,
+    Group,
+    Gtable,
+    MainCard,
+    Row,
+    Section,
+    SectionWithDivider,
+    SubCard,
+    GroupTable,
+    GroupTabs,
+    GroupVoice,
+    GroupWizard,
+    GroupWizardVertical,
+    GroupWizardWithTooltips,
+    InlineChoice,
+    InlineReference,
+    QuestionInputInsideText,
+    MDEditorControl,
+    QuestionDecimal,
+    QuestionInteger,
+    QuestionQuantity,
+    PasswordInput,
+    QuestionPhone,
+    QuestionDateTime,
+    QuestionSolidRadio,
+    QuestionReference,
+    QuestionSlider,
+    QuestionEmail,
+    QuestionString,
+    QuestionText,
+    TimeRangePickerControl,
+    UploadFileControl,
+} from 'src/controls';
 
 export const itemComponents: QuestionItemComponentMapping = {
     text: QuestionText,
