@@ -5,12 +5,11 @@ import _, { debounce } from 'lodash';
 import { useCallback, useContext } from 'react';
 import { FCEQuestionnaireItemChoiceColumn, FormAnswerItems, QuestionItemProps, toAnswerValue } from 'sdc-qrf';
 
+import s from 'src/components/BaseQuestionnaireResponseForm/BaseQuestionnaireResponseForm.module.scss';
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 import { AsyncSelect, Select } from 'src/components/Select';
 import { ValueSetExpandProvider } from 'src/contexts';
 import { getDisplay } from 'src/utils/questionnaire';
-
-import s from '../../BaseQuestionnaireResponseForm.module.scss';
-import { useFieldController } from '../../hooks';
 
 interface ChoiceQuestionSelectProps {
     value?: FormAnswerItems[];

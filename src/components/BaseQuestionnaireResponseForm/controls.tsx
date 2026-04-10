@@ -12,6 +12,7 @@ import {
 import { GroupTable } from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupTable';
 import { TextWithMacroFill } from 'src/components/TextWithMacroFill';
 import { QuestionBoolean } from 'src/controls/Boolean';
+import { QuestionChoice } from 'src/controls/Choice';
 
 import {
     BloodPressure,
@@ -22,7 +23,6 @@ import {
     InlineChoice,
     MDEditorControl,
     MainCard,
-    QuestionChoice,
     QuestionDateTime,
     QuestionDecimal,
     QuestionEmail,
