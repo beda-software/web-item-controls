@@ -20,6 +20,8 @@ import {
 } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
 import { Barcode } from 'src/controls/Barcode';
 import { AudioAttachment } from 'src/readonly-controls/AudioAttachment';
+import { Col, Group, Row } from 'src/readonly-controls/Group';
+import { NavigationGroup } from 'src/readonly-controls/Group/NavigationGroup';
 import { service } from 'src/services/fhir';
 import { evaluate } from 'src/utils/fhirpath';
 
@@ -27,8 +29,6 @@ import { QuestionBoolean } from './readonly-widgets/boolean';
 import { QuestionChoice } from './readonly-widgets/choice';
 import { QuestionDateTime } from './readonly-widgets/date';
 import { Display } from './readonly-widgets/display';
-import { Col, Group, Row } from './readonly-widgets/Group';
-import { NavigationGroup } from './readonly-widgets/Group/NavigationGroup';
 import { GroupWizardVertical } from './readonly-widgets/GroupWizard';
 import { QuestionInteger, QuestionDecimal, QuestionQuantity } from './readonly-widgets/number';
 import { QuestionReference } from './readonly-widgets/reference';
