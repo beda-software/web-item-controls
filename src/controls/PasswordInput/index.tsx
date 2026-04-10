@@ -1,7 +1,7 @@
 import { Form, Input } from 'antd';
 import { QuestionItemProps } from 'sdc-qrf';
 
-import { useFieldController } from '../../hooks';
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 
 export function PasswordInput({ parentPath, questionItem }: QuestionItemProps) {
     const { linkId } = questionItem;

@@ -25,6 +25,7 @@ import { InlineChoice } from 'src/controls/InlineChoice';
 import { InlineReference } from 'src/controls/InlineReference';
 import { QuestionInputInsideText } from 'src/controls/InsideText';
 import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls/Number';
+import { PasswordInput } from 'src/controls/PasswordInput';
 import { QuestionDateTime } from 'src/controls/QuestionDateTime';
 import { QuestionSolidRadio } from 'src/controls/Radio';
 import { QuestionReference } from 'src/controls/Reference';
@@ -46,7 +47,6 @@ import {
     SubCard,
     TimeRangePickerControl,
 } from './widgets';
-import { PasswordInput } from './widgets/PasswordInput';
 
 export const itemComponents: QuestionItemComponentMapping = {
     text: QuestionText,
