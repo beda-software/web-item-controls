@@ -29,7 +29,6 @@ export * from './Select';
 export * from './Spinner';
 export * from './Table';
 export * from './Tabs';
-export * from './TextWithMacroFill';
 export * from './TimePicker';
 export * from './TitleDetails';
 export * from './Typography';

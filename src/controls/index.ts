@@ -23,5 +23,6 @@ export * from './Radio';
 export * from './Reference';
 export * from './Slider';
 export * from './String';
+export * from './TextWithMacroFill';
 export * from './TimeRangePickerControl';
 export * from './UploadFileControl';

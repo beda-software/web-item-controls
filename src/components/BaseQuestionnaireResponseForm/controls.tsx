@@ -5,7 +5,6 @@ import {
     QuestionItemComponentMapping,
 } from 'sdc-qrf';
 
-import { TextWithMacroFill } from 'src/components/TextWithMacroFill';
 import {
     AudioRecorderUploader,
     Barcode,
@@ -47,6 +46,7 @@ import {
     QuestionText,
     TimeRangePickerControl,
     UploadFileControl,
+    TextWithMacroFill,
 } from 'src/controls';
 import { MarkdownCard, MarkdownDisplay } from 'src/readonly-controls';
 

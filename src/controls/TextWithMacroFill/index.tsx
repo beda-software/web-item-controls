@@ -3,9 +3,9 @@ import { Button, Form, Input, notification } from 'antd';
 import { FCEQuestionnaireItem, QRFContextData, QuestionItemProps, useQuestionnaireResponseFormContext } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
+import { Text } from 'src/components/Typography';
 
 import s from './TextWithMacroFill.module.scss';
-import { Text } from '../Typography';
 
 interface QuestionFieldProps {
     questionItem: FCEQuestionnaireItem;
