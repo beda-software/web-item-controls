@@ -5,4 +5,3 @@ export * from './BloodPressure';
 export * from './TimeRangePickerControl';
 export * from './DateTimeSlotPicker';
 export * from './MDEditorControl';
-export * from './GroupWizard';

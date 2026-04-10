@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import { FormFooter } from 'src/components/BaseQuestionnaireResponseForm/FormFooter';
 import { WizardFooter } from 'src/components/Wizard';
-
-import { FormFooter } from '../../FormFooter';
 
 export const S = {
     Group: styled.div<{ $active?: boolean; $hidden?: boolean }>`

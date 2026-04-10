@@ -12,13 +12,13 @@ import {
 
 import { createBus } from '@beda.software/fhir-react';
 
+import { BaseQuestionnaireResponseFormPropsContext } from 'src/components/BaseQuestionnaireResponseForm/context';
 import { Text, Title } from 'src/components/Typography';
 import { Wizard, WizardItem, WizardProps } from 'src/components/Wizard';
 import { questionnaireItemsToValidationSchema } from 'src/utils';
 
 import { S } from './styles';
 import { getAllGroupQuestionsWithAnswerStatus } from './utils';
-import { BaseQuestionnaireResponseFormPropsContext } from '../../context';
 
 interface GroupWizardProps extends GroupItemProps {
     wizard?: Partial<WizardProps>;

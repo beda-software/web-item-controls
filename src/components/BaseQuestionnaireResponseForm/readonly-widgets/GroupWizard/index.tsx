@@ -2,13 +2,9 @@ import { useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { FCEQuestionnaireItem, getEnabledQuestions, GroupItemProps, QuestionItems } from 'sdc-qrf';
 
-import {
-    getGroupStats,
-    GroupStats,
-    GroupWizardBus,
-} from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupWizard';
 import { Text, Title } from 'src/components/Typography';
 import { Wizard, WizardItem, WizardProps } from 'src/components/Wizard';
+import { getGroupStats, GroupStats, GroupWizardBus } from 'src/controls/GroupWizard';
 
 import { S } from './styles';
 
