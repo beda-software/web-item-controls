@@ -1,7 +1,6 @@
 export * from './inline-choice';
 export * from './Group';
 export * from './PhoneInput';
-export * from './string';
 export * from './BloodPressure';
 export * from './insideText';
 export * from './TimeRangePickerControl';

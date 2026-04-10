@@ -20,6 +20,7 @@ import { QuestionDateTime } from 'src/controls/QuestionDateTime';
 import { QuestionSolidRadio } from 'src/controls/Radio';
 import { QuestionReference } from 'src/controls/Reference';
 import { QuestionSlider } from 'src/controls/Slider';
+import { QuestionEmail, QuestionString, QuestionText } from 'src/controls/String';
 
 import {
     BloodPressure,
@@ -30,11 +31,8 @@ import {
     InlineChoice,
     MDEditorControl,
     MainCard,
-    QuestionEmail,
     QuestionInputInsideText,
     QuestionPhone,
-    QuestionString,
-    QuestionText,
     Row,
     Section,
     SectionWithDivider,
