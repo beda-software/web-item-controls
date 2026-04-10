@@ -1,5 +1,0 @@
-id: receptionist
-resourceType: Practitioner
-name:
-  - given: ["Basic-1"]
-    family: "Receptionist"

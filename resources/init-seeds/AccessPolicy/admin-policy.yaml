@@ -1,4 +1,0 @@
-id: admin-policy
-resourceType: AccessPolicy
-engine: allow
-roleName: admin

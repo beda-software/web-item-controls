@@ -1,5 +1,0 @@
-id: practitioner2
-resourceType: Practitioner
-name:
-  - given: ["Basic-2"]
-    family: "Practitioner"

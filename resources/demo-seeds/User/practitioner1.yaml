@@ -1,5 +1,0 @@
-id: practitioner1
-resourceType: User
-password: "${FHIR_EMR_PRACTITIONER_PASSWORD}"
-fhirUser:
-  reference: urn:uuid:Practitioner:practitioner1
