@@ -11,6 +11,7 @@ import {
 } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
 import { GroupTable } from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupTable';
 import { TextWithMacroFill } from 'src/components/TextWithMacroFill';
+import { QuestionBoolean } from 'src/controls/Boolean';
 
 import {
     BloodPressure,
@@ -21,7 +22,6 @@ import {
     InlineChoice,
     MDEditorControl,
     MainCard,
-    QuestionBoolean,
     QuestionChoice,
     QuestionDateTime,
     QuestionDecimal,

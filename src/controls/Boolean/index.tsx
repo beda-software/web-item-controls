@@ -1,8 +1,9 @@
 import { Form, Checkbox } from 'antd';
 import { QuestionItemProps } from 'sdc-qrf';
 
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
+
 import { S } from './styles';
-import { useFieldController } from '../../hooks';
 
 export function QuestionBoolean({ parentPath, questionItem }: QuestionItemProps) {
     const { linkId, text } = questionItem;
