@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { markdownContentStyles } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender/sharedMarkdownStyles';
+import { markdownContentStyles } from 'src/readonly-controls/MarkdownRender/sharedMarkdownStyles';
 
 export const S = {
     MDXEditorWrapper: styled.div`

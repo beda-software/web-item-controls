@@ -13,16 +13,12 @@ import {
     ItemControlGroupItemReadonlyWidgetsContext,
     ItemControlQuestionItemReadonlyWidgetsContext,
 } from 'src/components/BaseQuestionnaireResponseForm/context';
-import {
-    MarkdownCard,
-    MarkdownDisplay,
-    MarkdownRenderControl,
-} from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
 import { Barcode } from 'src/controls/Barcode';
 import { AudioAttachment } from 'src/readonly-controls/AudioAttachment';
 import { Col, Group, Row } from 'src/readonly-controls/Group';
 import { NavigationGroup } from 'src/readonly-controls/Group/NavigationGroup';
 import { GroupWizardVertical } from 'src/readonly-controls/GroupWizard';
+import { MarkdownCard, MarkdownDisplay, MarkdownRenderControl } from 'src/readonly-controls/MarkdownRender';
 import { service } from 'src/services/fhir';
 import { evaluate } from 'src/utils/fhirpath';
 

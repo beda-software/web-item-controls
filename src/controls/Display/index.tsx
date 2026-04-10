@@ -1,8 +1,8 @@
 import { QuestionItemProps } from 'sdc-qrf';
 
 import { ItemHelpText } from 'src/components/BaseQuestionnaireResponseForm/ItemHelpText';
-import { MarkdownRender } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
 import { Paragraph } from 'src/components/Typography';
+import { MarkdownRender } from 'src/readonly-controls/MarkdownRender';
 
 import { S } from './styles';
 

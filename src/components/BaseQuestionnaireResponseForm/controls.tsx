@@ -5,10 +5,6 @@ import {
     QuestionItemComponentMapping,
 } from 'sdc-qrf';
 
-import {
-    MarkdownCard,
-    MarkdownDisplay,
-} from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
 import { TextWithMacroFill } from 'src/components/TextWithMacroFill';
 import {
     AudioRecorderUploader,
@@ -52,6 +48,7 @@ import {
     TimeRangePickerControl,
     UploadFileControl,
 } from 'src/controls';
+import { MarkdownCard, MarkdownDisplay } from 'src/readonly-controls/MarkdownRender';
 
 export const itemComponents: QuestionItemComponentMapping = {
     text: QuestionText,

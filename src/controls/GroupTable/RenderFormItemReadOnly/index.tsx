@@ -1,4 +1,4 @@
-import { MarkdownRender } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
+import { MarkdownRender } from 'src/readonly-controls/MarkdownRender';
 
 import { useRenderFormItemReadOnly } from './hooks';
 import { S } from './styles';

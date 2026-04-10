@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import { QuestionItemProps } from 'sdc-qrf';
 
-import { MarkdownRender } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
 import { TextWithLink } from 'src/controls/Display';
+import { MarkdownRender } from 'src/readonly-controls/MarkdownRender';
 import s from 'src/readonly-controls/ReadonlyWidgets.module.scss';
 import { S } from 'src/readonly-controls/ReadonlyWidgets.styles';
 
