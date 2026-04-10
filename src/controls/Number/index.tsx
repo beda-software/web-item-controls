@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { useState } from 'react';
 import { QuestionItemProps } from 'sdc-qrf';
 
-import { useFieldController } from '../hooks';
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 
 const inputStyle = { width: '100%' };
 

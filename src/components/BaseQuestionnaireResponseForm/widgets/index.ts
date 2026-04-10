@@ -1,6 +1,5 @@
 export * from './inline-choice';
 export * from './Group';
-export * from './number';
 export * from './PhoneInput';
 export * from './string';
 export * from './slider';
