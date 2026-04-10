@@ -11,6 +11,7 @@ import {
 } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
 import { GroupTable } from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupTable';
 import { TextWithMacroFill } from 'src/components/TextWithMacroFill';
+import { AudioRecorderUploader } from 'src/controls/AudioRecorderUploader';
 import { Barcode } from 'src/controls/Barcode';
 import { QuestionBoolean } from 'src/controls/Boolean';
 import { QuestionChoice } from 'src/controls/Choice';
@@ -39,7 +40,6 @@ import {
     SubCard,
     TimeRangePickerControl,
 } from './widgets';
-import { AudioRecorderUploader } from './widgets/AudioRecorderUploader';
 import { EditableGroup } from './widgets/EditableGroup';
 import { GroupTabs } from './widgets/GroupTabs';
 import { GroupVoice } from './widgets/GroupVoice';
