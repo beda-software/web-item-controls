@@ -1,5 +1,4 @@
 export * from './inline-choice';
-export * from './date';
 export * from './Group';
 export * from './number';
 export * from './PhoneInput';

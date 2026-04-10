@@ -5,11 +5,10 @@ import { QuestionItemProps } from 'sdc-qrf';
 
 import { FHIRTimeFormat, formatFHIRDate, formatFHIRDateTime, formatFHIRTime } from '@beda.software/fhir-react';
 
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 import { DatePicker } from 'src/components/DatePicker';
 import { TimePicker } from 'src/components/TimePicker';
 import { humanDate, humanDateTime, humanTime } from 'src/utils/date';
-
-import { useFieldController } from '../hooks';
 
 export function QuestionDateTime({ parentPath, questionItem }: QuestionItemProps) {
     const { linkId, type, regex } = questionItem;

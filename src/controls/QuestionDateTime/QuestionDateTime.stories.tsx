@@ -2,9 +2,8 @@ import { t } from '@lingui/macro';
 import { Meta, StoryObj } from '@storybook/react';
 import { ItemContext } from 'sdc-qrf';
 
+import { QuestionDateTime } from 'src/controls/QuestionDateTime';
 import { WithQuestionFormProviderDecorator, withColorSchemeDecorator } from 'src/storybook/decorators';
-
-import { QuestionDateTime } from './index';
 
 const meta: Meta<typeof QuestionDateTime> = {
     title: 'Questionnaire / questions / dateTime',

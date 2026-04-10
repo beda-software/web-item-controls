@@ -11,8 +11,10 @@ import {
 } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
 import { GroupTable } from 'src/components/BaseQuestionnaireResponseForm/widgets/GroupTable';
 import { TextWithMacroFill } from 'src/components/TextWithMacroFill';
+import { Barcode } from 'src/controls/Barcode';
 import { QuestionBoolean } from 'src/controls/Boolean';
 import { QuestionChoice } from 'src/controls/Choice';
+import { QuestionDateTime } from 'src/controls/QuestionDateTime';
 
 import {
     BloodPressure,
@@ -23,7 +25,6 @@ import {
     InlineChoice,
     MDEditorControl,
     MainCard,
-    QuestionDateTime,
     QuestionDecimal,
     QuestionEmail,
     QuestionInputInsideText,
@@ -41,7 +42,6 @@ import {
     TimeRangePickerControl,
 } from './widgets';
 import { AudioRecorderUploader } from './widgets/AudioRecorderUploader';
-import { Barcode } from './widgets/barcode';
 import { Display } from './widgets/display';
 import { EditableGroup } from './widgets/EditableGroup';
 import { GroupTabs } from './widgets/GroupTabs';

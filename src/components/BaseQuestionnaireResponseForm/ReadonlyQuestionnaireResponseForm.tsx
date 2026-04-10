@@ -18,6 +18,7 @@ import {
     MarkdownDisplay,
     MarkdownRenderControl,
 } from 'src/components/BaseQuestionnaireResponseForm/readonly-widgets/MarkdownRender';
+import { Barcode } from 'src/controls/Barcode';
 import { service } from 'src/services/fhir';
 import { evaluate } from 'src/utils/fhirpath';
 
@@ -35,7 +36,6 @@ import { AnxietyScore, DepressionScore } from './readonly-widgets/score';
 import { QuestionText, TextWithInput } from './readonly-widgets/string';
 import { TimeRangePickerControl } from './readonly-widgets/TimeRangePickerControl';
 import { UploadFile } from './readonly-widgets/UploadFile';
-import { Barcode } from './widgets/barcode';
 
 interface Props extends Partial<QRFContextData> {
     formData: QuestionnaireResponseFormData;

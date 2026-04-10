@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import { ReactBarcode } from 'react-jsbarcode';
 import { QuestionItemProps } from 'sdc-qrf';
 
-import { useFieldController } from '../hooks';
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 
 export function Barcode({ parentPath, questionItem }: QuestionItemProps) {
     const { linkId } = questionItem;
