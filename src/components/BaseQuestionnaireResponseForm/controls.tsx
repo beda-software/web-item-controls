@@ -17,6 +17,7 @@ import { QuestionChoice } from 'src/controls/Choice';
 import { Display } from 'src/controls/Display';
 import { QuestionDecimal, QuestionInteger, QuestionQuantity } from 'src/controls/Number';
 import { QuestionDateTime } from 'src/controls/QuestionDateTime';
+import { QuestionSolidRadio } from 'src/controls/Radio';
 
 import {
     BloodPressure,
@@ -31,7 +32,6 @@ import {
     QuestionInputInsideText,
     QuestionPhone,
     QuestionSlider,
-    QuestionSolidRadio,
     QuestionString,
     QuestionText,
     Row,

@@ -3,7 +3,6 @@ export * from './Group';
 export * from './PhoneInput';
 export * from './string';
 export * from './slider';
-export * from './radio';
 export * from './BloodPressure';
 export * from './insideText';
 export * from './TimeRangePickerControl';

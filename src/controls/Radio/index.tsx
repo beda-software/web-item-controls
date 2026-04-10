@@ -3,7 +3,7 @@ import { Coding } from 'fhir/r4b';
 import { useMemo } from 'react';
 import { QuestionItemProps } from 'sdc-qrf';
 
-import { useFieldController } from '../hooks';
+import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 
 interface SolidRadioButton {
     adjustLastToRight?: boolean;
