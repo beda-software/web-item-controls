@@ -34,9 +34,8 @@ import { QuestionSolidRadio } from 'src/controls/Radio';
 import { QuestionReference } from 'src/controls/Reference';
 import { QuestionSlider } from 'src/controls/Slider';
 import { QuestionEmail, QuestionString, QuestionText } from 'src/controls/String';
+import { TimeRangePickerControl } from 'src/controls/TimeRangePickerControl';
 import { UploadFileControl } from 'src/controls/UploadFileControl';
-
-import { TimeRangePickerControl } from './widgets';
 
 export const itemComponents: QuestionItemComponentMapping = {
     text: QuestionText,
