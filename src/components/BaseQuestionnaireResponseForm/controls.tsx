@@ -12,6 +12,7 @@ import {
 import { TextWithMacroFill } from 'src/components/TextWithMacroFill';
 import { AudioRecorderUploader } from 'src/controls/AudioRecorderUploader';
 import { Barcode } from 'src/controls/Barcode';
+import { BloodPressure } from 'src/controls/BloodPressure';
 import { QuestionBoolean } from 'src/controls/Boolean';
 import { QuestionChoice } from 'src/controls/Choice';
 import { Display } from 'src/controls/Display';
@@ -30,7 +31,6 @@ import { QuestionEmail, QuestionString, QuestionText } from 'src/controls/String
 import { UploadFileControl } from 'src/controls/UploadFileControl';
 
 import {
-    BloodPressure,
     Col,
     Grid,
     Group,
