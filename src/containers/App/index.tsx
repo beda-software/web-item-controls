@@ -1,36 +1,67 @@
 import { t } from '@lingui/macro';
+import { Questionnaire } from 'fhir/r4b';
 import { ReactElement } from 'react';
 import { Route } from 'react-router-dom';
+
+import { QuestionnaireResponseForm } from '@beda.software/fhir-questionnaire';
+import { questionnaireServiceLoader } from '@beda.software/fhir-questionnaire/components/QuestionnaireResponseForm/questionnaire-response-form-data';
+import { success } from '@beda.software/remote-data';
 
 import { AnonymousLayout } from 'src/components/BaseLayout';
 import { defaultFooterLayout } from 'src/components/BaseLayout/Footer/context';
 import { defaultMenuLayout } from 'src/components/BaseLayout/Sidebar/SidebarTop/context';
+import {
+    groupControlComponents,
+    itemComponents,
+    itemControlComponents,
+} from 'src/components/BaseQuestionnaireResponseForm/controls';
+import { FormWrapper, GroupItemComponent } from 'src/components/FormWrapper';
 import { PublicAppointment } from 'src/containers/Appointment/PublicAppointment';
-import { EncounterList } from 'src/containers/EncounterList';
-import { FormList } from 'src/containers/FormList';
-import { MagicSearchPage } from 'src/containers/MagicSearchPage';
-import { PatientDetails } from 'src/containers/PatientDetails';
-import { NewPatientDetails } from 'src/containers/PatientDetails/new';
-import { PatientList } from 'src/containers/PatientList';
-import { PatientQuestionnaire } from 'src/containers/PatientQuestionnaire';
-import { PractitionerDetails } from 'src/containers/PractitionerDetails';
-import { PractitionerList } from 'src/containers/PractitionerList';
-import { QuestionnaireBuilder } from 'src/containers/QuestionnaireBuilder';
-import { QuestionnaireList } from 'src/containers/QuestionnaireList';
 import { SignIn } from 'src/containers/SignIn';
-import { VideoCall } from 'src/containers/VideoCall';
+import { service } from 'src/services';
 
-import { AidboxFormsBuilder } from '../AidboxFormsBuilder';
 import { EMR } from '../EMR';
-import { HealthcareServiceList } from '../HealthcareServiceList';
-import { InvoiceDetails } from '../InvoiceDetails';
-import { InvoiceList } from '../InvoiceList';
-import { MedicationManagement } from '../MedicationManagement';
-import { MedicationManagementDetail } from '../MedicationManagementDetail';
 import { NotificationPage } from '../NotificationPage';
-import { OrganizationScheduling } from '../OrganizationScheduling';
-import { Prescriptions } from '../Prescriptions';
 import { SetPassword } from '../SetPassword';
+
+const getQuestionnaire = (): Questionnaire => {
+    return {
+        id: 'repeatable-group',
+        name: 'Repeatable Group',
+        title: 'Repeatable Group',
+        status: 'active',
+        meta: {
+            profile: ['https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire'],
+        },
+        item: [
+            {
+                text: 'Text',
+                type: 'string',
+                linkId: 'simple-text',
+            },
+            {
+                text: 'Items',
+                type: 'group',
+                linkId: 'repeatable-group',
+                item: [
+                    {
+                        item: [
+                            {
+                                text: 'Text',
+                                type: 'string',
+                                linkId: 'repeatable-group-text',
+                            },
+                        ],
+                        type: 'group',
+                        linkId: 'repeatable-group-inner',
+                        repeats: true,
+                    },
+                ],
+            },
+        ],
+        resourceType: 'Questionnaire',
+    };
+};
 
 interface AppProps {
     authenticatedRoutes?: ReactElement;
@@ -45,29 +76,22 @@ export function App(props: AppProps) {
     // Define the default authenticated routes
     const defaultAuthenticatedRoutes = (
         <>
-            <Route path="/encounters" element={<EncounterList />} />
-            <Route path="/scheduling" element={<OrganizationScheduling />} />
-            <Route path="/medications" element={<MedicationManagement />} />
-            <Route path="/medications/:id/*" element={<MedicationManagementDetail />} />
-            <Route path="/prescriptions" element={<Prescriptions />} />
-            <Route path="/invoices" element={<InvoiceList />} />
-            <Route path="/invoices/:id" element={<InvoiceDetails />} />
-            <Route path="/patients" element={<PatientList />} />
-            <Route path="/patients/:id/*" element={<PatientDetails />} />
-            <Route path="/patients2/:id/*" element={<NewPatientDetails />} />
-            <Route path="/questionnaire" element={<PatientQuestionnaire />} />
-            <Route path="/documents/:id/edit" element={<div>documents/:id/edit</div>} />
-            <Route path="/encounters/:encounterId/video" element={<VideoCall />} />
-            <Route path="/practitioners" element={<PractitionerList />} />
-            <Route path="/practitioners/:id/*" element={<PractitionerDetails />} />
-            <Route path="/questionnaires" element={<QuestionnaireList />} />
-            <Route path="/forms" element={<FormList />} />
-            <Route path="/questionnaires/builder" element={<QuestionnaireBuilder />} />
-            <Route path="/questionnaires/:id/edit" element={<QuestionnaireBuilder />} />
-            <Route path="/questionnaires/:id/aidbox-forms-builder/edit" element={<AidboxFormsBuilder />} />
-            <Route path="/questionnaires/:id" element={<div>questionnaires/:id</div>} />
-            <Route path="/magic-search" element={<MagicSearchPage />} />
-            <Route path="/healthcare-services" element={<HealthcareServiceList />} />
+            <Route
+                path="/questionnaire"
+                element={
+                    <QuestionnaireResponseForm
+                        questionnaireLoader={questionnaireServiceLoader(() =>
+                            Promise.resolve(success(getQuestionnaire())),
+                        )}
+                        widgetsByQuestionType={itemComponents}
+                        widgetsByQuestionItemControl={itemControlComponents}
+                        widgetsByGroupQuestionItemControl={groupControlComponents}
+                        FormWrapper={FormWrapper}
+                        groupItemComponent={GroupItemComponent}
+                        serviceProvider={{ service }}
+                    />
+                }
+            />
         </>
     );
 
@@ -87,9 +111,17 @@ export function App(props: AppProps) {
             <Route
                 path="/questionnaire"
                 element={
-                    <AnonymousLayout>
-                        <PatientQuestionnaire onSuccess={() => (window.location.href = '/thanks')} />
-                    </AnonymousLayout>
+                    <QuestionnaireResponseForm
+                        questionnaireLoader={questionnaireServiceLoader(() =>
+                            Promise.resolve(success(getQuestionnaire())),
+                        )}
+                        widgetsByQuestionType={itemComponents}
+                        widgetsByQuestionItemControl={itemControlComponents}
+                        widgetsByGroupQuestionItemControl={groupControlComponents}
+                        FormWrapper={FormWrapper}
+                        groupItemComponent={GroupItemComponent}
+                        serviceProvider={{ service }}
+                    />
                 }
             />
             <Route
