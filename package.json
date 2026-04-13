@@ -72,11 +72,23 @@
         "styled-components": "^6.1.11",
         "yup": "^1.7.0"
     },
+    "resolutions": {
+        "@lingui/cli": "^4.3.0",
+        "@lingui/core": "^4.3.0",
+        "@lingui/macro": "^4.3.0",
+        "typescript": "^5.1.6",
+        "sdc-qrf": "^1.1.0-alpha.3"
+    },
     "peerDependencies": {
+        "@beda.software/fhir-react": "^1.11.1",
+        "@lingui/cli": "^4.3.0",
+        "@lingui/core": "^4.3.0",
+        "@lingui/macro": "^4.3.0",
         "rc-picker": "^3.8.2"
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.26.0",
+        "@beda.software/fhir-questionnaire": "https://github.com/beda-software/fhir-questionnaire.git#sdc-service-provider",
         "@beda.software/vite-plugin-dts": "4.0.0-beta.1",
         "@chromatic-com/storybook": "^3.2.2",
         "@lingui/cli": "^4.3.0",
@@ -127,11 +139,11 @@
         "sass-loader": "^13.3.2",
         "storybook": "^8.4.1",
         "style-loader": "^3.3.3",
-        "typescript": "^5.1.6",
+        "typescript": "5.1.6",
         "vite": "^4.1.5",
         "vite-plugin-externalize-deps": "^0.8.0",
         "vite-plugin-turbosnap": "^1.0.2",
-        "vitest": "^0.33.0"
+        "vitest": "^0.34.6"
     },
     "main": "./dist/index.js",
     "module": "./dist/index.js",
@@ -141,6 +153,8 @@
     ],
     "exports": {
         ".": null,
+        "./controls": "./dist/controls/index.js",
+        "./readonly-controls": "./dist/readonly-controls/index.js",
         "./components": "./dist/components/index.js",
         "./uberComponents": "./dist/uberComponents/index.js",
         "./containers": "./dist/containers/index.js",

@@ -6,7 +6,7 @@ const config: LinguiConfig = {
     catalogs: [
         {
             path: '<rootDir>/src/locale/{locale}/messages',
-            include: ['<rootDir>/src'],
+            include: ['<rootDir>/src', '<rootDir>/node_modules/@beda.software/fhir-questionnaire'],
             exclude: ['**/node_modules/**'],
         },
     ],
