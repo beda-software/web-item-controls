@@ -73,7 +73,7 @@ export function useGroupTableFilter() {
             }
 
             return columns.map((column) => {
-                const linkId = column.key!;
+                const linkId = column.key!.toString();
                 const searchBarColumn = enableFilters[linkId];
                 if (!searchBarColumn) {
                     return column;
