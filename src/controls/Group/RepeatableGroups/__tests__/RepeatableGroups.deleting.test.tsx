@@ -1,17 +1,59 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { screen, render, act, fireEvent, waitFor } from '@testing-library/react';
-import { Patient, Practitioner } from 'fhir/r4b';
+import { screen, render, fireEvent, waitFor, act } from '@testing-library/react';
+import { Patient, Practitioner, Questionnaire } from 'fhir/r4b';
 import { expect, test, vi } from 'vitest';
 
+import { QuestionnaireResponseForm } from '@beda.software/fhir-questionnaire';
+import { questionnaireServiceLoader } from '@beda.software/fhir-questionnaire/components/QuestionnaireResponseForm/questionnaire-response-form-data';
 import { WithId, withRootAccess } from '@beda.software/fhir-react';
+import { success } from '@beda.software/remote-data';
 
-import { PatientDocument } from 'src/containers/PatientDetails/PatientDocument';
-import { axiosInstance } from 'src/services/fhir';
+import {
+    groupControlComponents,
+    itemComponents,
+    itemControlComponents,
+} from 'src/components/BaseQuestionnaireResponseForm/controls';
+import { FormWrapper, GroupItemComponent } from 'src/components/FormWrapper';
+import { axiosInstance, service } from 'src/services/fhir';
 import { createPatient, createPractitionerRole, loginAdminUser } from 'src/setupTests';
 import { ThemeProvider } from 'src/theme';
 
 import { ProcedureCase } from './types';
+
+const getQuestionnaire = (): Questionnaire => {
+    return {
+        id: 'repeatable-group',
+        name: 'Repeatable Group',
+        title: 'Repeatable Group',
+        status: 'active',
+        meta: {
+            profile: ['https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire'],
+        },
+        item: [
+            {
+                text: 'Items',
+                type: 'group',
+                linkId: 'repeatable-group',
+                item: [
+                    {
+                        item: [
+                            {
+                                text: 'Text',
+                                type: 'string',
+                                linkId: 'repeatable-group-text',
+                            },
+                        ],
+                        type: 'group',
+                        linkId: 'repeatable-group-inner',
+                        repeats: true,
+                    },
+                ],
+            },
+        ],
+        resourceType: 'Questionnaire',
+    };
+};
 
 const CASE: ProcedureCase = {
     case: [
@@ -57,11 +99,17 @@ describe('Repeatable group creates correct questionnaire response', async () => 
         const renderer = render(
             <ThemeProvider>
                 <I18nProvider i18n={i18n}>
-                    <PatientDocument
-                        patient={patient}
-                        author={practitioner}
-                        questionnaireId="repeatable-group"
+                    <QuestionnaireResponseForm
+                        questionnaireLoader={questionnaireServiceLoader(() =>
+                            Promise.resolve(success(getQuestionnaire())),
+                        )}
                         onSuccess={onSuccess}
+                        serviceProvider={{ service }}
+                        FormWrapper={FormWrapper}
+                        groupItemComponent={GroupItemComponent}
+                        widgetsByQuestionType={itemComponents}
+                        widgetsByQuestionItemControl={itemControlComponents}
+                        widgetsByGroupQuestionItemControl={groupControlComponents}
                     />
                 </I18nProvider>
             </ThemeProvider>,
@@ -77,8 +125,11 @@ describe('Repeatable group creates correct questionnaire response', async () => 
 
         await renderRepeatableGroupForm(patient, practitioner);
 
+        await waitFor(async () => await screen.findByTestId('submit-button'), { timeout: 2000 });
+
         if (CASE.case.length > 1) {
-            const addAnotherAnswerButton = (await screen.findByText('Add another answer')).parentElement!;
+            const addAnotherAnswerButton = await screen.findByTestId('add-another-answer-button');
+
             CASE.case.slice(1).forEach(() => {
                 act(() => {
                     fireEvent.click(addAnotherAnswerButton);
@@ -118,6 +169,7 @@ describe('Repeatable group creates correct questionnaire response', async () => 
             expect(removingTextField).not.toBeInTheDocument();
         });
 
+        console.log('result', screen.logTestingPlaygroundURL());
         const textFields2 = await screen.findAllByTestId('repeatable-group-text');
         expect(textFields2).toHaveLength(CASE.case.length - 1);
 
@@ -126,6 +178,7 @@ describe('Repeatable group creates correct questionnaire response', async () => 
         for (const [textFieldIndex, textField] of textFields2.entries()) {
             const textFieldInput = textField.querySelector('input')!;
 
+            console.log('control case', controlCases[textFieldIndex]!.text, textFieldInput.value);
             expect(textFieldInput).toBeEnabled();
             expect(textFieldInput.value).toBe(controlCases[textFieldIndex]!.text);
         }
@@ -136,7 +189,7 @@ describe('Repeatable group creates correct questionnaire response', async () => 
 
         await renderRepeatableGroupForm(patient, practitioner);
 
-        const addAnotherAnswerButton = (await screen.findByText('Add another answer')).parentElement!;
+        const addAnotherAnswerButton = await screen.findByTestId('add-another-answer-button');
 
         if (CASE.case.length > 1) {
             CASE.case.slice(1).forEach(() => {
