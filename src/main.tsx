@@ -8,13 +8,13 @@ import 'src/services/initialize';
 import 'antd/dist/reset.css';
 import 'src/styles/index.scss';
 
-import { PatientDashboardProvider } from 'src/components/Dashboard/contexts';
+// import { PatientDashboardProvider } from 'src/components/Dashboard/contexts';
 import { App } from 'src/containers/App';
-import { dashboard } from 'src/dashboard.config';
+// import { dashboard } from 'src/dashboard.config';
 import { dynamicActivate, getCurrentLocale } from 'src/services/i18n';
+import { expandEMRValueSet } from 'src/services/valueset-expand';
 
 import { ValueSetExpandProvider } from './contexts';
-import { expandEMRValueSet } from './services';
 import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from './theme/ThemeProvider';
 
@@ -24,15 +24,13 @@ const AppWithContext = () => {
     }, []);
 
     return (
-        <I18nProvider i18n={i18n}>
-            <PatientDashboardProvider dashboard={dashboard}>
-                <ValueSetExpandProvider.Provider value={expandEMRValueSet}>
-                    <ThemeProvider>
-                        <App />
-                    </ThemeProvider>
-                </ValueSetExpandProvider.Provider>
-            </PatientDashboardProvider>
-        </I18nProvider>
+        <ValueSetExpandProvider.Provider value={expandEMRValueSet}>
+            <ThemeProvider>
+                <I18nProvider i18n={i18n}>
+                    <App />
+                </I18nProvider>
+            </ThemeProvider>
+        </ValueSetExpandProvider.Provider>
     );
 };
 
