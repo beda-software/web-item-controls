@@ -1,9 +1,8 @@
 import styled, { css } from 'styled-components';
 
-import { PATIENT_DOCUMENT_PADDING } from 'src/containers/PatientDetails/PatientDocument/PatientDocument.styles.ts';
-
 import { Title } from '../Typography';
 
+export const PATIENT_DOCUMENT_PADDING = 32;
 export const WIZARD_SIDEBAR_WIDTH = 294;
 export const WIZARD_GAP = 24;
 
