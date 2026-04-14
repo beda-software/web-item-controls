@@ -1,6 +1,6 @@
 {
     "name": "@beda.software/web-item-controls",
-    "private": true,
+    "private": false,
     "version": "0.1.0",
     "type": "module",
     "scripts": {
@@ -147,25 +147,66 @@
     },
     "main": "./dist/index.js",
     "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
     "files": [
         "dist",
-        "src"
+        "README.md",
+        "LICENSE"
     ],
     "exports": {
-        ".": null,
-        "./controls": "./dist/controls/index.js",
-        "./readonly-controls": "./dist/readonly-controls/index.js",
-        "./components": "./dist/components/index.js",
-        "./uberComponents": "./dist/uberComponents/index.js",
-        "./containers": "./dist/containers/index.js",
-        "./services": "./dist/services/index.js",
-        "./hooks": "./dist/hooks/index.js",
-        "./utils": "./dist/utils/index.js",
-        "./contexts": "./dist/contexts/index.js",
-        "./sharedState": "./dist/sharedState/index.js",
-        "./theme": "./dist/theme/index.js",
-        "./icons": "./dist/icons/index.js",
-        "./dist/*": "./dist/*.js",
-        "./dist/style.css": "./dist/style.css"
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        },
+        "./controls": {
+            "types": "./dist/controls/index.d.ts",
+            "import": "./dist/controls/index.js"
+        },
+        "./readonly-controls": {
+            "types": "./dist/readonly-controls/index.d.ts",
+            "import": "./dist/readonly-controls/index.js"
+        },
+        "./components": {
+            "types": "./dist/components/index.d.ts",
+            "import": "./dist/components/index.js"
+        },
+        "./uberComponents": {
+            "types": "./dist/uberComponents/index.d.ts",
+            "import": "./dist/uberComponents/index.js"
+        },
+        "./containers": {
+            "types": "./dist/containers/index.d.ts",
+            "import": "./dist/containers/index.js"
+        },
+        "./services": {
+            "types": "./dist/services/index.d.ts",
+            "import": "./dist/services/index.js"
+        },
+        "./hooks": {
+            "types": "./dist/hooks/index.d.ts",
+            "import": "./dist/hooks/index.js"
+        },
+        "./utils": {
+            "types": "./dist/utils/index.d.ts",
+            "import": "./dist/utils/index.js"
+        },
+        "./contexts": {
+            "types": "./dist/contexts/index.d.ts",
+            "import": "./dist/contexts/index.js"
+        },
+        "./sharedState": {
+            "types": "./dist/sharedState/index.d.ts",
+            "import": "./dist/sharedState/index.js"
+        },
+        "./theme": {
+            "types": "./dist/theme/index.d.ts",
+            "import": "./dist/theme/index.js"
+        },
+        "./icons": {
+            "types": "./dist/icons/index.d.ts",
+            "import": "./dist/icons/index.js"
+        },
+        "./dist/style.css": "./dist/style.css",
+        "./package.json": "./package.json"
     }
 }
