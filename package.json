@@ -1,6 +1,6 @@
 {
     "name": "@beda.software/web-item-controls",
-    "private": false,
+    "private": true,
     "version": "0.1.0",
     "type": "module",
     "scripts": {
