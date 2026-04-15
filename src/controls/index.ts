@@ -7,6 +7,7 @@ export * from './DateTimeSlotPicker';
 export * from './Display';
 export * from './EditableGroup';
 export * from './Group';
+export * from './Group/context';
 export * from './Group/GridGroup';
 export * from './Group/GroupCard';
 export * from './Group/GTable';
