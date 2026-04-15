@@ -83,6 +83,7 @@
         "@beda.software/fhir-react": "^1.11.1",
         "@lingui/cli": "^4.3.0",
         "@lingui/core": "^4.3.0",
+        "@lingui/react": "^4.3.0",
         "@lingui/macro": "^4.3.0",
         "rc-picker": "^3.8.2"
     },
