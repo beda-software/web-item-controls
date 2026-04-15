@@ -39,3 +39,4 @@ export * from './String';
 export * from './TextWithMacroFill';
 export * from './TimeRangePickerControl';
 export * from './UploadFileControl';
+export * from './UploadFileControl/hooks';
