@@ -38,5 +38,6 @@ export * from './Slider';
 export * from './String';
 export * from './TextWithMacroFill';
 export * from './TimeRangePickerControl';
+export * from './TimeRangePickerControl/hooks';
 export * from './UploadFileControl';
 export * from './UploadFileControl/hooks';
