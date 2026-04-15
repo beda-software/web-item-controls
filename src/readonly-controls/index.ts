@@ -4,6 +4,7 @@ export * from './Choice';
 export * from './DateTime';
 export * from './Display';
 export * from './Group';
+export * from './Group/GroupSidebarNavigation';
 export * from './Group/NavigationGroup';
 export * from './GroupWizard';
 export * from './MarkdownRender';
