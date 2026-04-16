@@ -85,7 +85,7 @@
         "@lingui/core": "^4.3.0",
         "@lingui/react": "^4.3.0",
         "@lingui/macro": "^4.3.0",
-        "rc-picker": "^3.8.2"
+        "rc-picker": "^4.11.3"
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.26.0",

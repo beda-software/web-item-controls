@@ -31,10 +31,11 @@ export function useTimeRangePickerControl(props: GroupItemProps) {
 
     const onTimeRangeChange = useCallback(
         (rangeValue: RangeValue) => {
-            if (rangeValue) {
-                startTimeOnChange({ value: { time: rangeValue[0]!.format(FHIRTimeFormat) } });
-                endTimeOnChange({ value: { time: rangeValue[1]!.format(FHIRTimeFormat) } });
-            }
+            const startTime = rangeValue?.[0];
+            const endTime = rangeValue?.[1];
+
+            startTimeOnChange(startTime ? { value: { time: startTime.format(FHIRTimeFormat) } } : undefined);
+            endTimeOnChange(endTime ? { value: { time: endTime.format(FHIRTimeFormat) } } : undefined);
         },
         [startTimeOnChange, endTimeOnChange],
     );
