@@ -26,6 +26,7 @@
         "@ant-design/colors": "^7.0.0",
         "@ant-design/icons": "^5.1.4",
         "@beda.software/emr-config": "*",
+        "@beda.software/fhir-questionnaire": "git+https://github.com/beda-software/fhir-questionnaire.git#sdc-service-provider",
         "@beda.software/fhir-react": "^1.11.1",
         "@beda.software/remote-data": "^1.1.4",
         "@fullcalendar/core": "^6.1.15",
@@ -80,16 +81,16 @@
         "sdc-qrf": "^1.1.0-alpha.3"
     },
     "peerDependencies": {
+        "@beda.software/fhir-questionnaire": "git+https://github.com/beda-software/fhir-questionnaire.git#sdc-service-provider",
         "@beda.software/fhir-react": "^1.11.1",
         "@lingui/cli": "^4.3.0",
         "@lingui/core": "^4.3.0",
-        "@lingui/react": "^4.3.0",
         "@lingui/macro": "^4.3.0",
+        "@lingui/react": "^4.3.0",
         "rc-picker": "^4.11.3"
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.26.0",
-        "@beda.software/fhir-questionnaire": "https://github.com/beda-software/fhir-questionnaire.git#sdc-service-provider",
         "@beda.software/vite-plugin-dts": "4.0.0-beta.1",
         "@chromatic-com/storybook": "^3.2.2",
         "@lingui/cli": "^4.3.0",
@@ -125,6 +126,7 @@
         "eslint": "^8.38.0",
         "eslint-config-prettier": "^8.8.0",
         "eslint-import-resolver-custom-alias": "^1.3.2",
+        "eslint-import-resolver-typescript": "^4.4.4",
         "eslint-plugin-import": "^2.27.5",
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "^7.32.2",
