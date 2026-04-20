@@ -3,7 +3,7 @@ import { ThemeProvider } from 'styled-components';
 
 import { getANTDTheme, getAppTheme } from 'src/theme';
 
-import { App } from './';
+import { App } from '.';
 
 test('Renders welcome text', async () => {
     const antdTheme = getANTDTheme({ dark: false });

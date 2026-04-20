@@ -5,7 +5,7 @@ import { Patient, Practitioner, Questionnaire, QuestionnaireResponse } from 'fhi
 import { describe, expect, test, vi } from 'vitest';
 
 import { QuestionnaireResponseForm } from '@beda.software/fhir-questionnaire';
-import { questionnaireServiceLoader } from '@beda.software/fhir-questionnaire/components/QuestionnaireResponseForm/questionnaire-response-form-data';
+import { questionnaireServiceLoader } from '@beda.software/fhir-questionnaire/components';
 import { ensure, extractBundleResources, WithId, withRootAccess } from '@beda.software/fhir-react';
 import { success } from '@beda.software/remote-data';
 

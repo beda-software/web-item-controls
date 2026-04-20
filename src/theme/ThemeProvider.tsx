@@ -4,7 +4,7 @@ import { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle } fro
 
 import { getCurrentLocale, localesConfig } from 'src/services/i18n';
 
-import { getAppTheme, getANTDTheme } from './';
+import { getAppTheme, getANTDTheme } from '.';
 import { useTheme } from '../utils/theme';
 
 interface Props {

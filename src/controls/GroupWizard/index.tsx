@@ -10,12 +10,12 @@ import {
     getEnabledQuestions,
 } from 'sdc-qrf';
 
+import { questionnaireItemsToValidationSchema } from '@beda.software/fhir-questionnaire/components';
+import { BaseQuestionnaireResponseFormPropsContext } from '@beda.software/fhir-questionnaire/contexts';
 import { createBus } from '@beda.software/fhir-react';
 
-import { BaseQuestionnaireResponseFormPropsContext } from 'src/components/BaseQuestionnaireResponseForm/context';
 import { Text, Title } from 'src/components/Typography';
 import { Wizard, WizardItem, WizardProps } from 'src/components/Wizard';
-import { questionnaireItemsToValidationSchema } from 'src/utils';
 
 import { S } from './styles';
 import { getAllGroupQuestionsWithAnswerStatus } from './utils';
@@ -62,6 +62,7 @@ export interface GroupStats {
 export function GroupWizard(props: GroupWizardProps) {
     const { parentPath, questionItem, context, wizard } = props;
     const baseQRFPropsContext = useContext(BaseQuestionnaireResponseFormPropsContext);
+    console.log('baseQRFPropsContext', baseQRFPropsContext);
 
     if (questionItem.repeats) {
         console.warn('GroupWizard does not support repeatable groups in the first level');
@@ -188,6 +189,7 @@ export function GroupWizard(props: GroupWizardProps) {
                 canGoBack={currentIndex > 0}
                 canGoForward={currentIndex + 1 < itemsCount}
             >
+                {!baseQRFPropsContext && <div>No baseQRFPropsContext update</div>}
                 {baseQRFPropsContext && <S.FormFooter {...baseQRFPropsContext} submitDisabled={!isLastStepActive} />}
             </S.WizardFooter>
         </Wizard>
