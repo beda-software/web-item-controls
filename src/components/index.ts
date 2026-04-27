@@ -1,4 +1,3 @@
-export * from './ConfirmActionButton';
 export * from './Dashboard';
 export * from './Dashboard/contexts';
 export * from './DatePicker';
