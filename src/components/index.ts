@@ -1,4 +1,3 @@
-export * from './ChangesDiff';
 export * from './ConfirmActionButton';
 export * from './Dashboard';
 export * from './Dashboard/contexts';
