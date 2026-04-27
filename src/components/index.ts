@@ -1,5 +1,3 @@
-export * from './BaseLayout';
-export * from './BaseLayout/PageContainer';
 export * from './ChangesDiff';
 export * from './ConfirmActionButton';
 export * from './Dashboard';
