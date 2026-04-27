@@ -1,1 +1,0 @@
-export { HMBDiagnosticDashboard } from './HMBDiagnosticDashboard';
