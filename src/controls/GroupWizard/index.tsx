@@ -20,7 +20,7 @@ import { Wizard, WizardItem, WizardProps } from 'src/components/Wizard';
 import { S } from './styles';
 import { getAllGroupQuestionsWithAnswerStatus } from './utils';
 
-interface GroupWizardProps extends GroupItemProps {
+export interface GroupWizardProps extends GroupItemProps {
     wizard?: Partial<WizardProps>;
 }
 

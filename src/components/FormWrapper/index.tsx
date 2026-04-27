@@ -30,6 +30,7 @@ export function FormWrapper(
     return (
         <form
             onSubmit={async (event) => {
+                console.log('onSubmit in web-item-controls', event);
                 setIsSubmitting(true);
                 await handleSubmit(event);
                 setIsSubmitting(false);

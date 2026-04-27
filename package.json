@@ -6,7 +6,7 @@
     "scripts": {
         "start": "vite",
         "build": "vite build --config vite.config.ts",
-        "build:lib": "vite build --config vite.lib.config.ts",
+        "build:lib": "vite build --config vite.lib.config.ts && node ./scripts/inject-style-imports.mjs",
         "test": "vitest --no-threads",
         "test-storybook": "test-storybook",
         "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -78,8 +78,9 @@
         "@lingui/core": "^4.3.0",
         "@lingui/macro": "^4.3.0",
         "axios": "1.8.4",
-        "typescript": "^5.1.6",
-        "sdc-qrf": "^1.1.0-alpha.3"
+        "react-hook-form": "7.53.2",
+        "sdc-qrf": "^1.1.0-alpha.3",
+        "typescript": "^5.1.6"
     },
     "peerDependencies": {
         "@beda.software/fhir-questionnaire": "git+https://github.com/beda-software/fhir-questionnaire.git#sdc-service-provider",

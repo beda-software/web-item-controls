@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { useFormContext, useFieldArray } from 'react-hook-form';
 
 import { RepeatableGroupProps } from '../types';
 
@@ -7,7 +8,17 @@ export function useRepeatableGroup(props: RepeatableGroupProps) {
     const { parentPath, questionItem, context } = groupItem;
     const { linkId } = questionItem;
 
+    const { control } = useFormContext();
+
+    const fieldArrayName = [...parentPath, linkId, 'items'].join('.');
+
+    const { remove } = useFieldArray({
+        control,
+        name: fieldArrayName,
+    });
+
     const onRemove = () => {
+        remove(index);
         const filteredArray = _.filter(items, (_val, valIndex: number) => valIndex !== index);
         onChange({
             items: [...filteredArray],

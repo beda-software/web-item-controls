@@ -51,7 +51,11 @@ resources/demo-bundles/
 
 .vscode
 
-resources/tests/generated/
+# resources from fhir-emr
+resources
 tsconfig.node.tsbuildinfo
 vite.config.js
 vite.config.d.ts
+
+# Folder for local files (Spec Driven Development)
+.scratch/

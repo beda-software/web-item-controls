@@ -1,4 +1,3 @@
-export * from './appointment.ts';
 export * from './constants.ts';
 export * from './date.ts';
 export * from './debounce.ts';
