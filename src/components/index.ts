@@ -5,7 +5,6 @@ export * from './SearchBar/hooks';
 export * from './Select';
 export * from './Spinner';
 export * from './Table';
-export * from './Tabs';
 export * from './TimePicker';
 export * from './TitleDetails';
 export * from './Typography';
