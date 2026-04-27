@@ -1,6 +1,5 @@
 export * from './BaseLayout';
 export * from './BaseLayout/PageContainer';
-export * from './Breadcrumbs';
 export * from './Calendar';
 export * from './ChangesDiff';
 export * from './ConfirmActionButton';
