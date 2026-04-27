@@ -1,6 +1,5 @@
 export * from './DatePicker';
 export * from './Modal';
-export * from './ResourceTable';
 export * from './SearchBar';
 export * from './SearchBar/hooks';
 export * from './Select';
