@@ -20,7 +20,6 @@ export * from './GroupTable/GroupTableChart/HighlightArea';
 export * from './GroupTable/GroupTableChart/Tooltip';
 export * from './GroupTable/RenderFormItemReadOnly';
 export * from './GroupTabs';
-export * from './GroupVoice';
 export * from './GroupWizard';
 export * from './InlineChoice';
 export * from './InlineReference';

@@ -24,7 +24,6 @@ import {
     SubCard,
     GroupTable,
     GroupTabs,
-    GroupVoice,
     GroupWizard,
     GroupWizardVertical,
     GroupWizardWithTooltips,
@@ -109,5 +108,4 @@ export const groupControlComponents: ItemControlGroupItemComponentMapping = {
     'group-tabs': GroupTabs,
     'group-table': GroupTable,
     'editable-group': EditableGroup,
-    'group-voice': GroupVoice,
 };
