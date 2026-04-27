@@ -495,6 +495,10 @@ msgstr ""
 msgid "Collapse all"
 msgstr ""
 
+#: src/components/BaseQuestionnaireResponseForm/widgets/GroupTable/index.tsx:61
+msgid "Collapse all"
+msgstr ""
+
 #: src/components/QuestionnairesWizard/components/QuestionnairesWizardFooter/index.tsx:45
 #~ msgid "Complete"
 #~ msgstr ""
@@ -906,6 +910,11 @@ msgstr ""
 #~ msgid "Flow Volume"
 #~ msgstr ""
 
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:97
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:104
+msgid "Flow Volume"
+msgstr ""
+
 #: src/components/QuestionnaireResponseForm/utils.tsx:48
 #~ msgid "Form successfully saved"
 #~ msgstr ""
@@ -987,6 +996,10 @@ msgstr ""
 #~ msgid "Heavy"
 #~ msgstr ""
 
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:51
+msgid "Heavy"
+msgstr ""
+
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/controls.tsx:139
 #~ msgid "Help text"
 #~ msgstr ""
@@ -1033,6 +1046,14 @@ msgstr ""
 #~ msgid "Impact Score"
 #~ msgstr ""
 
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:132
+msgid "Impact of Period on Daily Activities"
+msgstr ""
+
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:138
+msgid "Impact Score"
+msgstr ""
+
 #: src/components/EncounterStatusBadge/index.tsx:16
 #~ msgid "in progress"
 #~ msgstr ""
@@ -1060,6 +1081,14 @@ msgstr ""
 #: src/containers/PatientDetails/HMBDiagnostic/config.tsx:143
 #~ msgid "Intensity of Menstrual Bleeding"
 #~ msgstr ""
+
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:149
+msgid "Intensity"
+msgstr ""
+
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:143
+msgid "Intensity of Menstrual Bleeding"
+msgstr ""
 
 #: src/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/prepare.tsx:303
 #~ msgid "Intent"
@@ -1191,6 +1220,10 @@ msgstr ""
 #~ msgid "Mild"
 #~ msgstr ""
 
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:69
+msgid "Mild"
+msgstr ""
+
 #: src/components/DashboardCard/creatinine.tsx:95
 #~ msgid "Min"
 #~ msgstr ""
@@ -1199,6 +1232,11 @@ msgstr ""
 #: src/containers/PatientDetails/HMBDiagnostic/config.tsx:70
 #~ msgid "Moderate"
 #~ msgstr ""
+
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:50
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:70
+msgid "Moderate"
+msgstr ""
 
 #: src/containers/Scheduling/available-time.ts:13
 #~ msgid "Monday"
@@ -1346,6 +1384,18 @@ msgstr ""
 #~ msgid "Passed assessment"
 #~ msgstr ""
 
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:123
+msgid "Pain Score"
+msgstr ""
+
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:121
+msgid "Pain Severity"
+msgstr ""
+
+#: src/containers/PatientList/utils.ts:22
+msgid "Passed assessment"
+msgstr ""
+
 #: src/containers/SignIn/index.tsx:83
 #: src/containers/SignIn/index.tsx:123
 #~ msgid "Password"
@@ -1391,6 +1441,10 @@ msgstr "Пациенты"
 #: src/containers/PatientDetails/HMBDiagnostic/config.tsx:112
 #~ msgid "Period Pain Score"
 #~ msgstr ""
+
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:112
+msgid "Period Pain Score"
+msgstr ""
 
 #: src/containers/App/DefaultUserWithNoRoles.tsx:32
 #~ msgid "Phone number"
@@ -1662,6 +1716,10 @@ msgstr ""
 #: src/containers/PatientDetails/HMBDiagnostic/config.tsx:71
 #~ msgid "Severe"
 #~ msgstr ""
+
+#: src/containers/PatientDetails/HMBDiagnostic/config.tsx:71
+msgid "Severe"
+msgstr ""
 
 #: src/containers/PatientDetails/PatientOverviewDynamic/containers/GeneralIInformationDashboardContainer/hooks.ts:37
 #~ msgid "Sex"
