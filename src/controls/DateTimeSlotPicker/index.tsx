@@ -17,12 +17,12 @@ import {
 import { mapSuccess, resolveMap } from '@beda.software/remote-data';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
-import { useCalendarOptions } from 'src/components/Calendar/useCalendarOptions';
 import { DatePicker } from 'src/components/DatePicker';
 import { Spinner } from 'src/components/Spinner';
 import { getAllFHIRResources, getFHIRResource } from 'src/services/fhir';
 import { humanDateTime } from 'src/utils/date';
 
+import { useCalendarOptions } from './useCalendarOptions';
 import { TimeSlots, getTimeSlots } from './utils';
 
 interface AvailableDatePickerProps extends QuestionItemProps {
