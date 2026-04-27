@@ -1,5 +1,4 @@
 export * from './DatePicker';
-export * from './LinkToEdit';
 export * from './Modal';
 export * from './ModalTrigger';
 export * from './Report';
