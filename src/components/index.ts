@@ -1,5 +1,3 @@
-export * from './Dashboard';
-export * from './Dashboard/contexts';
 export * from './DatePicker';
 export * from './Empty';
 export * from './LinkToEdit';
