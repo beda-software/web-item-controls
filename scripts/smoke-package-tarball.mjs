@@ -1,5 +1,5 @@
 import { execFile } from 'node:child_process';
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
@@ -26,26 +26,20 @@ async function run(command, args, options = {}) {
     }
 }
 
-function parseNpmPackOutput(output) {
-    const jsonStart = output.indexOf('[');
-    const jsonEnd = output.lastIndexOf(']');
-
-    if (jsonStart === -1 || jsonEnd === -1 || jsonEnd < jsonStart) {
-        throw new Error(`Unable to find npm pack JSON output:\n${output}`);
-    }
-
-    return JSON.parse(output.slice(jsonStart, jsonEnd + 1));
-}
-
 try {
     await mkdir(packageInstallDir, { recursive: true });
 
-    const { stdout } = await execFileAsync('npm', ['pack', '--json', '--ignore-scripts', '--pack-destination', tempRoot], {
+    await execFileAsync('npm', ['pack', '--ignore-scripts', '--pack-destination', tempRoot], {
         cwd: rootDir,
         env: { ...process.env, npm_config_ignore_scripts: 'true' },
     });
-    const [{ filename }] = parseNpmPackOutput(stdout);
-    const tarballPath = path.join(tempRoot, filename);
+    const tarballs = (await readdir(tempRoot)).filter((fileName) => fileName.endsWith('.tgz'));
+
+    if (tarballs.length !== 1) {
+        throw new Error(`Expected one package tarball in ${tempRoot}, found ${tarballs.length}: ${tarballs.join(', ')}`);
+    }
+
+    const tarballPath = path.join(tempRoot, tarballs[0]);
 
     await run('tar', ['-xzf', tarballPath, '-C', packageInstallDir, '--strip-components=1']);
 
