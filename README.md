@@ -1,85 +1,120 @@
-# Beda EMR
+# @beda.software/web-item-controls
 
-[![beda-emr-logo](https://user-images.githubusercontent.com/6428960/222070888-a97e2d97-7eb0-4cb3-8310-5fdb7b56aa10.svg)](https://beda.software/emr)
+Reusable FHIR Questionnaire web itemControls and readonly itemControls for Beda-based React applications.
 
-Clean and powerful frontend for Electronic Medical Records.
+This repository is a package, not a standalone frontend application. Storybook is the local development surface, and the library build publishes only the package entry points described below.
 
-Open-source. Customizable. Leverages HL7 [FHIR](https://hl7.org/fhir/R4/) standard as a data model and [SDC IG](http://hl7.org/fhir/uv/sdc/2019May/index.html) for form management.
+## Public API
 
-__Project Status__: _development_
+Only these package subpaths are supported:
 
-__Promo web page__: [beda.software/emr](https://beda.software/emr)
+```json
+"exports": {
+    "./controls": {
+        "types": "./dist/controls/index.d.ts",
+        "import": "./dist/controls/index.js"
+    },
+    "./readonly-controls": {
+        "types": "./dist/readonly-controls/index.d.ts",
+        "import": "./dist/readonly-controls/index.js"
+    }
+}
+```
 
-__Design__: [Figma](https://www.figma.com/file/2bxMDfG3lRPEZpRwDC4gTB/SaaS-EMR-System)
+Use subpath imports:
 
-__Documentation__: https://docs.emr.beda.software/
+```ts
+import { QuestionString } from '@beda.software/web-item-controls/controls';
+import { QuestionString as ReadonlyQuestionString } from '@beda.software/web-item-controls/readonly-controls';
+```
 
-__EMR Template__: https://github.com/beda-software/emr-template/
+The package root is intentionally not a public entry point.
 
-## Benefits
+## Styling
 
--   Fully FHIR compatible:
-    -   all app data are stored as FHIR resources
-    -   any app data are available via FHIR API
--   Extremely flexible:
-    -   use extensions and profiles to adjust FHIR data model
--   Fast to build forms and CRUD
-    -   all forms in the app are just Questionnaire resources
--   Build the app with no-code
-    -   app provides UI Questionnaire builder for creating Questionnaires
+Consumers should not import `style.css` directly. The generated public JavaScript entries import `../style.css` automatically after `yarn build:lib` runs `scripts/inject-style-imports.mjs`.
 
-## Features
+The consuming application bundler must support CSS imports from dependencies.
 
-- Appointment and Encounters (visits management, scheduling)
-- Electronic Medical Records
-  - based on Questionnaire and QuestionnaireResponse resources
-  - Questionnaire population, initial and calculated expressions
-  - extraction FHIR data from QuestionnaireResponse on save
-- EMR Questionnaire form builder
-- HealthcareService management
-- Invoice management
-- Medication management
-  - Warehouse management
-  - Prescriptions management
-- Patient medical information
-- Patients management
-- Practitioners management
-- Role-based functionality (Admin, Receptionist, Practitioner, Patient)
-- Telemedicine
-- Treatment notes
+## Peer Dependencies
 
-### Demo
+The host application owns the main framework, UI, i18n, and FHIR integration versions. Install compatible versions of the package peer dependencies, including:
 
-[emr.beda.software](https://emr.beda.software/)
+-   `react`
+-   `react-dom`
+-   `antd`
+-   `styled-components`
+-   `react-hook-form`
+-   `sdc-qrf`
+-   `@beda.software/fhir-react`
+-   `@beda.software/fhir-questionnaire`
+-   `@lingui/cli`
+-   `@lingui/core`
+-   `@lingui/macro`
+-   `@lingui/react`
+-   `axios`
+-   `rc-picker`
 
-## For medical practitioners and organizations
+This repository also keeps matching development dependencies so Storybook, tests, and local builds can run here.
 
--   If you want to use this information system, please, contact us https://beda.software/
+## Local Development
 
-## For collaborators
+Install dependencies:
 
--   Any collaboration is welcomed: https://beda.software/
+```sh
+yarn install
+```
+
+Compile Lingui catalogs:
+
+```sh
+yarn compile
+```
+
+Start Storybook:
+
+```sh
+yarn start
+```
+
+`yarn storybook` is equivalent to `yarn start`.
+
+## Build And Validation
+
+Build the package:
+
+```sh
+yarn build:lib
+```
+
+Validate generated package shape:
+
+```sh
+yarn check:package
+```
+
+Smoke test a packed tarball in a temporary consumer project:
+
+```sh
+yarn smoke:package
+```
+
+Run TypeScript checks:
+
+```sh
+yarn typecheck
+```
+
+CI runs the package build, package output check, tarball smoke test, typecheck, lint/format checks, Storybook checks, and tests.
+
+## Publishing And Consumption Notes
+
+The package is currently marked `"private": true`.
+
+`@beda.software/fhir-questionnaire` is still referenced as a git dependency/peer. Consumers need access to that git source until it is replaced by a registry version or pinned release.
+
+Some controls depend on Beda/Aidbox/FHIR runtime services and configuration. Consumers should provide the expected host application context, including compatible FHIR, Lingui, Ant Design, and styled-components setup.
 
 ## License
-The EMR source code is licensed by [MIT License](https://github.com/beda-software/fhir-sdc/blob/master/LICENSE).  
 
-## FHIR Backend
-Beda EMR is a frontend. It is a user interface that requires a FHIR server to store medical data.  
-For both development and production environments, we recommend using Aidbox FHIR Server.  
-It is a primary backend platform for Beda EMR.
-You can get a free Aidbox trial license to run the application locally.  
-You need to purchase Aidbox license for any production installation or installation that manages PHI data.  
-[Here](https://docs.aidbox.app/getting-started/editions-and-pricing) you can find more information about Aidbox licensing.  
-Obviously, you can try any other FHIR server. All core features just need FHIR API.  
-However, you have to adjust some parts of the application that are not covered in the FHIR specification and where we use Aidbox API.  
-
-## Installation
-
-Please see the installation section of the documentation: https://docs.emr.beda.software/Welcome/getting-started/#installation
-
-## Project History
-
-Started as part of [https://github.com/HealthSamurai/xmas-hackathon-2021](https://github.com/HealthSamurai/xmas-hackathon-2021/issues/13) FHIR EMR evolved into something bigger.
-
--------------
-Made with ❤️ by Beda Software
+See [LICENSE](LICENSE).
