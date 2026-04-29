@@ -7,6 +7,7 @@
         "start": "vite",
         "build": "vite build --config vite.config.ts",
         "build:lib": "vite build --config vite.lib.config.ts && node ./scripts/inject-style-imports.mjs",
+        "check:package": "node ./scripts/check-package-output.mjs",
         "test": "vitest --no-threads",
         "test-storybook": "test-storybook",
         "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
