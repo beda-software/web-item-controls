@@ -24,7 +24,7 @@ module.exports = {
         ecmaVersion: 'latest',
         sourceType: 'module',
     },
-    ignorePatterns: ['.eslintrc.cjs'],
+    ignorePatterns: ['.eslintrc.cjs', 'scripts/*.mjs'],
     settings: {
         'import/resolver': {
             'eslint-import-resolver-custom-alias': {
