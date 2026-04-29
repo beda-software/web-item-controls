@@ -26,13 +26,25 @@ async function run(command, args, options = {}) {
     }
 }
 
+function parseNpmPackOutput(output) {
+    const jsonStart = output.indexOf('[');
+    const jsonEnd = output.lastIndexOf(']');
+
+    if (jsonStart === -1 || jsonEnd === -1 || jsonEnd < jsonStart) {
+        throw new Error(`Unable to find npm pack JSON output:\n${output}`);
+    }
+
+    return JSON.parse(output.slice(jsonStart, jsonEnd + 1));
+}
+
 try {
     await mkdir(packageInstallDir, { recursive: true });
 
     const { stdout } = await execFileAsync('npm', ['pack', '--json', '--ignore-scripts', '--pack-destination', tempRoot], {
         cwd: rootDir,
+        env: { ...process.env, npm_config_ignore_scripts: 'true' },
     });
-    const [{ filename }] = JSON.parse(stdout);
+    const [{ filename }] = parseNpmPackOutput(stdout);
     const tarballPath = path.join(tempRoot, filename);
 
     await run('tar', ['-xzf', tarballPath, '-C', packageInstallDir, '--strip-components=1']);
