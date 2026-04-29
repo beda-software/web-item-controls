@@ -55,6 +55,12 @@ jobs:
         run: yarn install
       - run: yarn extract
       - run: yarn compile
+      - name: Build package
+        run: yarn build:lib
+      - name: Check package output
+        run: yarn check:package
+      - name: Smoke test package tarball
+        run: yarn smoke:package
       - name: Check types
         run: yarn typecheck
       - name: Check eslint
