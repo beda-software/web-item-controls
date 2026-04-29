@@ -9,6 +9,5 @@ export * from './role.ts';
 export * from './smart-apps.ts';
 export * from './theme.ts';
 export * from './unit.ts';
-export * from './relative-date.ts';
 export * from './fhirpath.ts';
 export * from './renderTextWithInput.ts';
