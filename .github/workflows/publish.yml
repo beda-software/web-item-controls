@@ -1,0 +1,46 @@
+name: publish
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
+          scope: "@beda-software"
+
+      - name: Install deps
+        run: yarn install
+
+      - name: Extract Lingui messages
+        run: yarn extract
+
+      - name: Compile Lingui catalogs
+        run: yarn compile
+
+      - name: Build package
+        run: yarn build:lib
+
+      - name: Check package output
+        run: yarn check:package
+
+      - name: Smoke test package tarball
+        run: yarn smoke:package
+
+      - name: Publish package
+        run: npm publish --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

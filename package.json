@@ -1,8 +1,14 @@
 {
-    "name": "@beda.software/web-item-controls",
-    "private": true,
+    "name": "@beda-software/web-item-controls",
     "version": "0.1.0",
     "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/beda-software/web-item-controls.git"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    },
     "scripts": {
         "start": "storybook dev -p 6006",
         "build:lib": "vite build --config vite.lib.config.ts && node ./scripts/inject-style-imports.mjs",
