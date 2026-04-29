@@ -24,6 +24,8 @@ jobs:
 
       - name: Install deps
         run: yarn install
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
       - name: Extract Lingui messages
         run: yarn extract
@@ -39,6 +41,9 @@ jobs:
 
       - name: Smoke test package tarball
         run: yarn smoke:package
+
+      - name: Allow registry publish
+        run: npm pkg delete private
 
       - name: Publish package
         run: npm publish --ignore-scripts
