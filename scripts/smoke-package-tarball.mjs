@@ -7,6 +7,7 @@ import { promisify } from 'node:util';
 const execFileAsync = promisify(execFile);
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const cacheDir = path.join(rootDir, 'node_modules/.cache');
+await mkdir(cacheDir, { recursive: true });
 const tempRoot = await mkdtemp(path.join(cacheDir, 'web-item-controls-smoke-'));
 const packageInstallDir = path.join(tempRoot, 'node_modules/@beda.software/web-item-controls');
 const viteBin = path.join(rootDir, 'node_modules/vite/bin/vite.js');
