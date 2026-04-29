@@ -35,11 +35,8 @@ export default defineConfig({
         copyPublicDir: false,
         lib: {
             entry: [
-                path.resolve(__dirname, 'src/index.ts'),
                 path.resolve(__dirname, 'src/controls/index.ts'),
                 path.resolve(__dirname, 'src/readonly-controls/index.ts'),
-                path.resolve(__dirname, 'src/components/index.ts'),
-                path.resolve(__dirname, 'src/utils/index.ts'),
             ],
             formats: ['es'],
             fileName: (format, entryName) => `${entryName}.js`,

@@ -6,7 +6,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distRoot = path.resolve(__dirname, '../dist');
 
 const entryFiles = [
-    { relativePath: 'index.js', importLine: 'import "./style.css";' },
     { relativePath: 'controls/index.js', importLine: 'import "../style.css";' },
     { relativePath: 'readonly-controls/index.js', importLine: 'import "../style.css";' },
 ];

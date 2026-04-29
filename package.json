@@ -151,9 +151,6 @@
         "vite-plugin-turbosnap": "^1.0.2",
         "vitest": "^0.34.6"
     },
-    "main": "./dist/index.js",
-    "module": "./dist/index.js",
-    "types": "./dist/index.d.ts",
     "files": [
         "dist",
         "README.md",
@@ -161,8 +158,13 @@
         "src/locale"
     ],
     "exports": {
-        ".": "./dist/index.js",
-        "./controls": "./dist/controls/index.js",
-        "./readonly-controls": "./dist/readonly-controls/index.js"
+        "./controls": {
+            "types": "./dist/controls/index.d.ts",
+            "import": "./dist/controls/index.js"
+        },
+        "./readonly-controls": {
+            "types": "./dist/readonly-controls/index.d.ts",
+            "import": "./dist/readonly-controls/index.js"
+        }
     }
 }
