@@ -25,7 +25,9 @@ jobs:
         run: cp contrib/emr-config/config.local.js contrib/emr-config/config.js
 
       - name: Install deps
-        run: yarn install
+        run: |
+          yarn cache clean
+          yarn install
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
