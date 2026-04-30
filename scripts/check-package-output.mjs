@@ -28,6 +28,10 @@ const expectedExports = {
         types: './dist/readonly-controls/index.d.ts',
         import: './dist/readonly-controls/index.js',
     },
+    './contexts': {
+        types: './dist/contexts/index.d.ts',
+        import: './dist/contexts/index.js',
+    },
 };
 
 async function exists(relativePath) {
