@@ -53,6 +53,7 @@ export default defineConfig({
             entry: [
                 path.resolve(__dirname, 'src/controls/index.ts'),
                 path.resolve(__dirname, 'src/readonly-controls/index.ts'),
+                path.resolve(__dirname, 'src/contexts/index.ts'),
             ],
             formats: ['es'],
             fileName: (format, entryName) => `${entryName}.js`,

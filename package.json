@@ -65,7 +65,7 @@
         "typescript": "^5.1.6"
     },
     "peerDependencies": {
-        "@beda.software/fhir-questionnaire": "git+https://github.com/beda-software/fhir-questionnaire.git#sdc-service-provider",
+        "@beda.software/fhir-questionnaire": "git+https://github.com/beda-software/fhir-questionnaire.git#76f7e715e744",
         "@beda.software/fhir-react": "^1.11.1",
         "@lingui/cli": "^4.3.0",
         "@lingui/core": "^4.3.0",
@@ -82,7 +82,7 @@
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.26.0",
-        "@beda.software/fhir-questionnaire": "git+https://github.com/beda-software/fhir-questionnaire.git#sdc-service-provider",
+        "@beda.software/fhir-questionnaire": "git+https://github.com/beda-software/fhir-questionnaire.git#76f7e715e744",
         "@beda.software/fhir-react": "^1.11.1",
         "@beda.software/vite-plugin-dts": "4.0.0-beta.1",
         "@chromatic-com/storybook": "^3.2.2",
@@ -163,6 +163,10 @@
         "./readonly-controls": {
             "types": "./dist/readonly-controls/index.d.ts",
             "import": "./dist/readonly-controls/index.js"
+        },
+        "./contexts": {
+            "types": "./dist/contexts/index.d.ts",
+            "import": "./dist/contexts/index.js"
         }
     }
 }
