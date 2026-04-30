@@ -19,15 +19,13 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org/
-          cache: "yarn"
+          cache: yarn
 
       - name: Prepare config
         run: cp contrib/emr-config/config.local.js contrib/emr-config/config.js
 
       - name: Install deps
-        run: |
-          yarn cache clean
-          yarn install
+        run: yarn install
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
