@@ -9,7 +9,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const cacheDir = path.join(rootDir, 'node_modules/.cache');
 await mkdir(cacheDir, { recursive: true });
 const tempRoot = await mkdtemp(path.join(cacheDir, 'web-item-controls-smoke-'));
-const packageInstallDir = path.join(tempRoot, 'node_modules/@beda-software/web-item-controls');
+const packageInstallDir = path.join(tempRoot, 'node_modules/@beda.software/web-item-controls');
 const viteBin = path.join(rootDir, 'node_modules/vite/bin/vite.js');
 const tscBin = path.join(rootDir, 'node_modules/typescript/bin/tsc');
 
@@ -74,8 +74,8 @@ try {
     await writeFile(
         path.join(tempRoot, 'src/main.tsx'),
         [
-            "import { QuestionBoolean } from '@beda-software/web-item-controls/controls';",
-            "import { QuestionBoolean as ReadonlyQuestionBoolean } from '@beda-software/web-item-controls/readonly-controls';",
+            "import { QuestionBoolean } from '@beda.software/web-item-controls/controls';",
+            "import { QuestionBoolean as ReadonlyQuestionBoolean } from '@beda.software/web-item-controls/readonly-controls';",
             '',
             'console.log(QuestionBoolean, ReadonlyQuestionBoolean);',
             '',

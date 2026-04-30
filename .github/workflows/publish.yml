@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   publish:
@@ -19,8 +18,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://npm.pkg.github.com/
-          scope: "@beda-software"
+          registry-url: https://registry.npmjs.org/
+          scope: "@beda.software"
 
       - name: Prepare config
         run: cp contrib/emr-config/config.local.js contrib/emr-config/config.js
@@ -51,4 +50,4 @@ jobs:
       - name: Publish package
         run: npm publish --ignore-scripts
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,4 +1,4 @@
-# @beda-software/web-item-controls
+# @beda.software/web-item-controls
 
 Reusable FHIR Questionnaire web itemControls and readonly itemControls for Beda-based React applications.
 
@@ -24,8 +24,8 @@ Only these package subpaths are supported:
 Use subpath imports:
 
 ```ts
-import { QuestionString } from '@beda-software/web-item-controls/controls';
-import { QuestionString as ReadonlyQuestionString } from '@beda-software/web-item-controls/readonly-controls';
+import { QuestionString } from '@beda.software/web-item-controls/controls';
+import { QuestionString as ReadonlyQuestionString } from '@beda.software/web-item-controls/readonly-controls';
 ```
 
 The package root is intentionally not a public entry point.

@@ -1,5 +1,5 @@
 {
-    "name": "@beda-software/web-item-controls",
+    "name": "@beda.software/web-item-controls",
     "private": true,
     "version": "0.1.0",
     "type": "module",
@@ -8,7 +8,7 @@
         "url": "https://github.com/beda-software/web-item-controls.git"
     },
     "publishConfig": {
-        "registry": "https://npm.pkg.github.com/"
+        "registry": "https://registry.npmjs.org/"
     },
     "scripts": {
         "start": "storybook dev -p 6006",
