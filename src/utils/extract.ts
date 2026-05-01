@@ -56,11 +56,11 @@ function iterateObject(obj: object, transform: Transform): any {
         }
         return transformedArray;
     } else if (typeof obj === 'object') {
-        const transformedObject = {};
+        const transformedObject: Record<string, unknown> = {};
         for (const key in obj) {
             // eslint-disable-next-line no-prototype-builtins
             if (obj.hasOwnProperty(key)) {
-                const value = obj[key];
+                const value = (obj as Record<string, unknown>)[key];
                 if (typeof value === 'object') {
                     transformedObject[key] = iterateObject(transform(value), transform);
                 } else {

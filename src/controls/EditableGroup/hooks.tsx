@@ -33,7 +33,7 @@ export function useEditableGroup(props: GroupItemProps) {
     const visibleItem = useMemo(() => item?.filter((i) => !i.hidden && i.type !== 'display'), [item]);
 
     const formItems: FormItems[] = useMemo(() => {
-        return [formValues?.items] || [];
+        return formValues?.items ? [formValues.items] : [];
     }, [formValues]);
 
     const fields = useMemo(() => _.map(visibleItem, (item) => item.linkId), [visibleItem]);
