@@ -59,3 +59,4 @@ vite.config.d.ts
 
 # Folder for local files (Spec Driven Development)
 .scratch/
+.gitnexus
