@@ -169,7 +169,6 @@ describe('Repeatable group creates correct questionnaire response', async () => 
             expect(removingTextField).not.toBeInTheDocument();
         });
 
-        console.log('result', screen.logTestingPlaygroundURL());
         const textFields2 = await screen.findAllByTestId('repeatable-group-text');
         expect(textFields2).toHaveLength(CASE.case.length - 1);
 
@@ -178,7 +177,6 @@ describe('Repeatable group creates correct questionnaire response', async () => 
         for (const [textFieldIndex, textField] of textFields2.entries()) {
             const textFieldInput = textField.querySelector('input')!;
 
-            console.log('control case', controlCases[textFieldIndex]!.text, textFieldInput.value);
             expect(textFieldInput).toBeEnabled();
             expect(textFieldInput.value).toBe(controlCases[textFieldIndex]!.text);
         }
