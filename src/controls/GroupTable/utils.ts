@@ -161,7 +161,7 @@ export const getDataSource = (
             if (_.isString(value)) {
                 return true;
             }
-            const formItemArr = value.formItem as (FormAnswerItems | undefined)[] | undefined;
+            const formItemArr = value?.formItem as (FormAnswerItems | undefined)[] | undefined;
             if (!value || !formItemArr || !formItemArr[0]) {
                 return true;
             }
