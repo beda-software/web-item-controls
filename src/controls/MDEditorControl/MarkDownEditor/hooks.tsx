@@ -655,7 +655,7 @@ export const useMarkDownEditor = (props: MarkDownEditorProps) => {
                 thematicBreakMarkdown: '---',
             }),
             diffSourcePlugin({ viewMode: 'rich-text' }),
-            tablePlugin(InsertTable),
+            tablePlugin(),
         ];
 
         const defaultToolbarPlugins = [

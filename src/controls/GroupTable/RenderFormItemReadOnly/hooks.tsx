@@ -21,7 +21,9 @@ const getAnswerValuesRecursive = (
         const groupQuestionnaireItems = questionnaireItem.item ?? [];
 
         return groupQuestionnaireItems.flatMap((item) => {
-            const childFormItem = groupFormItem?.items?.[item.linkId];
+            const childFormItem = !Array.isArray(groupFormItem?.items)
+                ? groupFormItem?.items?.[item.linkId]
+                : undefined;
             return getAnswerValuesRecursive(item, childFormItem, depth + 1);
         });
     }

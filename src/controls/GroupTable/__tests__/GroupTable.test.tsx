@@ -1,5 +1,5 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { FCEQuestionnaireItem, FormItems } from 'sdc-qrf';
+import { FCEQuestionnaireItem, FormAnswerItems, FormItems } from 'sdc-qrf';
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
 import { useGroupTable, useRowExpandability } from '../hooks';
@@ -102,12 +102,12 @@ describe('GroupTable', () => {
         expect(dataSource.length).toBe(2);
         expect(dataSource[0]!.date?.linkId).toBe('date');
         expect(dataSource[0]!.date?.index).toBe(0);
-        expect(dataSource[0]!.date!.formItem![0]!.value!.date!).toBe('2022-01-01');
-        expect(dataSource[0]!.weight!.formItem![0]!.value!.Quantity!.value).toBe(70);
+        expect((dataSource[0]!.date!.formItem as FormAnswerItems[])[0]!.value!.date!).toBe('2022-01-01');
+        expect((dataSource[0]!.weight!.formItem as FormAnswerItems[])[0]!.value!.Quantity!.value).toBe(70);
         expect(dataSource[1]!.date?.linkId).toBe('date');
         expect(dataSource[1]!.date?.index).toBe(1);
-        expect(dataSource[1]!.date!.formItem![0]!.value!.date!).toBe('2022-01-02');
-        expect(dataSource[1]!.weight!.formItem![0]!.value!.Quantity!.value).toBe(75);
+        expect((dataSource[1]!.date!.formItem as FormAnswerItems[])[0]!.value!.date!).toBe('2022-01-02');
+        expect((dataSource[1]!.weight!.formItem as FormAnswerItems[])[0]!.value!.Quantity!.value).toBe(75);
     });
 
     test('dataSource for non-repeatable group is extracted correctly', () => {
@@ -117,8 +117,8 @@ describe('GroupTable', () => {
         expect(dataSource.length).toBe(1);
         expect(dataSource[0]!.date?.linkId).toBe('date');
         expect(dataSource[0]!.date?.index).toBe(0);
-        expect(dataSource[0]!.date!.formItem![0]!.value!.date!).toBe('2022-01-01');
-        expect(dataSource[0]!.weight!.formItem![0]!.value!.Quantity!.value).toBe(70);
+        expect((dataSource[0]!.date!.formItem as FormAnswerItems[])[0]!.value!.date!).toBe('2022-01-01');
+        expect((dataSource[0]!.weight!.formItem as FormAnswerItems[])[0]!.value!.Quantity!.value).toBe(70);
     });
 
     test('dataSource is empty when a single row has no answers', () => {

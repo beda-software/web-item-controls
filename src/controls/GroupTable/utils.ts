@@ -12,7 +12,6 @@ import {
     getAnswerValues,
     getItemKey,
     isAnswerValueEmpty,
-    toAnswerValue,
 } from 'sdc-qrf';
 
 import { parseFHIRReference } from '@beda.software/fhir-react';
@@ -162,10 +161,11 @@ export const getDataSource = (
             if (_.isString(value)) {
                 return true;
             }
-            if (!value || !value.formItem || !value.formItem[0]) {
+            const formItemArr = value.formItem as (FormAnswerItems | undefined)[] | undefined;
+            if (!value || !formItemArr || !formItemArr[0]) {
                 return true;
             }
-            const answer = toAnswerValue(value.formItem[0], 'value');
+            const answer = formItemArr[0].value;
             if (!answer) {
                 return true;
             }
@@ -311,7 +311,7 @@ const mapBooleanToNumber = (value: boolean | undefined) => {
 };
 
 export const mapChoiceToNumber = (value: GroupTableItem, options: Coding[]) => {
-    const valueCode = value.formItem?.[0]?.value?.Coding?.code;
+    const valueCode = (value.formItem as (FormAnswerItems | undefined)[] | undefined)?.[0]?.value?.Coding?.code;
     return options.findIndex((option) => option.code === valueCode);
 };
 

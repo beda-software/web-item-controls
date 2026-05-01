@@ -107,7 +107,9 @@ export function useGroupTableChart(props: GroupTableChartProps) {
             const groupFormItem = formItem as FormGroupItems | undefined;
             const groupQuestionnaireItems = questionnaireItem?.item ?? [];
             return groupQuestionnaireItems.map((item) => {
-                const childAnswerItems = groupFormItem?.items?.[item.linkId];
+                const childAnswerItems = !Array.isArray(groupFormItem?.items)
+                    ? groupFormItem?.items?.[item.linkId]
+                    : undefined;
                 if (!childAnswerItems || !isFormAnswerItems(childAnswerItems)) {
                     return null;
                 }
@@ -209,7 +211,7 @@ export function useGroupTableChart(props: GroupTableChartProps) {
                 domainY: [0, answerOptionsY.length - 1],
                 yAxisWidth,
                 tickFormatterY: (value: number | string) => {
-                    return _.isInteger(value) ? answerOptionsY[value]?.display ?? '' : '';
+                    return _.isInteger(value) ? answerOptionsY[value as number]?.display ?? '' : '';
                 },
                 tooltipContent,
                 tickCountY: answerOptionsY.length,
@@ -234,14 +236,15 @@ export function useGroupTableChart(props: GroupTableChartProps) {
             return strings.length > 0 ? [...acc, ...strings] : acc;
         }, [] as string[]);
 
+        const chartYRangeArr = chartYRange as readonly number[] | undefined;
         const d3Scale = scaleLinear()
             .domain([
-                _.min([...dataValuesNum, ...(dataValuesString.length > 0 ? [0] : []), chartYRange?.[0]]),
+                _.min([...dataValuesNum, ...(dataValuesString.length > 0 ? [0] : []), chartYRangeArr?.[0]]) ?? 0,
                 _.max([
                     ...dataValuesNum,
                     ...(dataValuesString.length > 0 ? [dataValuesString.length - 1] : []),
-                    chartYRange?.[1],
-                ]),
+                    chartYRangeArr?.[1],
+                ]) ?? 1,
             ])
             .nice();
         const d3Domain = d3Scale.domain();
@@ -282,7 +285,7 @@ export function useGroupTableChart(props: GroupTableChartProps) {
             return {
                 domainX: [0, answerOptionsX.length - 1],
                 tickFormatterX: (value: number | string) => {
-                    return _.isInteger(value) ? answerOptionsX[value]?.display ?? '' : '';
+                    return _.isInteger(value) ? answerOptionsX[value as number]?.display ?? '' : '';
                 },
                 tickCountX: answerOptionsX.length,
             };
