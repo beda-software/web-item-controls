@@ -1,4 +1,4 @@
-import { ControllerFieldState, ControllerRenderProps, FieldValues } from 'react-hook-form';
+import type { ControllerFieldState, ControllerRenderProps, FieldValues } from 'react-hook-form';
 import { describe } from 'vitest';
 
 import { getFieldErrorMessage } from 'src/components/BaseQuestionnaireResponseForm/utils';
