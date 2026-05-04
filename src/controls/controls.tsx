@@ -48,7 +48,7 @@ import {
     UploadFileControl,
 } from 'src/controls';
 
-export const itemComponents: QuestionItemComponentMapping = {
+export const questionItemComponents: QuestionItemComponentMapping = {
     text: QuestionText,
     string: QuestionString,
     decimal: QuestionDecimal,
@@ -65,9 +65,9 @@ export const itemComponents: QuestionItemComponentMapping = {
     attachment: UploadFileControl,
 };
 
-export const groupComponent: GroupItemComponent = Group;
+export const groupItemComponent: GroupItemComponent = Group;
 
-export const itemControlComponents: ItemControlQuestionItemComponentMapping = {
+export const itemControlQuestionItemComponents: ItemControlQuestionItemComponentMapping = {
     phoneWidget: QuestionPhone,
     email: QuestionEmail,
     passwordWidget: PasswordInput,
@@ -86,7 +86,7 @@ export const itemControlComponents: ItemControlQuestionItemComponentMapping = {
     'reference-radio-button': InlineReference,
 };
 
-export const groupControlComponents: ItemControlGroupItemComponentMapping = {
+export const itemControlGroupItemComponents: ItemControlGroupItemComponentMapping = {
     col: Col,
     row: Row,
     gtable: Gtable,

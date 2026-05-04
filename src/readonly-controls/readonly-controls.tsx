@@ -31,7 +31,7 @@ import {
     UploadFile,
 } from 'src/readonly-controls';
 
-export const itemComponents: QuestionItemComponentMapping = {
+export const questionItemComponents: QuestionItemComponentMapping = {
     text: QuestionText,
     time: QuestionDateTime,
     string: QuestionText,
@@ -47,9 +47,9 @@ export const itemComponents: QuestionItemComponentMapping = {
     attachment: UploadFile,
 };
 
-export const groupComponent: GroupItemComponent = Group;
+export const groupItemComponent: GroupItemComponent = Group;
 
-export const itemControlComponents: ItemControlQuestionItemComponentMapping = {
+export const itemControlQuestionItemComponents: ItemControlQuestionItemComponentMapping = {
     'inline-choice': QuestionChoice,
     'anxiety-score': AnxietyScore,
     'depression-score': DepressionScore,
@@ -60,7 +60,7 @@ export const itemControlComponents: ItemControlQuestionItemComponentMapping = {
     'markdown-editor': MarkdownRenderControl,
 };
 
-export const groupControlComponents: ItemControlGroupItemComponentMapping = {
+export const itemControlGroupItemComponents: ItemControlGroupItemComponentMapping = {
     col: Col,
     row: Row,
     'time-range-picker': TimeRangePickerControl,
