@@ -56,7 +56,7 @@
         "yup": "^1.7.0"
     },
     "peerDependencies": {
-        "@beda.software/fhir-questionnaire": "file:../fhir-questionnaire/beda.software-fhir-questionnaire-2.0.0-alpha.0.tgz",
+        "@beda.software/fhir-questionnaire": "*",
         "@beda.software/fhir-react": "*",
         "@lingui/cli": "*",
         "@lingui/core": "*",
