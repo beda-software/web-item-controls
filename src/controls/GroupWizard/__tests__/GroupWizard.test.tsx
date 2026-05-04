@@ -9,8 +9,9 @@ import { questionnaireServiceLoader } from '@beda.software/fhir-questionnaire/co
 import { WithId, withRootAccess } from '@beda.software/fhir-react';
 import { success } from '@beda.software/remote-data';
 
-import { FormWrapper, GroupItemComponent } from 'src/components/FormWrapper';
+import { FormWrapper } from 'src/components/FormWrapper';
 import {
+    groupItemComponent,
     itemControlGroupItemComponents,
     itemControlQuestionItemComponents,
     questionItemComponents,
@@ -160,7 +161,7 @@ describe('WizardGroup renders correctly', async () => {
                         onSuccess={onSuccess}
                         serviceProvider={{ service }}
                         FormWrapper={FormWrapper}
-                        groupItemComponent={GroupItemComponent}
+                        groupItemComponent={groupItemComponent}
                         questionItemComponents={questionItemComponents}
                         itemControlQuestionItemComponents={itemControlQuestionItemComponents}
                         itemControlGroupItemComponents={itemControlGroupItemComponents}

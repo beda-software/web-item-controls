@@ -1,15 +1,13 @@
 import classNames from 'classnames';
 import { QuestionnaireResponse } from 'fhir/r4b';
 import { ReactElement, useState } from 'react';
-import { GroupItemProps } from 'sdc-qrf';
 
 import { FormWrapperProps } from '@beda.software/fhir-questionnaire/components';
 import { BaseQuestionnaireResponseFormPropsContext } from '@beda.software/fhir-questionnaire/contexts';
 import { RemoteDataResult } from '@beda.software/remote-data';
 
-import { FormFooter } from 'src/components/BaseQuestionnaireResponseForm/FormFooter';
+import { FormFooter, FormFooterComponentProps } from 'src/components/BaseQuestionnaireResponseForm/FormFooter';
 import { isGroupWizard } from 'src/components/BaseQuestionnaireResponseForm/utils';
-import { groupItemComponent } from 'src/controls';
 
 import s from './FormWrapper.module.scss';
 
@@ -19,7 +17,9 @@ export function FormWrapper(
         onSaveDraft?: (
             questionnaireResponse: QuestionnaireResponse,
         ) => Promise<RemoteDataResult<QuestionnaireResponse>>;
-        saveButtonTitle?: string | ReactElement;
+        saveButtonTitle?: ReactElement | string;
+        cancelButtonTitle?: ReactElement | string;
+        FormFooterComponent?: React.ElementType<FormFooterComponentProps>;
     },
 ) {
     const { handleSubmit, items, onCancel, onSaveDraft, saveButtonTitle, formData } = props;
@@ -30,7 +30,6 @@ export function FormWrapper(
     return (
         <form
             onSubmit={async (event) => {
-                console.log('onSubmit in web-item-controls', event);
                 setIsSubmitting(true);
                 await handleSubmit(event);
                 setIsSubmitting(false);
@@ -58,7 +57,6 @@ export function FormWrapper(
         </form>
     );
 }
-
 export function ReadonlyFormWrapper(
     props: FormWrapperProps & {
         onCancel?: () => void;
@@ -91,9 +89,4 @@ export function ReadonlyFormWrapper(
             </BaseQuestionnaireResponseFormPropsContext.Provider>
         </form>
     );
-}
-export function GroupItemComponent(itemProps: GroupItemProps) {
-    const Control = groupItemComponent;
-
-    return <Control {...itemProps} />;
 }
