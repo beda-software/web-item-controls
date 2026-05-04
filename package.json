@@ -65,7 +65,7 @@
         "typescript": "^5.1.6"
     },
     "peerDependencies": {
-        "@beda.software/fhir-questionnaire": "git+https://github.com/beda-software/fhir-questionnaire.git#76f7e715e744",
+        "@beda.software/fhir-questionnaire": "git+https://github.com/beda-software/fhir-questionnaire.git#7cb368f06e18",
         "@beda.software/fhir-react": "^1.11.1",
         "@lingui/cli": "^4.3.0",
         "@lingui/core": "^4.3.0",
@@ -82,7 +82,7 @@
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.26.0",
-        "@beda.software/fhir-questionnaire": "git+https://github.com/beda-software/fhir-questionnaire.git#76f7e715e744",
+        "@beda.software/fhir-questionnaire": "git+https://github.com/beda-software/fhir-questionnaire.git#7cb368f06e18",
         "@beda.software/fhir-react": "^1.11.1",
         "@beda.software/vite-plugin-dts": "4.0.0-beta.1",
         "@chromatic-com/storybook": "^3.2.2",
