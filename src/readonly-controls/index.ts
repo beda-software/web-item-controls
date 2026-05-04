@@ -14,3 +14,4 @@ export * from './Score';
 export * from './String';
 export * from './TimeRangePickerControl';
 export * from './UploadFile';
+export * from './readonly-controls';
