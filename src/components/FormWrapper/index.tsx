@@ -7,9 +7,9 @@ import { FormWrapperProps } from '@beda.software/fhir-questionnaire/components';
 import { BaseQuestionnaireResponseFormPropsContext } from '@beda.software/fhir-questionnaire/contexts';
 import { RemoteDataResult } from '@beda.software/remote-data';
 
-import { groupComponent } from 'src/components/BaseQuestionnaireResponseForm/controls';
 import { FormFooter } from 'src/components/BaseQuestionnaireResponseForm/FormFooter';
 import { isGroupWizard } from 'src/components/BaseQuestionnaireResponseForm/utils';
+import { groupItemComponent } from 'src/controls';
 
 import s from './FormWrapper.module.scss';
 
@@ -93,7 +93,7 @@ export function ReadonlyFormWrapper(
     );
 }
 export function GroupItemComponent(itemProps: GroupItemProps) {
-    const Control = groupComponent;
+    const Control = groupItemComponent;
 
     return <Control {...itemProps} />;
 }

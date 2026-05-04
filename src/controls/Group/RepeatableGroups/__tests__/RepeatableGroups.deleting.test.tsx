@@ -9,12 +9,12 @@ import { questionnaireServiceLoader } from '@beda.software/fhir-questionnaire/co
 import { WithId, withRootAccess } from '@beda.software/fhir-react';
 import { success } from '@beda.software/remote-data';
 
-import {
-    groupControlComponents,
-    itemComponents,
-    itemControlComponents,
-} from 'src/components/BaseQuestionnaireResponseForm/controls';
 import { FormWrapper, GroupItemComponent } from 'src/components/FormWrapper';
+import {
+    itemControlGroupItemComponents,
+    itemControlQuestionItemComponents,
+    questionItemComponents,
+} from 'src/controls';
 import { axiosInstance, service } from 'src/services/fhir';
 import { createPatient, createPractitionerRole, loginAdminUser } from 'src/setupTests';
 import { ThemeProvider } from 'src/theme';
@@ -107,9 +107,9 @@ describe('Repeatable group creates correct questionnaire response', async () => 
                         serviceProvider={{ service }}
                         FormWrapper={FormWrapper}
                         groupItemComponent={GroupItemComponent}
-                        widgetsByQuestionType={itemComponents}
-                        widgetsByQuestionItemControl={itemControlComponents}
-                        widgetsByGroupQuestionItemControl={groupControlComponents}
+                        questionItemComponents={questionItemComponents}
+                        itemControlQuestionItemComponents={itemControlQuestionItemComponents}
+                        itemControlGroupItemComponents={itemControlGroupItemComponents}
                     />
                 </I18nProvider>
             </ThemeProvider>,
