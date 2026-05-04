@@ -41,5 +41,6 @@ export * from './TimeRangePickerControl';
 export * from './TimeRangePickerControl/hooks';
 export * from './UploadFileControl';
 export * from './UploadFileControl/hooks';
+export * from './controls';
 
 export * from 'src/components/BaseQuestionnaireResponseForm/utils';
