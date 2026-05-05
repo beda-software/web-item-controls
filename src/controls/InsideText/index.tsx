@@ -13,7 +13,7 @@ export function QuestionInputInsideText({ parentPath, questionItem }: QuestionIt
         <InputInsideText
             value={value ?? ''}
             disabled={disabled}
-            onChange={onChange}
+            onChange={(e) => onChange(e.target.value)}
             onBlur={onBlur}
             placeholder={placeholder}
             text={questionItem.text ?? ''}

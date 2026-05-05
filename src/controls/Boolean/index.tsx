@@ -23,7 +23,7 @@ export function QuestionBoolean({ parentPath, questionItem }: QuestionItemProps)
             <S.CheckboxWrapper $hasError={hasError}>
                 <Checkbox
                     disabled={disabled}
-                    onChange={onChange}
+                    onChange={(e) => onChange(e.target.checked)}
                     checked={value}
                     data-testid="checkbox"
                     onBlur={onBlur}

@@ -54,7 +54,7 @@ export function useEditableGroup(props: GroupItemProps) {
         const currentFullFormValues = _.cloneDeep(getValues());
         _.set(currentFullFormValues, fieldName, _.cloneDeep(snapshotFormValues));
         reset(currentFullFormValues, { keepDirty: true });
-        onChange({ items: snapshotFormValues });
+        onChange({ items: snapshotFormValues ?? undefined });
         setSnapshotFormValues(null);
         setSnapshotDataSource(null);
         setIsModalVisible(false);

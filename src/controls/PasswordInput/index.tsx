@@ -10,7 +10,12 @@ export function PasswordInput({ parentPath, questionItem }: QuestionItemProps) {
 
     return (
         <Form.Item {...formItem}>
-            <Input.Password value={value} disabled={disabled} onChange={onChange} onBlur={onBlur} />
+            <Input.Password
+                value={value}
+                disabled={disabled}
+                onChange={(e) => onChange(e.target.value)}
+                onBlur={onBlur}
+            />
         </Form.Item>
     );
 }

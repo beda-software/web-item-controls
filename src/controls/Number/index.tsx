@@ -24,7 +24,7 @@ export function QuestionInteger({ parentPath, questionItem }: QuestionItemProps)
                 addonAfter={unit?.display}
                 style={inputStyle}
                 disabled={disabled}
-                onChange={onChange}
+                onChange={(v) => onChange(v ?? undefined)}
                 value={value}
                 required={required}
                 placeholder={placeholder}
@@ -46,7 +46,7 @@ export function QuestionDecimal({ parentPath, questionItem }: QuestionItemProps)
                 addonAfter={unit?.display}
                 style={inputStyle}
                 disabled={disabled}
-                onChange={onChange}
+                onChange={(v) => onChange(v ?? undefined)}
                 value={value}
                 placeholder={placeholder}
             />
@@ -81,7 +81,7 @@ export function QuestionQuantity(props: QuestionItemProps) {
     const onValueChange = (value: number | null) => {
         setNumericValue(value || undefined);
         onChange({
-            value: value,
+            value: value ?? undefined,
             unit: selectedUnit?.display,
             system: selectedUnit?.system,
             code: selectedUnit?.code,

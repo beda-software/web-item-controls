@@ -13,7 +13,13 @@ export function QuestionString({ parentPath, questionItem }: QuestionItemProps) 
 
     return (
         <Form.Item {...formItem} data-testid={linkId} data-linkid={linkId}>
-            <Input value={value} disabled={disabled} onChange={onChange} onBlur={onBlur} placeholder={placeholder} />
+            <Input
+                value={value}
+                disabled={disabled}
+                onChange={(e) => onChange(e.target.value)}
+                onBlur={onBlur}
+                placeholder={placeholder}
+            />
         </Form.Item>
     );
 }
@@ -49,7 +55,7 @@ export function QuestionText({ parentPath, questionItem }: QuestionItemProps) {
                 value={value}
                 rows={rowsNumber}
                 disabled={disabled}
-                onChange={onChange}
+                onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
             />
         </Form.Item>
