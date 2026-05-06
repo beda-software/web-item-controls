@@ -8,6 +8,8 @@ import { GroupTableRow } from 'src/controls/GroupTable/types';
 
 import { useEditableGroup } from './hooks';
 
+export { useEditableGroup } from './hooks';
+
 export function EditableGroup(props: GroupItemProps) {
     const {
         repeats,

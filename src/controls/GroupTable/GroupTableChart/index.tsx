@@ -6,6 +6,9 @@ import { HighlightArea } from './HighlightArea';
 import { useGroupTableChart } from './hooks';
 import { GroupTableChartProps } from './types';
 
+export { useGroupTableChart } from './hooks';
+export type { GroupTableChartProps, ChartType } from './types';
+
 export function GroupTableChart(props: GroupTableChartProps) {
     const {
         data,
