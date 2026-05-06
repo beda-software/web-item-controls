@@ -31,7 +31,6 @@ export default defineConfig({
             exclude: [
                 'node_modules/**',
                 'src/index.ts',
-                'src/components/index.ts',
                 'src/utils/index.ts',
                 'src/**/*.test.ts',
                 'src/**/*.test.tsx',
@@ -54,6 +53,7 @@ export default defineConfig({
                 path.resolve(__dirname, 'src/controls/index.ts'),
                 path.resolve(__dirname, 'src/readonly-controls/index.ts'),
                 path.resolve(__dirname, 'src/contexts/index.ts'),
+                path.resolve(__dirname, 'src/components/index.ts'),
             ],
             formats: ['es'],
             fileName: (format, entryName) => `${entryName}.js`,

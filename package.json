@@ -152,13 +152,33 @@
             "types": "./dist/controls/index.d.ts",
             "import": "./dist/controls/index.js"
         },
+        "./controls/*": {
+            "types": "./dist/controls/*/index.d.ts",
+            "import": "./dist/controls/*/index.js"
+        },
         "./readonly-controls": {
             "types": "./dist/readonly-controls/index.d.ts",
             "import": "./dist/readonly-controls/index.js"
         },
+        "./readonly-controls/*": {
+            "types": "./dist/readonly-controls/*/index.d.ts",
+            "import": "./dist/readonly-controls/*/index.js"
+        },
         "./contexts": {
             "types": "./dist/contexts/index.d.ts",
             "import": "./dist/contexts/index.js"
+        },
+        "./contexts/*": {
+            "types": "./dist/contexts/*/index.d.ts",
+            "import": "./dist/contexts/*/index.js"
+        },
+        "./components": {
+            "types": "./dist/components/index.d.ts",
+            "import": "./dist/components/index.js"
+        },
+        "./components/*": {
+            "types": "./dist/components/*/index.d.ts",
+            "import": "./dist/components/*/index.js"
         }
     }
 }
