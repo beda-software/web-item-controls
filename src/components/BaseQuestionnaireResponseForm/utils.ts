@@ -1,4 +1,4 @@
-import { ControllerFieldState, ControllerRenderProps } from 'react-hook-form';
+import type { ControllerFieldState, ControllerRenderProps } from 'react-hook-form';
 import { FCEQuestionnaire } from 'sdc-qrf';
 
 export function getFieldErrorMessage(
