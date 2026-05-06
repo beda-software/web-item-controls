@@ -9,6 +9,10 @@ import { GroupTableChart } from './GroupTableChart';
 import { S } from './styles';
 import { GroupTableProps, GroupTableRow } from './types';
 
+export type { GroupTableProps, GroupTableRow, GroupTableItem, ChartHighlightArea } from './types';
+export { getValueFromAnswerValue } from './utils';
+export { useGroupTable } from './hooks';
+
 export function GroupTable(props: GroupTableProps) {
     const { chartHeight } = props;
 

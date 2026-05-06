@@ -14,7 +14,6 @@ export * from './Group/GTable';
 export * from './Group/RepeatableGroups';
 export * from './Group/RepeatableGroups/RepeatableGroupCard';
 export * from './GroupTable';
-export * from './GroupTable/types';
 export * from './GroupTable/GroupTableChart';
 export * from './GroupTable/GroupTableChart/HighlightArea';
 export * from './GroupTable/GroupTableChart/Tooltip';
