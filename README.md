@@ -87,18 +87,6 @@ Build the package:
 yarn build:lib
 ```
 
-Validate generated package shape:
-
-```sh
-yarn check:package
-```
-
-Smoke test a packed tarball in a temporary consumer project:
-
-```sh
-yarn smoke:package
-```
-
 Run TypeScript checks:
 
 ```sh
