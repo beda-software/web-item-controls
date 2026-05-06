@@ -1,7 +1,7 @@
 {
     "name": "@beda.software/web-item-controls",
     "private": true,
-    "version": "0.1.10-5",
+    "version": "0.1.11",
     "type": "module",
     "repository": {
         "type": "git",
@@ -73,7 +73,7 @@
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.26.0",
-        "@beda.software/fhir-questionnaire": "../fhir-questionnaire/beda.software-fhir-questionnaire-2.0.0-alpha.0.tgz",
+        "@beda.software/fhir-questionnaire": "^0.1.0-alpha.3",
         "@beda.software/fhir-react": "^1.11.1",
         "@beda.software/vite-plugin-dts": "4.0.0-beta.1",
         "@chromatic-com/storybook": "^3.2.2",
