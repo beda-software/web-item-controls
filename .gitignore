@@ -45,6 +45,7 @@ src/locale/**/*.js
 # Built seeds
 resources/init-bundles/
 resources/demo-bundles/
+test-resources/test-bundles/
 
 .clj-kondo/
 .lsp/

@@ -32,7 +32,7 @@ services:
       - .env
     volumes:
       - ./config:/var/config:cached
-      - ./resources/init-bundles:/resources/init-bundles
+      - ./test-resources/test-bundles:/resources/init-bundles
   devbox-db_test:
     image: "healthsamurai/aidboxdb:13.2"
     environment:
@@ -65,8 +65,8 @@ services:
       questionnaire-fce-fhir-converter:
         condition: service_healthy
     volumes:
-      - ./resources/init-seeds:/app/resources
-      - ./resources/init-bundles:/app/init-bundles
+      - ./test-resources/test-seeds:/app/resources
+      - ./test-resources/test-bundles:/app/init-bundles
 
   questionnaire-fce-fhir-converter:
     image: bedasoftware/questionnaire-fce-fhir-converter:latest

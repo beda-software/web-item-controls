@@ -68,9 +68,9 @@ jobs:
       - name: Check formatting
         run: yarn prettier -c "src/**/*.ts?"
       - name: Run aidbox
-        run: make up
+        run: make up-test
       - name: Show logs
         if: ${{ failure() }}
-        run: docker compose logs
+        run: make logs-test
       - name: Run tests
         run: yarn test --silent

@@ -31,6 +31,16 @@ stop-matchbox:
 down-matchbox:
 	docker compose -f compose.yaml -f compose.matchbox.yaml down
 
+up-test:
+	docker compose -f docker-compose.tests.yaml pull --quiet
+	docker compose -f docker-compose.tests.yaml up -d
+
+down-test:
+	docker compose -f docker-compose.tests.yaml down
+
+logs-test:
+	docker compose -f docker-compose.tests.yaml logs -f
+
 test:
 	@if [ -f ".env" ]; then \
 		export `cat .env | xargs`; \

@@ -8,7 +8,7 @@ import {
     SearchBarColumnType,
     SearchBarReferenceColumn,
 } from 'src/components/SearchBar/types';
-import { loginAdminUser } from 'src/setupTests';
+import { createPatient, createPractitioner, loginAdminUser } from 'src/setupTests';
 
 import { useReferenceColumn } from '../hooks';
 
@@ -35,6 +35,8 @@ describe('ReferenceColumn component testing', () => {
     });
 
     test.each(COLUMN_CASES)('It loads options correctly for column %s', async (testColumnCase) => {
+        await createPatient();
+        await createPractitioner();
         const { result } = renderHook(() => {
             const { columnsFilterValues, onChangeColumnFilter, onResetFilters } = useSearchBar({
                 columns: [testColumnCase],
