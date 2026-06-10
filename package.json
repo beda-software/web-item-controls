@@ -1,7 +1,7 @@
 {
     "name": "@beda.software/web-item-controls",
     "private": true,
-    "version": "0.1.15-0",
+    "version": "0.1.16-0",
     "type": "module",
     "repository": {
         "type": "git",
@@ -71,7 +71,7 @@
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.26.0",
-        "@beda.software/fhir-questionnaire": "^0.1.0-alpha.3",
+        "@beda.software/fhir-questionnaire": "^0.1.0-alpha.5",
         "@beda.software/fhir-react": "^1.11.1",
         "@beda.software/vite-plugin-dts": "4.0.0-beta.1",
         "@chromatic-com/storybook": "^3.2.2",
@@ -129,7 +129,7 @@
         "react-hook-form": "^7.53.2",
         "sass": "^1.63.6",
         "sass-loader": "^13.3.2",
-        "sdc-qrf": "^1.1.0-alpha.3",
+        "sdc-qrf": "^1.1.0-alpha.7",
         "storybook": "^8.6.18",
         "style-loader": "^3.3.3",
         "styled-components": "^6.1.11",
