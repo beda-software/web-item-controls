@@ -62,7 +62,6 @@ export interface GroupStats {
 export function GroupWizard(props: GroupWizardProps) {
     const { parentPath, questionItem, context, wizard } = props;
     const baseQRFPropsContext = useContext(BaseQuestionnaireResponseFormPropsContext);
-    console.log('baseQRFPropsContext', baseQRFPropsContext);
 
     if (questionItem.repeats) {
         console.warn('GroupWizard does not support repeatable groups in the first level');
