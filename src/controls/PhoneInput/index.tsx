@@ -2,6 +2,7 @@ import { Form } from 'antd';
 import classNames from 'classnames';
 import { useContext, useState } from 'react';
 import PI, { PhoneInputProps } from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import { QuestionItemProps } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
