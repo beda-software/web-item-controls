@@ -44,6 +44,7 @@ export function GridGroup({ groupItem }: GridGroupProps) {
                                                 questionItem: item,
                                                 context: groupItem.context,
                                                 parentPath: [
+                                                    ...groupItem.parentPath,
                                                     groupItem.questionItem.linkId,
                                                     'items',
                                                     groupMap.group.linkId,
@@ -59,6 +60,7 @@ export function GridGroup({ groupItem }: GridGroupProps) {
                                                 groupItem.questionItem.linkId,
                                                 'items',
                                                 groupMap.group.linkId,
+                                                'items',
                                             ]}
                                             context={groupItem.context[0]!}
                                         />
