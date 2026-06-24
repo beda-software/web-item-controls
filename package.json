@@ -71,7 +71,7 @@
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.26.0",
-        "@beda.software/fhir-questionnaire": "^0.1.0-alpha.6",
+        "@beda.software/fhir-questionnaire": "^0.1.0-alpha.10",
         "@beda.software/fhir-react": "^1.11.1",
         "@beda.software/vite-plugin-dts": "4.0.0-beta.1",
         "@chromatic-com/storybook": "^3.2.2",
