@@ -456,7 +456,7 @@ export function useGroupTable(props: GroupTableProps) {
         const currentFullFormValues = _.cloneDeep(getValues());
         _.set(currentFullFormValues, fieldName, _.cloneDeep(snapshotFormValues));
         reset(currentFullFormValues, { keepDirty: true });
-        onChange({ items: snapshotFormValues ?? undefined });
+        onChange(_.cloneDeep({ items: snapshotFormValues ?? undefined }));
         setSnapshotFormValues(null);
         setSnapshotDataSource(null);
         setEditIndex(undefined);
