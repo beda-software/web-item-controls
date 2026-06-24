@@ -397,7 +397,7 @@ export function useGroupTable(props: GroupTableProps) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [editIndex, setEditIndex] = useState<number | undefined>(undefined);
 
-    const [snapshotFormValues, setSnapshotFormValues] = useState<FormItems[] | null>(null);
+    const [snapshotFormValues, setSnapshotFormValues] = useState<RepeatableFormGroupItems | null>(null);
     const [snapshotDataSource, setSnapshotDataSource] = useState<GroupTableRow[] | null>(null);
 
     const { populateColumnWithFilters } = useGroupTableFilter();
@@ -456,7 +456,7 @@ export function useGroupTable(props: GroupTableProps) {
         const currentFullFormValues = _.cloneDeep(getValues());
         _.set(currentFullFormValues, fieldName, _.cloneDeep(snapshotFormValues));
         reset(currentFullFormValues, { keepDirty: true });
-        onChange(_.cloneDeep({ items: snapshotFormValues ?? undefined }));
+        onChange(_.cloneDeep(snapshotFormValues) ?? undefined);
         setSnapshotFormValues(null);
         setSnapshotDataSource(null);
         setEditIndex(undefined);
