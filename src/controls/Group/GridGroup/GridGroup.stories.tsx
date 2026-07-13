@@ -2,11 +2,11 @@ import type { Decorator, Meta, StoryObj } from '@storybook/react';
 import { Questionnaire, QuestionnaireResponse } from 'fhir/r4b';
 import { FormProvider, useForm } from 'react-hook-form';
 import {
+    FCEQuestionnaire,
     FCEQuestionnaireItem,
     FormItems,
     ItemContext,
     QuestionnaireResponseFormProvider,
-    toFirstClassExtension,
 } from 'sdc-qrf';
 
 import { success } from '@beda.software/remote-data';
@@ -107,14 +107,14 @@ export const Example: Story = {
     ),
 };
 
-const VITALS_QUESTIONNAIRE = toFirstClassExtension({
+const VITALS_QUESTIONNAIRE: FCEQuestionnaire = {
     resourceType: 'Questionnaire',
     status: 'active',
     item: [VITALS_GRID_RAW],
     meta: {
         profile: ['https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire'],
     },
-});
+};
 
 const VITALS_GRID_ITEM = VITALS_QUESTIONNAIRE.item![0]!;
 
