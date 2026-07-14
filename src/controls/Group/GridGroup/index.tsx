@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React from 'react';
 import { QuestionItem } from 'sdc-qrf';
 
@@ -16,24 +17,22 @@ export function GridGroup({ groupItem }: GridGroupProps) {
     }
 
     return (
-        <>
+        <S.Widget>
             <S.Header>
                 <S.GridRowLabel>{questionItem.text}</S.GridRowLabel>
             </S.Header>
 
             <S.GridContainer columns={gridMap.columns.length + 1}>
-                <S.GridItem></S.GridItem>
+                <S.GridHeaderCell>
+                    <Trans>Parameter</Trans>
+                </S.GridHeaderCell>
                 {gridMap.columns.map((column) => (
-                    <S.GridItem key={column}>
-                        <S.GridRowLabel>{column}</S.GridRowLabel>
-                    </S.GridItem>
+                    <S.GridHeaderCell key={column}>{column}</S.GridHeaderCell>
                 ))}
 
                 {gridMap.groups.map((groupMap) => (
                     <React.Fragment key={groupMap.group.linkId}>
-                        <S.GridItem>
-                            <S.GridRowLabel>{groupMap.group.text}</S.GridRowLabel>
-                        </S.GridItem>
+                        <S.GridItem $bold>{groupMap.group.text}</S.GridItem>
 
                         {groupMap.items.map((item, itemIndex) =>
                             item ? (
@@ -73,6 +72,6 @@ export function GridGroup({ groupItem }: GridGroupProps) {
                     </React.Fragment>
                 ))}
             </S.GridContainer>
-        </>
+        </S.Widget>
     );
 }

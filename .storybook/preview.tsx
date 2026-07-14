@@ -1,7 +1,7 @@
 import 'antd/dist/reset.css';
 import 'src/styles/index.scss';
 import { Preview } from '@storybook/react';
-import { withThemeDecorator } from './decorators';
+import { withI18nDecorator, withThemeDecorator } from './decorators';
 
 const preview: Preview = {
     parameters: {
@@ -19,7 +19,7 @@ const preview: Preview = {
             },
         },
     },
-    decorators: [withThemeDecorator],
+    decorators: [withThemeDecorator, withI18nDecorator],
 };
 
 export const globalTypes = {
