@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 import { useAudioRecorder as useAudioRecorderControl } from 'react-audio-voice-recorder';
 
 export interface RecorderControls {

@@ -41,7 +41,7 @@ export const Labels: Story = {
                 required: true,
                 start: 1,
                 // TODO: Remove ignore and add startLabel to QuestionItem
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
                 // @ts-ignore
                 startLabel: 'Start value',
                 stop: 10,
