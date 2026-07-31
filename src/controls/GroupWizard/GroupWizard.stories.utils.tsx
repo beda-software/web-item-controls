@@ -134,6 +134,14 @@ export function testScrollTo(qi: FCEQuestionnaireItem) {
             const firstElementLinId = item.item?.[0]?.linkId;
             expect(firstElementLinId).toBeDefined();
             await waitFor(() => expect(canvas.getByTestId(firstElementLinId!)).toBeInTheDocument());
+
+            const other = qi.item?.filter(({ linkId }) => linkId != item.linkId) ?? [];
+            expect(other.length).toBe((qi.item?.length ?? 0) - 1);
+            for (const otherItem of other) {
+                const firstElementLinId = otherItem.item?.[0]?.linkId;
+                expect(firstElementLinId).toBeDefined();
+                await waitFor(() => expect(canvas.queryByTestId(firstElementLinId!)).not.toBeInTheDocument());
+            }
         }
     };
     return play;
