@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { expect, within, userEvent, findByTestId } from '@storybook/test';
 import { FCEQuestionnaireItem, ItemContext } from 'sdc-qrf';
+import { expect, within, userEvent, findByTestId } from 'storybook/test';
 
 import { WithQuestionFormProviderDecorator, withColorSchemeDecorator } from 'src/storybook/decorators';
 

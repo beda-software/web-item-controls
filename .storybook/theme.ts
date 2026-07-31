@@ -1,4 +1,4 @@
-import { create } from '@storybook/theming/create';
+import { create } from 'storybook/theming/create';
 import logoUrl from '../src/images/logo.svg';
 
 import { brandColors } from '../src/theme/palette';
