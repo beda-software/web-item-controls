@@ -132,6 +132,18 @@ export function GroupWizard(props: GroupWizardProps) {
         setCurrentIndex(value);
     };
 
+    GroupWizardBus.useBus(
+        'scrollTo',
+        ({ groupLinkId }) => {
+            const valueIndex = wizardItems.findIndex((item) => item.linkId === groupLinkId);
+
+            if (valueIndex !== -1) {
+                onStepChange(valueIndex);
+            }
+        },
+        [wizardItems],
+    );
+
     if (parentPath.length !== 0) {
         console.error('The wizard item control must be in root group');
 

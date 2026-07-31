@@ -1,4 +1,5 @@
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
+import { expect, waitFor } from '@storybook/test';
 import { Questionnaire, QuestionnaireResponse } from 'fhir/r4b';
 import { FormProvider, useForm } from 'react-hook-form';
 import { FCEQuestionnaireItem, FormItems, ItemContext, QuestionnaireResponseFormProvider } from 'sdc-qrf';
@@ -9,9 +10,11 @@ import { success } from '@beda.software/remote-data';
 import s from 'src/components/BaseQuestionnaireResponseForm/BaseQuestionnaireResponseForm.module.scss';
 import { ValueSetExpandProvider } from 'src/contexts';
 import { questionItemComponents } from 'src/controls';
-import { withColorSchemeDecorator } from 'src/storybook/decorators';
+// ColorSchemedecorator is not compatible with storybook tests
+/* import { withColorSchemeDecorator } from 'src/storybook/decorators'; */
 
-import { GroupWizardVertical, GroupWizardWithTooltips } from './index';
+import { GroupWizardVertical, GroupWizardWithTooltips, GroupWizardBus } from './index';
+import { GroupTabs } from '../GroupTabs';
 
 const WIZARD_ITEM: FCEQuestionnaireItem = {
     linkId: 'wizard',
@@ -130,16 +133,35 @@ const WithGroupWizardProviderDecorator: Decorator = (Story) => {
 const meta: Meta<typeof GroupWizardVertical> = {
     title: 'Questionnaire / questions / group / wizard',
     component: GroupWizardVertical,
-    decorators: [withColorSchemeDecorator, WithGroupWizardProviderDecorator],
+    decorators: [WithGroupWizardProviderDecorator],
 };
 
 export default meta;
 type Story = StoryObj<typeof GroupWizardVertical>;
 
+function testScrollTo(qi: FCEQuestionnaireItem) {
+    const play: Story['play'] = async ({ canvas }) => {
+        for (const item of [...(qi.item ?? [])].reverse()) {
+            GroupWizardBus.dispatch({ type: 'scrollTo', groupLinkId: item.linkId });
+            const firstElementLinId = item.item?.[0]?.linkId;
+            expect(firstElementLinId).toBeDefined();
+            await waitFor(() => expect(canvas.getByTestId(firstElementLinId!)).toBeInTheDocument());
+        }
+    };
+    return play;
+}
+
 export const Vertical: Story = {
+    play: testScrollTo(WIZARD_ITEM),
     render: () => <GroupWizardVertical parentPath={[]} questionItem={WIZARD_ITEM} context={CONTEXT} />,
 };
 
 export const WithTooltips: Story = {
+    play: testScrollTo(WIZARD_ITEM),
     render: () => <GroupWizardWithTooltips parentPath={[]} questionItem={WIZARD_ITEM} context={CONTEXT} />,
+};
+
+export const Tabs: Story = {
+    play: testScrollTo(WIZARD_ITEM),
+    render: () => <GroupTabs parentPath={[]} questionItem={WIZARD_ITEM} context={CONTEXT} />,
 };
