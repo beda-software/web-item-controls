@@ -14,6 +14,7 @@ import {
     EditableGroup,
     Grid,
     Group,
+    GroupSlider,
     GroupTable,
     GroupTabs,
     GroupWizard,
@@ -104,5 +105,6 @@ export const itemControlGroupItemComponents: ItemControlGroupItemComponentMappin
     'wizard-vertical': GroupWizardVertical,
     'group-tabs': GroupTabs,
     'group-table': GroupTable,
+    'group-slider': GroupSlider,
     'editable-group': EditableGroup,
 };
