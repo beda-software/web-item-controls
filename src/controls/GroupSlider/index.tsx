@@ -15,7 +15,7 @@ export function GroupSlider(props: GroupItemProps) {
     const { parentPath, questionItem, context } = props;
     const { linkId, text, helpText, hidden, repeats, item } = questionItem;
 
-    const { readOnly, items, currentIndex, setCurrentIndex, onAdd, onRemove, getKey } = useGroupSlider(props);
+    const { readOnly, items, currentIndex, onAdd, onRemove, goLeft, goRight, getKey } = useGroupSlider(props);
 
     if (hidden) {
         return null;
@@ -53,7 +53,7 @@ export function GroupSlider(props: GroupItemProps) {
                 <S.Nav>
                     <Button
                         disabled={currentIndex <= 0}
-                        onClick={() => setCurrentIndex((index) => index - 1)}
+                        onClick={goLeft}
                         icon={<LeftOutlined />}
                         data-testid="group-slider-prev-button"
                     />
@@ -62,7 +62,7 @@ export function GroupSlider(props: GroupItemProps) {
                     </Text>
                     <Button
                         disabled={currentIndex >= itemsCount - 1}
-                        onClick={() => setCurrentIndex((index) => index + 1)}
+                        onClick={goRight}
                         icon={<RightOutlined />}
                         data-testid="group-slider-next-button"
                     />

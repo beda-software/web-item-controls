@@ -4,6 +4,7 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { FormItems, GroupItemProps, RepeatableFormGroupItems, getItemKey, populateItemKey } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
+import { GroupWizardBus } from 'src/controls/GroupWizard';
 
 export function useGroupSlider(props: GroupItemProps) {
     const { parentPath, questionItem } = props;
@@ -37,6 +38,49 @@ export function useGroupSlider(props: GroupItemProps) {
         setCurrentIndex((current) => Math.min(current, Math.max(filteredItems.length - 1, 0)));
     };
 
+    const goLeft = () => setCurrentIndex((index) => Math.max(index - 1, 0));
+    const goRight = () => setCurrentIndex((index) => Math.min(index + 1, Math.max(items.length - 1, 0)));
+
+    GroupWizardBus.useBus(
+        'addItem',
+        ({ groupLinkId }) => {
+            if (groupLinkId === linkId) {
+                onAdd();
+            }
+        },
+        [linkId, items],
+    );
+
+    GroupWizardBus.useBus(
+        'removeItem',
+        ({ groupLinkId, index }) => {
+            if (groupLinkId === linkId) {
+                onRemove(index ?? currentIndex);
+            }
+        },
+        [linkId, items, currentIndex],
+    );
+
+    GroupWizardBus.useBus(
+        'openLeft',
+        ({ groupLinkId }) => {
+            if (groupLinkId === linkId) {
+                goLeft();
+            }
+        },
+        [linkId],
+    );
+
+    GroupWizardBus.useBus(
+        'openRight',
+        ({ groupLinkId }) => {
+            if (groupLinkId === linkId) {
+                goRight();
+            }
+        },
+        [linkId, items.length],
+    );
+
     return {
         readOnly: !!readOnly,
         items,
@@ -44,6 +88,8 @@ export function useGroupSlider(props: GroupItemProps) {
         setCurrentIndex,
         onAdd,
         onRemove,
+        goLeft,
+        goRight,
         getKey: getItemKey,
     };
 }

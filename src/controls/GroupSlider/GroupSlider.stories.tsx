@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
+
+import { GroupWizardBus } from 'src/controls/GroupWizard';
 
 import { CONTEXT, SLIDER_ITEM, WithGroupSliderProviderDecorator } from './GroupSlider.stories.utils';
 import { GroupSlider } from './index';
@@ -61,4 +63,48 @@ export const Slider: Story = {
 
 export const Empty: Story = {
     render: () => <GroupSlider parentPath={[]} questionItem={SLIDER_ITEM} context={CONTEXT} />,
+};
+
+export const BusControlled: Story = {
+    render: () => <GroupSlider parentPath={[]} questionItem={SLIDER_ITEM} context={CONTEXT} />,
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        const groupLinkId = SLIDER_ITEM.linkId;
+        const nameInput = () => canvas.getByTestId('medication-name').querySelector('input')!;
+
+        await waitFor(() => expect(canvas.getByTestId('group-slider-position')).toHaveTextContent('0 of 0'));
+
+        // 'addItem' adds a slide without clicking the Add button.
+        GroupWizardBus.dispatch({ type: 'addItem', groupLinkId });
+        await waitFor(() => expect(canvas.getByTestId('group-slider-position')).toHaveTextContent('1 of 1'));
+        await expect(canvas.getAllByTestId('medication-name')).toHaveLength(1);
+        await userEvent.type(nameInput(), 'Aspirin');
+
+        // Adding a second item navigates to it; the first item is no longer rendered.
+        GroupWizardBus.dispatch({ type: 'addItem', groupLinkId });
+        await waitFor(() => expect(canvas.getByTestId('group-slider-position')).toHaveTextContent('2 of 2'));
+        await expect(canvas.getAllByTestId('medication-name')).toHaveLength(1);
+        await expect(nameInput()).toHaveValue('');
+        await userEvent.type(nameInput(), 'Ibuprofen');
+
+        // 'openLeft' steps back to the first item; the second is not rendered.
+        GroupWizardBus.dispatch({ type: 'openLeft', groupLinkId });
+        await waitFor(() => expect(canvas.getByTestId('group-slider-position')).toHaveTextContent('1 of 2'));
+        await expect(canvas.getAllByTestId('medication-name')).toHaveLength(1);
+        await expect(nameInput()).toHaveValue('Aspirin');
+
+        // 'openRight' steps forward again.
+        GroupWizardBus.dispatch({ type: 'openRight', groupLinkId });
+        await waitFor(() => expect(canvas.getByTestId('group-slider-position')).toHaveTextContent('2 of 2'));
+        await expect(nameInput()).toHaveValue('Ibuprofen');
+
+        // 'removeItem' with no explicit index drops the current (second) slide.
+        GroupWizardBus.dispatch({ type: 'removeItem', groupLinkId });
+        await waitFor(() => expect(canvas.getByTestId('group-slider-position')).toHaveTextContent('1 of 1'));
+        await expect(nameInput()).toHaveValue('Aspirin');
+
+        // Events targeting a different group are ignored.
+        GroupWizardBus.dispatch({ type: 'addItem', groupLinkId: 'unrelated-group' });
+        await waitFor(() => expect(canvas.getByTestId('group-slider-position')).toHaveTextContent('1 of 1'));
+    },
 };
