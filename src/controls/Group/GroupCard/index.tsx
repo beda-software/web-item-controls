@@ -14,6 +14,7 @@ import { AccordionSection } from '../AccordionSection';
 import { ChildGroupAccordionProvider } from '../ChildGroupAccordionProvider';
 import { RepeatableGroups } from '../RepeatableGroups';
 import { RepeatableGroupCard } from '../RepeatableGroups/RepeatableGroupCard';
+import { useScrollIntoViewOnOpen } from '../useScrollIntoViewOnOpen';
 
 interface GroupCardProps extends GroupItemProps {
     variant?: 'main-card' | 'sub-card';
@@ -137,9 +138,11 @@ export function GroupMainCard(props: CardProps) {
 
     const onRemove = readOnly ? undefined : initialOnRemove;
     const collapsible = !!onToggle;
+    const cardRef = useScrollIntoViewOnOpen<HTMLDivElement>(isOpen);
 
     return (
         <S.Card
+            ref={cardRef}
             title={<CollapsibleTitle title={title} level={4} isOpen={isOpen} onToggle={onToggle} />}
             $variant={'main-card'}
             $collapsible={collapsible}
@@ -181,9 +184,11 @@ export function GroupSubCard(props: CardProps) {
 
     const onRemove = readOnly ? undefined : initialOnRemove;
     const collapsible = !!onToggle;
+    const cardRef = useScrollIntoViewOnOpen<HTMLDivElement>(isOpen);
 
     return (
         <S.Card
+            ref={cardRef}
             title={<CollapsibleTitle title={title} level={5} isOpen={isOpen} onToggle={onToggle} />}
             $variant={'sub-card'}
             $collapsible={collapsible}

@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import { Title } from 'src/components/Typography';
 
 import { S } from './styles';
+import { useScrollIntoViewOnOpen } from '../useScrollIntoViewOnOpen';
 
 interface Props {
     linkId: string;
@@ -17,8 +18,10 @@ interface Props {
 export function AccordionSection(props: Props) {
     const { linkId, title, count, isOpen, onToggle, children } = props;
 
+    const sectionRef = useScrollIntoViewOnOpen<HTMLDivElement>(isOpen);
+
     return (
-        <S.Section data-testid={`accordion-section-${linkId}`}>
+        <S.Section ref={sectionRef} data-testid={`accordion-section-${linkId}`}>
             <S.Header
                 role="button"
                 tabIndex={0}
