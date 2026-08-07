@@ -42,13 +42,17 @@ jobs:
       - name: Allow registry publish
         run: npm pkg delete private
 
-      - name: Determine npm dist-tag
+      - name: Determine npm dist-tag and version
         id: npm-tag
         run: |
           TAG_NAME="${{ github.event.release.tag_name }}"
+          TAG_NAME="${TAG_NAME#v}"
           if [[ "$TAG_NAME" == *.*.*-*.* ]]; then
             echo "Prerelease tag '$TAG_NAME' detected, publishing under the 'beta' dist-tag"
             echo "tag=beta" >> "$GITHUB_OUTPUT"
+            # Beta releases aren't preceded by a version-bump commit, so the
+            # release tag itself is the source of truth for the published version.
+            npm pkg set version="$TAG_NAME"
           else
             echo "tag=latest" >> "$GITHUB_OUTPUT"
           fi
