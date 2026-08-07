@@ -2,12 +2,13 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Trans } from '@lingui/macro';
 import { Button } from 'antd';
 import _ from 'lodash';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { GroupItemProps, RepeatableFormGroupItems, getItemKey, populateItemKey } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 
+import { useGroupAccordionMode } from '../accordionContext';
 import { RepeatableGroupCard } from './RepeatableGroupCard';
 import { RepeatableGroupRow } from './RepeatableGroupRow';
 import { S } from './styles';
@@ -42,6 +43,20 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
 
     const items = value?.items || [];
 
+    // Only enabled when a qualifying ancestor group turned this subtree into an
+    // accordion (see accordionContext.tsx) - otherwise every item stays expanded,
+    // exactly as before.
+    const accordionMode = useGroupAccordionMode();
+    const [openKey, setOpenKey] = useState<string | null>(() =>
+        accordionMode && items.length ? getItemKey(items[items.length - 1]) : null,
+    );
+    const resolvedOpenKey =
+        accordionMode && items.length
+            ? _.some(items, (existingItem) => getItemKey(existingItem) === openKey)
+                ? openKey
+                : getItemKey(items[items.length - 1])
+            : null;
+
     return (
         <S.Group>
             {_.map(items, (item, index: number) => {
@@ -50,6 +65,10 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
                 }
 
                 const key = getItemKey(item);
+                const isOpen = accordionMode ? key === resolvedOpenKey : undefined;
+                const onToggle = accordionMode
+                    ? () => setOpenKey((current) => (current === key ? null : key))
+                    : undefined;
 
                 return renderGroup ? (
                     <React.Fragment key={key}>
@@ -58,6 +77,8 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
                             items,
                             onChange,
                             groupItem,
+                            isOpen,
+                            onToggle,
                         })}
                     </React.Fragment>
                 ) : (
@@ -68,6 +89,8 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
                         onChange={onChange}
                         groupItem={groupItem}
                         variant="main-card"
+                        isOpen={isOpen}
+                        onToggle={onToggle}
                     />
                 );
             })}
@@ -78,8 +101,13 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
                         type="primary"
                         ghost
                         onClick={() => {
-                            const updatedInput = { ...value, items: populateValue(items ?? []) };
+                            const newItems = populateValue(items ?? []);
+                            const updatedInput = { ...value, items: newItems };
                             onChange(updatedInput);
+
+                            if (accordionMode && newItems.length) {
+                                setOpenKey(getItemKey(newItems[newItems.length - 1]));
+                            }
                         }}
                         size="middle"
                         data-testid="add-another-answer-button"

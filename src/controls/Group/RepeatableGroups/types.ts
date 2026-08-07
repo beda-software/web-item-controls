@@ -5,4 +5,6 @@ export interface RepeatableGroupProps {
     items: any;
     onChange: (event: any) => void;
     groupItem: GroupItemProps;
+    isOpen?: boolean;
+    onToggle?: () => void;
 }

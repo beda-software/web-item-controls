@@ -1,9 +1,14 @@
 import classNames from 'classnames';
+import _ from 'lodash';
+import { useFormContext } from 'react-hook-form';
 import { GroupItemProps, QuestionItems } from 'sdc-qrf';
 
 import { ItemHelpText } from 'src/components/BaseQuestionnaireResponseForm/ItemHelpText';
 import { Title } from 'src/components/Typography';
 
+import { useGroupSiblingAccordion } from './accordionContext';
+import { AccordionSection } from './AccordionSection';
+import { ChildGroupAccordionProvider } from './ChildGroupAccordionProvider';
 import { GroupContext, GroupContextProps } from './context';
 import { GridGroup } from './GridGroup';
 import s from './group.module.scss';
@@ -12,13 +17,9 @@ import { GTable } from './GTable';
 import { RepeatableGroupRow, RepeatableGroups } from './RepeatableGroups';
 import { S } from './styles';
 
-function Flex(props: GroupItemProps & { type?: GroupContextProps['type'] }) {
+function FlexContent(props: GroupItemProps & { type?: GroupContextProps['type'] }) {
     const { parentPath, questionItem, context, type = 'col' } = props;
-    const { linkId, item, repeats, text, helpText, hidden } = questionItem;
-
-    if (hidden) {
-        return null;
-    }
+    const { linkId, item, repeats, text, helpText } = questionItem;
 
     const renderRepeatableGroup = () => {
         if (type === 'gtable') {
@@ -59,15 +60,52 @@ function Flex(props: GroupItemProps & { type?: GroupContextProps['type'] }) {
                         [s.col as string]: !type || type === 'col',
                     })}
                 >
-                    <QuestionItems
-                        questionItems={item}
-                        parentPath={[...parentPath, linkId, 'items']}
-                        context={context[0]!}
-                    />
+                    <ChildGroupAccordionProvider item={item}>
+                        <QuestionItems
+                            questionItems={item}
+                            parentPath={[...parentPath, linkId, 'items']}
+                            context={context[0]!}
+                        />
+                    </ChildGroupAccordionProvider>
                 </div>
             )}
         </S.Group>
     );
+}
+
+// A group only becomes an accordion sibling when its parent has multiple nested
+// groups, at least one repeatable (see accordionContext.tsx). Everywhere else this
+// is a no-op and Flex renders exactly as it always has.
+function Flex(props: GroupItemProps & { type?: GroupContextProps['type'] }) {
+    const { parentPath, questionItem } = props;
+    const { linkId, text, repeats, hidden } = questionItem;
+
+    const { getValues } = useFormContext();
+    const accordion = useGroupSiblingAccordion(linkId);
+
+    if (hidden) {
+        return null;
+    }
+
+    if (accordion) {
+        const count = repeats
+            ? (_.get(getValues(), [...parentPath, linkId, 'items']) as unknown[] | undefined)?.length ?? 0
+            : undefined;
+
+        return (
+            <AccordionSection
+                linkId={linkId}
+                title={text}
+                count={count}
+                isOpen={accordion.isOpen}
+                onToggle={accordion.onToggle}
+            >
+                {accordion.isOpen ? <FlexContent {...props} /> : null}
+            </AccordionSection>
+        );
+    }
+
+    return <FlexContent {...props} />;
 }
 
 export function Group(props: GroupItemProps) {
