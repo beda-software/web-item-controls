@@ -42,5 +42,16 @@ jobs:
       - name: Allow registry publish
         run: npm pkg delete private
 
+      - name: Determine npm dist-tag
+        id: npm-tag
+        run: |
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          if [[ "$TAG_NAME" == *.*.*-*.* ]]; then
+            echo "Prerelease tag '$TAG_NAME' detected, publishing under the 'beta' dist-tag"
+            echo "tag=beta" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=latest" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Publish package
-        run: npm publish --ignore-scripts --access public --tag latest --provenance
+        run: npm publish --ignore-scripts --access public --tag ${{ steps.npm-tag.outputs.tag }} --provenance
