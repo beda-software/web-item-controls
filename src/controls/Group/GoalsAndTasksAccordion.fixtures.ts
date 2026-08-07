@@ -200,6 +200,38 @@ export const QUESTIONNAIRE_RESPONSE: QuestionnaireResponse = {
                         },
                     ],
                 },
+                // A second "Goals and Tasks" entry - plan-goalstasks is the sole
+                // child of plan-goalstasks-tab, so no sibling ever turns it into an
+                // accordion from above (see RepeatableGroups.tsx's
+                // selfQualifiesForAccordion). It qualifies on its own instead: each
+                // instance contains multiple nested groups, one repeatable, which is
+                // exactly the condition that makes a group's own instances collapse.
+                {
+                    linkId: 'plan-goalstasks',
+                    item: [
+                        {
+                            linkId: 'plan-goalstasks-problemneed',
+                            answer: [{ valueString: 'Type 2 diabetes management' }],
+                        },
+                        {
+                            linkId: 'plan-goalstasks-details-goalsetting',
+                            item: [
+                                {
+                                    linkId: 'plan-goalstasks-details-goalsetting-goals',
+                                    answer: [{ valueString: 'Keep HbA1c below 7%' }],
+                                },
+                                {
+                                    linkId: 'plan-goalstasks-details-goalsetting-initiator',
+                                    answer: [{ valueString: 'Dr. Lee' }],
+                                },
+                                {
+                                    linkId: 'plan-goalstasks-details-goalsetting-status',
+                                    answer: [{ valueCoding: { code: 'in-progress', display: 'In progress' } }],
+                                },
+                            ],
+                        },
+                    ],
+                },
             ],
         },
     ],

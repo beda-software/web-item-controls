@@ -55,6 +55,30 @@ function Providers({ children }: { children: ReactNode }) {
 }
 
 describe('Goals and tasks accordion fixture (real-world shape from issue #9)', () => {
+    test('the repeatable Goals and Tasks entries collapse to one open at a time on their own', () => {
+        act(() => {
+            i18n.activate('en');
+        });
+
+        render(
+            <Providers>
+                <Group questionItem={PLAN_GOALSTASKS_TAB_ITEM} parentPath={[]} context={CONTEXT} />
+            </Providers>,
+        );
+
+        // plan-goalstasks is the sole child of plan-goalstasks-tab, so no sibling
+        // ever turns it into an accordion from above - it must qualify on its own
+        // (each instance nests multiple groups, one repeatable). The last entry is
+        // open by default.
+        expect(screen.getByDisplayValue('Type 2 diabetes management')).toBeInTheDocument();
+        expect(screen.queryByDisplayValue('Hypertension management')).not.toBeInTheDocument();
+
+        fireEvent.click(screen.getByText('Goals and Tasks 1'));
+
+        expect(screen.getByDisplayValue('Hypertension management')).toBeInTheDocument();
+        expect(screen.queryByDisplayValue('Type 2 diabetes management')).not.toBeInTheDocument();
+    });
+
     test('renders the sibling accordion and cascades into the repeatable Goal Settings', () => {
         act(() => {
             i18n.activate('en');
@@ -66,6 +90,7 @@ describe('Goals and tasks accordion fixture (real-world shape from issue #9)', (
             </Providers>,
         );
 
+        fireEvent.click(screen.getByText('Goals and Tasks 1'));
         expect(screen.getByDisplayValue('Hypertension management')).toBeInTheDocument();
 
         const goalSettings = screen.getByTestId('accordion-section-plan-goalstasks-details-goalsetting');
@@ -99,6 +124,10 @@ describe('Goals and tasks accordion fixture (real-world shape from issue #9)', (
                 <Group questionItem={PLAN_GOALSTASKS_TAB_ITEM} parentPath={[]} context={CONTEXT} />
             </Providers>,
         );
+
+        // Goals and Tasks 2 is open by default, but only Goals and Tasks 1 has an
+        // Interventions/Actions entry seeded.
+        fireEvent.click(screen.getByText('Goals and Tasks 1'));
 
         const interventions = screen.getByTestId('accordion-section-plan-goalstasks-details-interventionsactions');
 

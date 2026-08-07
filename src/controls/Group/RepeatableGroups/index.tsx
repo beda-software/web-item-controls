@@ -9,7 +9,7 @@ import { GroupItemProps, RepeatableFormGroupItems, getItemKey, populateItemKey }
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 import { GroupWizardBus } from 'src/controls/GroupWizard';
 
-import { useGroupAccordionMode } from '../accordionContext';
+import { getAccordionSiblingCandidates, qualifiesForAccordion, useGroupAccordionMode } from '../accordionContext';
 import { RepeatableGroupCard } from './RepeatableGroupCard';
 import { RepeatableGroupRow } from './RepeatableGroupRow';
 import { S } from './styles';
@@ -46,12 +46,18 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
 
     const items = value?.items || [];
 
-    // Only enabled when a qualifying ancestor group turned this subtree into an
-    // accordion (see accordionContext.tsx) - otherwise every item stays expanded,
-    // exactly as before this feature existed. GroupWizardBus navigation/removal is
-    // only meaningful once there's a single "current" item, so it's a no-op outside
-    // this mode too.
-    const accordionMode = useGroupAccordionMode();
+    // Enabled either because a qualifying ancestor group turned this subtree into an
+    // accordion (see accordionContext.tsx), or because this group's own content
+    // already qualifies on its own - e.g. "Goals and Tasks" is the sole child of its
+    // parent (so no sibling ever turns it into an accordion from above), but each of
+    // its own instances contains multiple nested groups, one repeatable, which is
+    // exactly the condition that makes a group's own instances collapse. Otherwise
+    // every item stays expanded, exactly as before this feature existed.
+    // GroupWizardBus navigation/removal is only meaningful once there's a single
+    // "current" item, so it's a no-op outside this mode too.
+    const ambientAccordionMode = useGroupAccordionMode();
+    const selfQualifiesForAccordion = qualifiesForAccordion(getAccordionSiblingCandidates(questionItem.item));
+    const accordionMode = ambientAccordionMode || selfQualifiesForAccordion;
 
     const [openKey, setOpenKey] = useState<string | null>(() =>
         accordionMode && items.length ? getItemKey(items[items.length - 1]) : null,
