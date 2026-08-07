@@ -73,8 +73,8 @@ describe('Goals and tasks accordion fixture (real-world shape from issue #9)', (
         const services = screen.getByTestId('accordion-section-plan-goalstasks-details-servicestreatments');
 
         expect(within(goalSettings).getByText('(2)')).toBeInTheDocument();
-        expect(within(interventions).getByText('(0)')).toBeInTheDocument();
-        expect(within(services).getByText('(0)')).toBeInTheDocument();
+        expect(within(interventions).getByText('(1)')).toBeInTheDocument();
+        expect(within(services).getByText('(1)')).toBeInTheDocument();
 
         // Goal Settings is the default-open sibling: its last repeat is open, the first is collapsed.
         expect(screen.getByDisplayValue('Increase weekly physical activity')).toBeInTheDocument();
@@ -85,6 +85,34 @@ describe('Goals and tasks accordion fixture (real-world shape from issue #9)', (
         );
 
         expect(screen.queryByDisplayValue('Increase weekly physical activity')).not.toBeInTheDocument();
+        expect(screen.getByDisplayValue('Home blood pressure monitoring')).toBeInTheDocument();
         expect(screen.getByText('Add Interventions and Actions')).toBeInTheDocument();
+    });
+
+    test('adding an intervention after opening the section does not crash', () => {
+        act(() => {
+            i18n.activate('en');
+        });
+
+        render(
+            <Providers>
+                <Group questionItem={PLAN_GOALSTASKS_TAB_ITEM} parentPath={[]} context={CONTEXT} />
+            </Providers>,
+        );
+
+        const interventions = screen.getByTestId('accordion-section-plan-goalstasks-details-interventionsactions');
+
+        fireEvent.click(
+            within(interventions).getByTestId('accordion-toggle-plan-goalstasks-details-interventionsactions'),
+        );
+
+        expect(within(interventions).getAllByLabelText('delete')).toHaveLength(1);
+
+        // This used to throw "Cannot read properties of undefined (reading
+        // 'questionnaire')" because the group started with zero seeded items, so
+        // there was no context[0] to fall back to for the first added row.
+        expect(() => fireEvent.click(screen.getByText('Add Interventions and Actions'))).not.toThrow();
+
+        expect(within(interventions).getAllByLabelText('delete')).toHaveLength(2);
     });
 });

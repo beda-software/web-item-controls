@@ -163,6 +163,41 @@ export const QUESTIONNAIRE_RESPONSE: QuestionnaireResponse = {
                                 },
                             ],
                         },
+                        // Seeded with one entry each (rather than the 0 shown in the
+                        // Figma reference) so this story's static context always has
+                        // a context[0] to fall back to - without a live backend to
+                        // recompute it, adding a first item to a group with zero
+                        // existing ones has nothing to fall back to and crashes.
+                        {
+                            linkId: 'plan-goalstasks-details-interventionsactions',
+                            item: [
+                                {
+                                    linkId: 'plan-goalstasks-details-interventionsactions-interventionsactions',
+                                    answer: [{ valueString: 'Home blood pressure monitoring' }],
+                                },
+                                {
+                                    linkId: 'plan-goalstasks-details-interventionsactions-owner',
+                                    answer: [{ valueString: 'Dr. Smith' }],
+                                },
+                                {
+                                    linkId: 'plan-goalstasks-details-interventionsactions-status',
+                                    answer: [{ valueCoding: { code: 'planned', display: 'Planned' } }],
+                                },
+                            ],
+                        },
+                        {
+                            linkId: 'plan-goalstasks-details-servicestreatments',
+                            item: [
+                                {
+                                    linkId: 'plan-goalstasks-details-servicestreatments-servicestreatments',
+                                    answer: [{ valueString: 'Nutrition counseling' }],
+                                },
+                                {
+                                    linkId: 'plan-goalstasks-details-servicestreatments-provider',
+                                    answer: [{ valueString: 'Dietitian clinic' }],
+                                },
+                            ],
+                        },
                     ],
                 },
             ],
