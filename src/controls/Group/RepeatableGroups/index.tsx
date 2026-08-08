@@ -9,7 +9,12 @@ import { GroupItemProps, RepeatableFormGroupItems, getItemKey, populateItemKey }
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 import { GroupWizardBus } from 'src/controls/GroupWizard';
 
-import { getAccordionSiblingCandidates, qualifiesForAccordion, useGroupAccordionMode } from '../accordionContext';
+import {
+    GroupAccordionAlternative,
+    getAccordionSiblingCandidates,
+    qualifiesForAccordion,
+    useGroupAccordionMode,
+} from '../accordionContext';
 import { RepeatableGroupCard } from './RepeatableGroupCard';
 import { RepeatableGroupRow } from './RepeatableGroupRow';
 import { S } from './styles';
@@ -173,6 +178,25 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
         [linkId, accordionMode, items, resolvedOpenKey, value, onChange, modal],
     );
 
+    // One breadcrumb alternative per item, shared across every card so each active
+    // card's segment can offer the full list to switch between - see
+    // RepeatableGroupCard.
+    const alternatives: GroupAccordionAlternative[] = accordionMode
+        ? _.map(items, (item, index: number) => {
+              const key = getItemKey(item);
+
+              return {
+                  key,
+                  title: `${text || t`Item`} ${index + 1}`,
+                  isActive: key === resolvedOpenKey,
+                  onSelect: () => setOpenKey(key),
+              };
+          })
+        : [];
+
+    const addLabel = text ? <Trans>Add {text}</Trans> : <Trans>Add another answer</Trans>;
+    const readOnly = groupItem.questionItem.readOnly;
+
     return (
         <>
             {modalContextHolder}
@@ -184,9 +208,6 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
 
                     const key = getItemKey(item);
                     const isOpen = accordionMode ? key === resolvedOpenKey : undefined;
-                    const onToggle = accordionMode
-                        ? () => setOpenKey((current) => (current === key ? null : key))
-                        : undefined;
 
                     return renderGroup ? (
                         <React.Fragment key={key}>
@@ -196,7 +217,9 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
                                 onChange,
                                 groupItem,
                                 isOpen,
-                                onToggle,
+                                alternatives: accordionMode ? alternatives : undefined,
+                                onAdd: accordionMode && !readOnly ? performAddItem : undefined,
+                                addLabel,
                             })}
                         </React.Fragment>
                     ) : (
@@ -208,11 +231,16 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
                             groupItem={groupItem}
                             variant="main-card"
                             isOpen={isOpen}
-                            onToggle={onToggle}
+                            alternatives={accordionMode ? alternatives : undefined}
+                            onAdd={accordionMode && !readOnly ? performAddItem : undefined}
+                            addLabel={addLabel}
                         />
                     );
                 })}
-                {groupItem.questionItem.readOnly ? null : (
+                {/* In accordion mode, adding a new item is offered as the last entry
+                    of the active item's breadcrumb dropdown instead of here - except
+                    with zero items, where there's no active card to host that dropdown. */}
+                {(!accordionMode || items.length === 0) && !readOnly ? (
                     <S.Footer>
                         <Button
                             icon={<PlusOutlined />}
@@ -222,10 +250,10 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
                             size="middle"
                             data-testid="add-another-answer-button"
                         >
-                            <span>{text ? <Trans>Add {text}</Trans> : <Trans>Add another answer</Trans>}</span>
+                            <span>{addLabel}</span>
                         </Button>
                     </S.Footer>
-                )}
+                ) : null}
             </S.Group>
         </>
     );

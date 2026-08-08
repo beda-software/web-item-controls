@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { ReactNode, createContext, useContext } from 'react';
 import { FCEQuestionnaireItem } from 'sdc-qrf';
 
 // Only when a group contains multiple nested groups where at least one is repeatable
@@ -55,9 +55,19 @@ export function useGroupAccordionMode() {
 export interface GroupSiblingAccordionContextProps {
     activeLinkId: string;
     setActiveLinkId: (linkId: string) => void;
+    candidates: FCEQuestionnaireItem[];
 }
 
 export const GroupSiblingAccordionContext = createContext<GroupSiblingAccordionContextProps | undefined>(undefined);
+
+// A choice offered by the breadcrumb for one segment of the chain - either "which
+// sibling group is active" or "which repeat instance is active".
+export interface GroupAccordionAlternative {
+    key: string;
+    title: ReactNode;
+    isActive: boolean;
+    onSelect: () => void;
+}
 
 export function useGroupSiblingAccordion(linkId: string) {
     const ctx = useContext(GroupSiblingAccordionContext);
@@ -68,8 +78,15 @@ export function useGroupSiblingAccordion(linkId: string) {
 
     const isOpen = ctx.activeLinkId === linkId;
 
+    const alternatives: GroupAccordionAlternative[] = ctx.candidates.map((candidate) => ({
+        key: candidate.linkId,
+        title: candidate.text,
+        isActive: candidate.linkId === ctx.activeLinkId,
+        onSelect: () => ctx.setActiveLinkId(candidate.linkId),
+    }));
+
     return {
         isOpen,
-        onToggle: () => ctx.setActiveLinkId(isOpen ? '' : linkId),
+        alternatives,
     };
 }

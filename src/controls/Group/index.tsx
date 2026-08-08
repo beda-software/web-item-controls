@@ -7,7 +7,7 @@ import { ItemHelpText } from 'src/components/BaseQuestionnaireResponseForm/ItemH
 import { Title } from 'src/components/Typography';
 
 import { useGroupSiblingAccordion } from './accordionContext';
-import { AccordionSection } from './AccordionSection';
+import { BreadcrumbSegmentBoundary } from './BreadcrumbChain';
 import { ChildGroupAccordionProvider } from './ChildGroupAccordionProvider';
 import { GroupContext, GroupContextProps } from './context';
 import { GridGroup } from './GridGroup';
@@ -88,20 +88,20 @@ function Flex(props: GroupItemProps & { type?: GroupContextProps['type'] }) {
     }
 
     if (accordion) {
+        if (!accordion.isOpen) {
+            return null;
+        }
+
         const count = repeats
             ? (_.get(getValues(), [...parentPath, linkId, 'items']) as unknown[] | undefined)?.length ?? 0
             : undefined;
 
         return (
-            <AccordionSection
-                linkId={linkId}
-                title={text}
-                count={count}
-                isOpen={accordion.isOpen}
-                onToggle={accordion.onToggle}
+            <BreadcrumbSegmentBoundary
+                segment={{ key: linkId, title: text, count, alternatives: accordion.alternatives }}
             >
-                {accordion.isOpen ? <FlexContent {...props} /> : null}
-            </AccordionSection>
+                <FlexContent {...props} />
+            </BreadcrumbSegmentBoundary>
         );
     }
 

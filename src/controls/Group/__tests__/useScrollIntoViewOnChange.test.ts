@@ -1,16 +1,16 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, test, vi } from 'vitest';
 
-import { useScrollIntoViewOnOpen } from '../useScrollIntoViewOnOpen';
+import { useScrollIntoViewOnChange } from '../useScrollIntoViewOnChange';
 
-describe('useScrollIntoViewOnOpen', () => {
-    test('does not scroll on initial mount even when already open', () => {
+describe('useScrollIntoViewOnChange', () => {
+    test('does not scroll on initial mount', () => {
         const scrollIntoView = vi.fn();
         const element = document.createElement('div');
         element.scrollIntoView = scrollIntoView;
 
-        const { result } = renderHook((isOpen: boolean) => useScrollIntoViewOnOpen<HTMLDivElement>(isOpen), {
-            initialProps: true,
+        const { result } = renderHook((value: string) => useScrollIntoViewOnChange<HTMLDivElement, string>(value), {
+            initialProps: 'a',
         });
         // @ts-expect-error - assigning a plain object to a readonly ref for the test
         result.current.current = element;
@@ -18,34 +18,36 @@ describe('useScrollIntoViewOnOpen', () => {
         expect(scrollIntoView).not.toHaveBeenCalled();
     });
 
-    test('scrolls the element into view when isOpen flips to true after mount', () => {
+    test('scrolls the element into view when the value changes after mount', () => {
         const scrollIntoView = vi.fn();
         const element = document.createElement('div');
         element.scrollIntoView = scrollIntoView;
 
-        const { result, rerender } = renderHook((isOpen: boolean) => useScrollIntoViewOnOpen<HTMLDivElement>(isOpen), {
-            initialProps: false,
-        });
+        const { result, rerender } = renderHook(
+            (value: string) => useScrollIntoViewOnChange<HTMLDivElement, string>(value),
+            { initialProps: 'a' },
+        );
         // @ts-expect-error - assigning a plain object to a readonly ref for the test
         result.current.current = element;
 
-        rerender(true);
+        rerender('b');
 
         expect(scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
     });
 
-    test('does not scroll when isOpen flips to false', () => {
+    test('does not scroll when rerendered with the same value', () => {
         const scrollIntoView = vi.fn();
         const element = document.createElement('div');
         element.scrollIntoView = scrollIntoView;
 
-        const { result, rerender } = renderHook((isOpen: boolean) => useScrollIntoViewOnOpen<HTMLDivElement>(isOpen), {
-            initialProps: true,
-        });
+        const { result, rerender } = renderHook(
+            (value: string) => useScrollIntoViewOnChange<HTMLDivElement, string>(value),
+            { initialProps: 'a' },
+        );
         // @ts-expect-error - assigning a plain object to a readonly ref for the test
         result.current.current = element;
 
-        rerender(false);
+        rerender('a');
 
         expect(scrollIntoView).not.toHaveBeenCalled();
     });
@@ -53,12 +55,13 @@ describe('useScrollIntoViewOnOpen', () => {
     test('does not throw when the element has no scrollIntoView (e.g. jsdom)', () => {
         const element = document.createElement('div');
 
-        const { result, rerender } = renderHook((isOpen: boolean) => useScrollIntoViewOnOpen<HTMLDivElement>(isOpen), {
-            initialProps: false,
-        });
+        const { result, rerender } = renderHook(
+            (value: string) => useScrollIntoViewOnChange<HTMLDivElement, string>(value),
+            { initialProps: 'a' },
+        );
         // @ts-expect-error - assigning a plain object to a readonly ref for the test
         result.current.current = element;
 
-        expect(() => rerender(true)).not.toThrow();
+        expect(() => rerender('b')).not.toThrow();
     });
 });

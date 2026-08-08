@@ -1,6 +1,6 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { render, screen, fireEvent, act, within } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Questionnaire, QuestionnaireResponse } from 'fhir/r4b';
 import { ReactNode } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -193,7 +193,7 @@ describe('Group accordion UX', () => {
             </NonQualifyingProviders>,
         );
 
-        expect(screen.queryByTestId(/^accordion-section-/)).not.toBeInTheDocument();
+        expect(screen.queryByTestId('breadcrumb')).not.toBeInTheDocument();
 
         const values = screen.getAllByDisplayValue(/S1 value|S2 value/);
         expect(values).toHaveLength(2);
@@ -212,18 +212,18 @@ describe('Group accordion UX', () => {
 
         expect(screen.getByText('Plain field')).toBeInTheDocument();
 
-        const sectionA = screen.getByTestId('accordion-section-section-a');
-        const sectionB = screen.getByTestId('accordion-section-section-b');
-
-        expect(within(sectionA).getByText('(2)')).toBeInTheDocument();
-        expect(within(sectionB).getByText('(0)')).toBeInTheDocument();
-
-        // section-a is the default-active sibling: its cards render, section-b's don't.
+        // Section A is the default-active sibling: its count shows in the combined
+        // breadcrumb header, and only its cards render.
+        expect(screen.getByTestId('breadcrumb-segment-section-a')).toBeInTheDocument();
+        expect(screen.getByText('(2)')).toBeInTheDocument();
         expect(screen.getByDisplayValue('A2 value')).toBeInTheDocument();
         expect(screen.queryByDisplayValue('A1 value')).not.toBeInTheDocument();
 
-        fireEvent.click(within(sectionB).getByTestId('accordion-toggle-section-b'));
+        // Open the sibling segment's dropdown and switch to Section B.
+        fireEvent.click(screen.getByTestId('breadcrumb-segment-section-a'));
+        fireEvent.click(screen.getByText('Section B'));
 
+        expect(screen.getByTestId('breadcrumb-segment-section-b')).toBeInTheDocument();
         expect(screen.queryByDisplayValue('A2 value')).not.toBeInTheDocument();
         expect(screen.queryByDisplayValue('A1 value')).not.toBeInTheDocument();
     });
@@ -242,6 +242,8 @@ describe('Group accordion UX', () => {
         expect(screen.getByDisplayValue('A2 value')).toBeInTheDocument();
         expect(screen.queryByDisplayValue('A1 value')).not.toBeInTheDocument();
 
+        // Open the repeat-instance segment's dropdown and switch to the first item.
+        fireEvent.click(screen.getByText('Section A 2'));
         fireEvent.click(screen.getByText('Section A 1'));
 
         expect(screen.getByDisplayValue('A1 value')).toBeInTheDocument();

@@ -73,6 +73,8 @@ describe('Goals and tasks accordion fixture (real-world shape from issue #9)', (
         expect(screen.getByDisplayValue('Type 2 diabetes management')).toBeInTheDocument();
         expect(screen.queryByDisplayValue('Hypertension management')).not.toBeInTheDocument();
 
+        // Open the top-level segment's dropdown and switch to the first entry.
+        fireEvent.click(screen.getByText('Goals and Tasks 2'));
         fireEvent.click(screen.getByText('Goals and Tasks 1'));
 
         expect(screen.getByDisplayValue('Hypertension management')).toBeInTheDocument();
@@ -90,24 +92,29 @@ describe('Goals and tasks accordion fixture (real-world shape from issue #9)', (
             </Providers>,
         );
 
+        fireEvent.click(screen.getByText('Goals and Tasks 2'));
         fireEvent.click(screen.getByText('Goals and Tasks 1'));
         expect(screen.getByDisplayValue('Hypertension management')).toBeInTheDocument();
 
-        const goalSettings = screen.getByTestId('accordion-section-plan-goalstasks-details-goalsetting');
-        const interventions = screen.getByTestId('accordion-section-plan-goalstasks-details-interventionsactions');
-        const services = screen.getByTestId('accordion-section-plan-goalstasks-details-servicestreatments');
-
+        // Everything collapses into one combined breadcrumb bar - Goal Settings is
+        // the default-open sibling, its own count shows in its segment, and only its
+        // last repeat is open (the first is collapsed).
+        const goalSettings = screen.getByTestId('breadcrumb-segment-plan-goalstasks-details-goalsetting');
         expect(within(goalSettings).getByText('(2)')).toBeInTheDocument();
-        expect(within(interventions).getByText('(1)')).toBeInTheDocument();
-        expect(within(services).getByText('(1)')).toBeInTheDocument();
+        expect(
+            screen.queryByTestId('breadcrumb-segment-plan-goalstasks-details-interventionsactions'),
+        ).not.toBeInTheDocument();
 
-        // Goal Settings is the default-open sibling: its last repeat is open, the first is collapsed.
         expect(screen.getByDisplayValue('Increase weekly physical activity')).toBeInTheDocument();
         expect(screen.queryByDisplayValue('Lower blood pressure below 140/90')).not.toBeInTheDocument();
 
-        fireEvent.click(
-            within(interventions).getByTestId('accordion-toggle-plan-goalstasks-details-interventionsactions'),
-        );
+        // Open the Goal Settings segment's dropdown and switch to Interventions and Actions.
+        fireEvent.click(goalSettings);
+        fireEvent.click(screen.getByText('Interventions and Actions'));
+
+        expect(screen.queryByTestId('breadcrumb-segment-plan-goalstasks-details-goalsetting')).not.toBeInTheDocument();
+        const interventions = screen.getByTestId('breadcrumb-segment-plan-goalstasks-details-interventionsactions');
+        expect(within(interventions).getByText('(1)')).toBeInTheDocument();
 
         expect(screen.queryByDisplayValue('Increase weekly physical activity')).not.toBeInTheDocument();
         expect(screen.getByDisplayValue('Home blood pressure monitoring')).toBeInTheDocument();
@@ -127,21 +134,29 @@ describe('Goals and tasks accordion fixture (real-world shape from issue #9)', (
 
         // Goals and Tasks 2 is open by default, but only Goals and Tasks 1 has an
         // Interventions/Actions entry seeded.
+        fireEvent.click(screen.getByText('Goals and Tasks 2'));
         fireEvent.click(screen.getByText('Goals and Tasks 1'));
 
-        const interventions = screen.getByTestId('accordion-section-plan-goalstasks-details-interventionsactions');
+        fireEvent.click(screen.getByTestId('breadcrumb-segment-plan-goalstasks-details-goalsetting'));
+        fireEvent.click(screen.getByText('Interventions and Actions'));
 
-        fireEvent.click(
-            within(interventions).getByTestId('accordion-toggle-plan-goalstasks-details-interventionsactions'),
-        );
-
-        expect(within(interventions).getAllByLabelText('delete')).toHaveLength(1);
+        expect(screen.getByDisplayValue('Home blood pressure monitoring')).toBeInTheDocument();
+        // Only the active leaf's remove control is rendered on the combined header.
+        expect(screen.getAllByTestId('remove-group-button')).toHaveLength(1);
 
         // This used to throw "Cannot read properties of undefined (reading
         // 'questionnaire')" because the group started with zero seeded items, so
         // there was no context[0] to fall back to for the first added row.
         expect(() => fireEvent.click(screen.getByText('Add Interventions and Actions'))).not.toThrow();
 
-        expect(within(interventions).getAllByLabelText('delete')).toHaveLength(2);
+        // The newly added item opens in place of the previous one - still exactly
+        // one open item, so still exactly one remove control.
+        expect(screen.queryByDisplayValue('Home blood pressure monitoring')).not.toBeInTheDocument();
+        expect(screen.getAllByTestId('remove-group-button')).toHaveLength(1);
+        expect(
+            within(screen.getByTestId('breadcrumb-segment-plan-goalstasks-details-interventionsactions')).getByText(
+                '(2)',
+            ),
+        ).toBeInTheDocument();
     });
 });

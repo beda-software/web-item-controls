@@ -62,7 +62,7 @@ export function ChildGroupAccordionProvider(props: Props) {
 
     return (
         <GroupAccordionModeContext.Provider value={true}>
-            <GroupSiblingAccordionContext.Provider value={{ activeLinkId, setActiveLinkId }}>
+            <GroupSiblingAccordionContext.Provider value={{ activeLinkId, setActiveLinkId, candidates }}>
                 {children}
             </GroupSiblingAccordionContext.Provider>
         </GroupAccordionModeContext.Provider>

@@ -1,4 +1,4 @@
-import { CaretDownOutlined, DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined } from '@ant-design/icons';
 import { t, Trans } from '@lingui/macro';
 import { Button } from 'antd';
 import _ from 'lodash';
@@ -10,11 +10,10 @@ import { Title } from 'src/components/Typography';
 
 import { S } from './styles';
 import { useGroupSiblingAccordion } from '../accordionContext';
-import { AccordionSection } from '../AccordionSection';
+import { BreadcrumbSegmentBoundary } from '../BreadcrumbChain';
 import { ChildGroupAccordionProvider } from '../ChildGroupAccordionProvider';
 import { RepeatableGroups } from '../RepeatableGroups';
 import { RepeatableGroupCard } from '../RepeatableGroups/RepeatableGroupCard';
-import { useScrollIntoViewOnOpen } from '../useScrollIntoViewOnOpen';
 
 interface GroupCardProps extends GroupItemProps {
     variant?: 'main-card' | 'sub-card';
@@ -45,47 +44,50 @@ export function GroupCard(props: GroupCardProps) {
         );
     };
 
-    // TODO: display helpText
-    const renderContent = () => {
-        if (repeats) {
-            if (variant === 'sub-card') {
-                return (
-                    <RepeatableGroups
-                        groupItem={props}
-                        renderGroup={(p) => <RepeatableGroupCard {...p} variant="sub-card" />}
-                    />
-                );
-            }
-
-            return <RepeatableGroups groupItem={props} />;
-        }
-
+    const renderRepeatable = () => {
         if (variant === 'sub-card') {
-            return <GroupSubCard title={text}>{renderCardContent()}</GroupSubCard>;
+            return (
+                <RepeatableGroups
+                    groupItem={props}
+                    renderGroup={(p) => <RepeatableGroupCard {...p} variant="sub-card" />}
+                />
+            );
         }
 
-        return <GroupMainCard title={text}>{renderCardContent()}</GroupMainCard>;
+        return <RepeatableGroups groupItem={props} />;
     };
 
     if (accordion) {
+        if (!accordion.isOpen) {
+            return null;
+        }
+
         const count = repeats
             ? (_.get(getValues(), [...parentPath, linkId, 'items']) as unknown[] | undefined)?.length ?? 0
             : undefined;
 
+        // Already inside a breadcrumb chain - this group's title is carried by the
+        // chain's combined header, so render its own repeat instances/content
+        // directly instead of wrapping them in another card with its own header.
         return (
-            <AccordionSection
-                linkId={linkId}
-                title={text}
-                count={count}
-                isOpen={accordion.isOpen}
-                onToggle={accordion.onToggle}
+            <BreadcrumbSegmentBoundary
+                segment={{ key: linkId, title: text, count, alternatives: accordion.alternatives }}
             >
-                {accordion.isOpen ? renderContent() : null}
-            </AccordionSection>
+                {repeats ? renderRepeatable() : renderCardContent()}
+            </BreadcrumbSegmentBoundary>
         );
     }
 
-    return renderContent();
+    // TODO: display helpText
+    if (repeats) {
+        return renderRepeatable();
+    }
+
+    if (variant === 'sub-card') {
+        return <GroupSubCard title={text}>{renderCardContent()}</GroupSubCard>;
+    }
+
+    return <GroupMainCard title={text}>{renderCardContent()}</GroupMainCard>;
 }
 
 interface CardProps {
@@ -93,61 +95,17 @@ interface CardProps {
     title?: React.ReactNode;
     onRemove?: () => void;
     readOnly?: boolean;
-    isOpen?: boolean;
-    onToggle?: () => void;
-    highlightActive?: boolean;
-}
-
-function CollapsibleTitle(props: { title: React.ReactNode; level: 4 | 5; isOpen?: boolean; onToggle?: () => void }) {
-    const { title, level, isOpen, onToggle } = props;
-
-    if (!onToggle) {
-        return <Title level={level}>{title}</Title>;
-    }
-
-    return (
-        <S.CollapsibleTitle
-            role="button"
-            tabIndex={0}
-            onClick={onToggle}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    onToggle();
-                }
-            }}
-        >
-            <S.Caret $isOpen={!!isOpen}>
-                <CaretDownOutlined />
-            </S.Caret>
-            <Title level={level}>{title}</Title>
-        </S.CollapsibleTitle>
-    );
 }
 
 export function GroupMainCard(props: CardProps) {
-    const {
-        title = t`Group`,
-        children,
-        readOnly,
-        onRemove: initialOnRemove,
-        isOpen,
-        onToggle,
-        highlightActive = true,
-    } = props;
+    const { title = t`Group`, children, readOnly, onRemove: initialOnRemove } = props;
 
     const onRemove = readOnly ? undefined : initialOnRemove;
-    const collapsible = !!onToggle;
-    const cardRef = useScrollIntoViewOnOpen<HTMLDivElement>(isOpen);
 
     return (
         <S.Card
-            ref={cardRef}
-            title={<CollapsibleTitle title={title} level={4} isOpen={isOpen} onToggle={onToggle} />}
+            title={<Title level={4}>{title}</Title>}
             $variant={'main-card'}
-            $collapsible={collapsible}
-            $isOpen={!!isOpen}
-            $highlightActive={highlightActive}
             extra={
                 onRemove ? (
                     <Button
@@ -157,48 +115,32 @@ export function GroupMainCard(props: CardProps) {
                         icon={<DeleteOutlined />}
                         data-testid="remove-group-button"
                     >
-                        {collapsible ? null : (
-                            <span>
-                                <Trans>Remove</Trans>
-                            </span>
-                        )}
+                        <span>
+                            <Trans>Remove</Trans>
+                        </span>
                     </Button>
                 ) : null
             }
         >
-            {collapsible && !isOpen ? null : <S.GroupContent>{children}</S.GroupContent>}
+            <S.GroupContent>{children}</S.GroupContent>
         </S.Card>
     );
 }
 
 export function GroupSubCard(props: CardProps) {
-    const {
-        title = t`Group`,
-        children,
-        readOnly,
-        onRemove: initialOnRemove,
-        isOpen,
-        onToggle,
-        highlightActive = true,
-    } = props;
+    const { title = t`Group`, children, readOnly, onRemove: initialOnRemove } = props;
 
     const onRemove = readOnly ? undefined : initialOnRemove;
-    const collapsible = !!onToggle;
-    const cardRef = useScrollIntoViewOnOpen<HTMLDivElement>(isOpen);
 
     return (
         <S.Card
-            ref={cardRef}
-            title={<CollapsibleTitle title={title} level={5} isOpen={isOpen} onToggle={onToggle} />}
+            title={<Title level={5}>{title}</Title>}
             $variant={'sub-card'}
-            $collapsible={collapsible}
-            $isOpen={!!isOpen}
-            $highlightActive={highlightActive}
             extra={
                 onRemove ? <Button icon={<DeleteOutlined />} type="default" onClick={onRemove} size="middle" /> : null
             }
         >
-            {collapsible && !isOpen ? null : <S.GroupContent>{children}</S.GroupContent>}
+            <S.GroupContent>{children}</S.GroupContent>
         </S.Card>
     );
 }
