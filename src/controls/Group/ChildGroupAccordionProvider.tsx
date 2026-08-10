@@ -24,26 +24,30 @@ export function ChildGroupAccordionProvider(props: Props) {
 
     const [activeLinkId, setActiveLinkId] = useState(() => (qualifies ? candidates[0]!.linkId : ''));
 
+    const revealLinkId = (groupLinkId: string) => {
+        if (!qualifies) {
+            return;
+        }
+
+        const candidate = findCandidateContaining(candidates, groupLinkId);
+
+        if (!candidate) {
+            return;
+        }
+
+        setActiveLinkId(candidate.linkId);
+    };
+
     // GroupWizardBus is also used by GroupWizard/GroupTabs to jump to a step; here it
     // lets any code (e.g. a "jump to error" action) reveal a group by linkId and have
     // every ancestor accordion open along the way.
-    GroupWizardBus.useBus(
-        'expandGroup',
-        ({ groupLinkId }) => {
-            if (!qualifies) {
-                return;
-            }
+    GroupWizardBus.useBus('expandGroup', ({ groupLinkId }) => revealLinkId(groupLinkId), [candidates, qualifies]);
 
-            const candidate = findCandidateContaining(candidates, groupLinkId);
-
-            if (!candidate) {
-                return;
-            }
-
-            setActiveLinkId(candidate.linkId);
-        },
-        [candidates, qualifies],
-    );
+    // GroupWizard/GroupTabs resolve 'scrollTo' against their own steps/tabs; an
+    // accordion's combined header is a third kind of "switch between subelements"
+    // container and needs the same handling, or a target sitting behind one never
+    // gets revealed when the caller only knows to dispatch 'scrollTo'.
+    GroupWizardBus.useBus('scrollTo', ({ groupLinkId }) => revealLinkId(groupLinkId), [candidates, qualifies]);
 
     if (!qualifies) {
         return <>{children}</>;

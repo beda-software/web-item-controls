@@ -64,4 +64,28 @@ describe('GroupWizardBus-driven group expansion', () => {
         expect(screen.queryByTestId('bus-sub-a-value')).not.toBeInTheDocument();
         expect(screen.queryByTestId('bus-sub-b-value')).not.toBeInTheDocument();
     });
+
+    test('scrollTo also switches which sibling group is open, not just expandGroup', () => {
+        act(() => {
+            i18n.activate('en');
+            GroupWizardBus.dispatch({ type: 'scrollTo', groupLinkId: 'bus-sub-a' });
+        });
+
+        render(
+            <Providers>
+                <Group questionItem={ROOT_ITEM} parentPath={[]} context={CONTEXT} />
+            </Providers>,
+        );
+
+        expect(screen.getByTestId('bus-sub-a-value')).toBeInTheDocument();
+        expect(screen.queryByTestId('bus-section-b-value')).not.toBeInTheDocument();
+
+        act(() => {
+            GroupWizardBus.dispatch({ type: 'scrollTo', groupLinkId: 'bus-section-b' });
+        });
+
+        expect(screen.getByTestId('bus-section-b-value')).toBeInTheDocument();
+        expect(screen.queryByTestId('bus-sub-a-value')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('bus-sub-b-value')).not.toBeInTheDocument();
+    });
 });
