@@ -64,32 +64,4 @@ describe('GroupWizardBus-driven group expansion', () => {
         expect(screen.queryByTestId('bus-sub-a-value')).not.toBeInTheDocument();
         expect(screen.queryByTestId('bus-sub-b-value')).not.toBeInTheDocument();
     });
-
-    test('expanding a target nested two accordion levels deep reveals every collapsed ancestor', () => {
-        act(() => {
-            i18n.activate('en');
-            // Start with Section A (and its own sub-a/sub-b accordion) collapsed.
-            GroupWizardBus.dispatch({ type: 'expandGroup', groupLinkId: 'bus-section-b' });
-        });
-
-        render(
-            <Providers>
-                <Group questionItem={ROOT_ITEM} parentPath={[]} context={CONTEXT} />
-            </Providers>,
-        );
-
-        expect(screen.getByTestId('bus-section-b-value')).toBeInTheDocument();
-        expect(screen.queryByTestId('bus-sub-a-value')).not.toBeInTheDocument();
-        expect(screen.queryByTestId('bus-sub-b-value')).not.toBeInTheDocument();
-
-        act(() => {
-            GroupWizardBus.dispatch({ type: 'expandGroup', groupLinkId: 'bus-sub-b-value' });
-        });
-
-        // A single dispatch reopened Section A (the collapsed ancestor) and picked
-        // Sub B (not the default Sub A) as its active sibling in the same pass.
-        expect(screen.getByTestId('bus-sub-b-value')).toBeInTheDocument();
-        expect(screen.queryByTestId('bus-sub-a-value')).not.toBeInTheDocument();
-        expect(screen.queryByTestId('bus-section-b-value')).not.toBeInTheDocument();
-    });
 });

@@ -8,9 +8,7 @@ import {
     GroupSiblingAccordionContext,
     findCandidateContaining,
     getAccordionSiblingCandidates,
-    getPendingExpandTarget,
     qualifiesForAccordion,
-    setPendingExpandTarget,
 } from './accordionContext';
 
 interface Props {
@@ -24,15 +22,7 @@ export function ChildGroupAccordionProvider(props: Props) {
     const candidates = getAccordionSiblingCandidates(item);
     const qualifies = qualifiesForAccordion(candidates);
 
-    const [activeLinkId, setActiveLinkId] = useState(() => {
-        if (!qualifies) {
-            return '';
-        }
-
-        const pendingCandidate = findCandidateContaining(candidates, getPendingExpandTarget() ?? '');
-
-        return (pendingCandidate ?? candidates[0]!).linkId;
-    });
+    const [activeLinkId, setActiveLinkId] = useState(() => (qualifies ? candidates[0]!.linkId : ''));
 
     // GroupWizardBus is also used by GroupWizard/GroupTabs to jump to a step; here it
     // lets any code (e.g. a "jump to error" action) reveal a group by linkId and have
@@ -50,7 +40,6 @@ export function ChildGroupAccordionProvider(props: Props) {
                 return;
             }
 
-            setPendingExpandTarget(groupLinkId);
             setActiveLinkId(candidate.linkId);
         },
         [candidates, qualifies],

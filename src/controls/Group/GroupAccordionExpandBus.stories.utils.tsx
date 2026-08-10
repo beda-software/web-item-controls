@@ -148,25 +148,3 @@ export function testExpandSibling() {
 
     return play;
 }
-
-export function testExpandCascadesThroughCollapsedAncestors() {
-    const play: NonNullable<StoryObj['play']> = async ({ canvas }) => {
-        // Collapse Section A (and, with it, its own sub-a/sub-b accordion) by
-        // switching to Section B first.
-        GroupWizardBus.dispatch({ type: 'expandGroup', groupLinkId: 'bus-section-b' });
-        await waitFor(() => expect(canvas.getByTestId('bus-section-b-value')).toBeInTheDocument());
-        expect(canvas.queryByTestId('bus-sub-a-value')).not.toBeInTheDocument();
-        expect(canvas.queryByTestId('bus-sub-b-value')).not.toBeInTheDocument();
-
-        // Targeting a field nested two accordion levels deep, inside the now
-        // fully-collapsed (unmounted) Section A, must reveal both Section A and
-        // Sub B in a single dispatch.
-        GroupWizardBus.dispatch({ type: 'expandGroup', groupLinkId: 'bus-sub-b-value' });
-
-        await waitFor(() => expect(canvas.getByTestId('bus-sub-b-value')).toBeInTheDocument());
-        expect(canvas.queryByTestId('bus-sub-a-value')).not.toBeInTheDocument();
-        expect(canvas.queryByTestId('bus-section-b-value')).not.toBeInTheDocument();
-    };
-
-    return play;
-}

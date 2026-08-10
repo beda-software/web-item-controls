@@ -5,7 +5,6 @@ import {
     CONTEXT,
     ROOT_ITEM,
     WithGroupAccordionProviderDecorator,
-    testExpandCascadesThroughCollapsedAncestors,
     testExpandSibling,
 } from './GroupAccordionExpandBus.stories.utils';
 import { Group } from './index';
@@ -21,10 +20,5 @@ type Story = StoryObj<typeof Group>;
 
 export const ExpandSiblingViaBus: Story = {
     play: testExpandSibling(),
-    render: () => <Group questionItem={ROOT_ITEM} parentPath={[]} context={CONTEXT} />,
-};
-
-export const ExpandCascadesThroughCollapsedAncestors: Story = {
-    play: testExpandCascadesThroughCollapsedAncestors(),
     render: () => <Group questionItem={ROOT_ITEM} parentPath={[]} context={CONTEXT} />,
 };

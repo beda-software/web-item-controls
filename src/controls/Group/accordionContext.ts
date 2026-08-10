@@ -28,24 +28,6 @@ export function findCandidateContaining(candidates: FCEQuestionnaireItem[], link
     return candidates.find((candidate) => containsLinkId(candidate, linkId));
 }
 
-// Set synchronously by every ChildGroupAccordionProvider that resolves an
-// 'expandGroup' event, before it flips its own active sibling. A sibling that was
-// collapsed (and so mounts its own provider for the first time as a result) reads
-// this on its initial render to pick the right candidate instead of defaulting to
-// the first one - letting a single dispatch reveal a target nested arbitrarily deep
-// through however many collapsed ancestor accordions sit above it. Deliberately
-// never cleared: a stale value simply won't match any candidate in an unrelated
-// subtree, since linkIds are unique per questionnaire.
-let pendingExpandTarget: string | undefined;
-
-export function getPendingExpandTarget() {
-    return pendingExpandTarget;
-}
-
-export function setPendingExpandTarget(linkId: string) {
-    pendingExpandTarget = linkId;
-}
-
 export const GroupAccordionModeContext = createContext(false);
 
 export function useGroupAccordionMode() {
