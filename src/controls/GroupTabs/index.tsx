@@ -48,9 +48,11 @@ export function GroupTabs(props: GroupItemProps) {
     GroupWizardBus.useBus(
         'scrollTo',
         ({ groupLinkId }) => {
-            setActiveKey(groupLinkId);
+            if (tabsItems.some((tab) => tab.key === groupLinkId)) {
+                setActiveKey(groupLinkId);
+            }
         },
-        [],
+        [tabsItems],
     );
 
     return (
