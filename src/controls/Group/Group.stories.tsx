@@ -57,38 +57,102 @@ const CONTEXT: ItemContext[] = [
     },
 ];
 
-const WithGroupProviderDecorator: Decorator = (Story) => {
-    const methods = useForm<FormItems>({
-        defaultValues: mapResponseToForm(QUESTIONNAIRE_RESPONSE, QUESTIONNAIRE),
-    });
-
-    return (
-        <FormProvider {...methods}>
-            <QuestionnaireResponseFormProvider
-                questionItemComponents={questionItemComponents}
-                groupItemComponent={groupItemComponent}
-                formValues={{}}
-                setFormValues={() => undefined}
-                fhirService={async () => success(undefined)}
-                evaluateFhirpath={() => []}
-            >
-                <form className={s.form}>
-                    <Story />
-                </form>
-            </QuestionnaireResponseFormProvider>
-        </FormProvider>
-    );
+const REPEATABLE_GROUP_ITEM: FCEQuestionnaireItem = {
+    linkId: 'repeatable-example',
+    text: 'Contact',
+    type: 'group',
+    repeats: true,
+    item: [{ linkId: 'contact-name', text: 'Name', type: 'string' }],
 };
+
+const REPEATABLE_QUESTIONNAIRE: Questionnaire = {
+    resourceType: 'Questionnaire',
+    status: 'active',
+    item: [REPEATABLE_GROUP_ITEM],
+};
+
+const REPEATABLE_QUESTIONNAIRE_RESPONSE: QuestionnaireResponse = {
+    resourceType: 'QuestionnaireResponse',
+    status: 'in-progress',
+    item: [
+        {
+            linkId: 'repeatable-example',
+            item: [{ linkId: 'contact-name', answer: [{ valueString: 'John' }] }],
+        },
+        {
+            linkId: 'repeatable-example',
+            item: [{ linkId: 'contact-name', answer: [{ valueString: 'Jane' }] }],
+        },
+    ],
+};
+
+const REPEATABLE_CONTEXT: ItemContext[] = [
+    {
+        questionnaire: REPEATABLE_QUESTIONNAIRE,
+        resource: REPEATABLE_QUESTIONNAIRE_RESPONSE,
+        context: REPEATABLE_QUESTIONNAIRE_RESPONSE,
+    },
+];
+
+function createGroupProviderDecorator(response: QuestionnaireResponse, questionnaire: Questionnaire): Decorator {
+    return function WithGroupProviderDecorator(Story) {
+        const methods = useForm<FormItems>({
+            defaultValues: mapResponseToForm(response, questionnaire),
+        });
+
+        return (
+            <FormProvider {...methods}>
+                <QuestionnaireResponseFormProvider
+                    questionItemComponents={questionItemComponents}
+                    groupItemComponent={groupItemComponent}
+                    formValues={{}}
+                    setFormValues={() => undefined}
+                    fhirService={async () => success(undefined)}
+                    evaluateFhirpath={() => []}
+                >
+                    <form className={s.form}>
+                        <Story />
+                    </form>
+                </QuestionnaireResponseFormProvider>
+            </FormProvider>
+        );
+    };
+}
 
 const meta: Meta<typeof Group> = {
     title: 'Questionnaire / questions / group',
     component: Group,
-    decorators: [withColorSchemeDecorator, WithGroupProviderDecorator],
+    decorators: [withColorSchemeDecorator],
 };
 
 export default meta;
 type Story = StoryObj<typeof Group>;
 
 export const Example: Story = {
+    decorators: [createGroupProviderDecorator(QUESTIONNAIRE_RESPONSE, QUESTIONNAIRE)],
     render: () => <Group parentPath={[]} questionItem={GROUP_ITEM} context={CONTEXT} />,
+};
+
+export const Repeatable: Story = {
+    decorators: [createGroupProviderDecorator(REPEATABLE_QUESTIONNAIRE_RESPONSE, REPEATABLE_QUESTIONNAIRE)],
+    render: () => <Group parentPath={[]} questionItem={REPEATABLE_GROUP_ITEM} context={REPEATABLE_CONTEXT} />,
+};
+
+export const RepeatableWithHiddenAddButton: Story = {
+    decorators: [createGroupProviderDecorator(REPEATABLE_QUESTIONNAIRE_RESPONSE, REPEATABLE_QUESTIONNAIRE)],
+    render: () => (
+        <Group
+            parentPath={[]}
+            questionItem={{
+                ...REPEATABLE_GROUP_ITEM,
+                extension: [
+                    {
+                        url: 'https://smartforms.csiro.au/ig/StructureDefinition/GroupHideAddItemButton',
+                        valueBoolean: true,
+                    },
+                ],
+            }}
+            context={REPEATABLE_CONTEXT}
+        />
+    ),
 };

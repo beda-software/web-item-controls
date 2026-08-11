@@ -8,6 +8,7 @@ import { GroupItemProps, RepeatableFormGroupItems, getItemKey, populateItemKey }
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 import { GroupWizardBus } from 'src/controls/GroupWizard';
+import { isGroupAddItemButtonHidden } from 'src/utils/questionnaire';
 
 import {
     GroupAccordionAlternative,
@@ -196,6 +197,7 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
 
     const addLabel = text ? <Trans>Add {text}</Trans> : <Trans>Add another answer</Trans>;
     const readOnly = groupItem.questionItem.readOnly;
+    const hideAddButton = readOnly || isGroupAddItemButtonHidden(groupItem.questionItem);
 
     return (
         <>
@@ -218,7 +220,7 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
                                 groupItem,
                                 isOpen,
                                 alternatives: accordionMode ? alternatives : undefined,
-                                onAdd: accordionMode && !readOnly ? performAddItem : undefined,
+                                onAdd: accordionMode && !hideAddButton ? performAddItem : undefined,
                                 addLabel,
                             })}
                         </React.Fragment>
@@ -232,7 +234,7 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
                             variant="main-card"
                             isOpen={isOpen}
                             alternatives={accordionMode ? alternatives : undefined}
-                            onAdd={accordionMode && !readOnly ? performAddItem : undefined}
+                            onAdd={accordionMode && !hideAddButton ? performAddItem : undefined}
                             addLabel={addLabel}
                         />
                     );
@@ -240,7 +242,7 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
                 {/* In accordion mode, adding a new item is offered as the last entry
                     of the active item's breadcrumb dropdown instead of here - except
                     with zero items, where there's no active card to host that dropdown. */}
-                {(!accordionMode || items.length === 0) && !readOnly ? (
+                {(!accordionMode || items.length === 0) && !hideAddButton ? (
                     <S.Footer>
                         <Button
                             icon={<PlusOutlined />}
