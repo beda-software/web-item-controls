@@ -6,7 +6,7 @@ import { GroupItemProps, QuestionItems } from 'sdc-qrf';
 import { ItemHelpText } from 'src/components/BaseQuestionnaireResponseForm/ItemHelpText';
 import { Title } from 'src/components/Typography';
 
-import { useGroupSiblingAccordion } from './accordionContext';
+import { unwrapVoiceGroup, useGroupSiblingAccordion } from './accordionContext';
 import { BreadcrumbSegmentBoundary } from './BreadcrumbChain';
 import { ChildGroupAccordionProvider } from './ChildGroupAccordionProvider';
 import { GroupContext, GroupContextProps } from './context';
@@ -78,7 +78,7 @@ function FlexContent(props: GroupItemProps & { type?: GroupContextProps['type'] 
 // is a no-op and Flex renders exactly as it always has.
 function Flex(props: GroupItemProps & { type?: GroupContextProps['type'] }) {
     const { parentPath, questionItem } = props;
-    const { linkId, text, repeats, hidden } = questionItem;
+    const { linkId, text, hidden } = questionItem;
 
     const { getValues } = useFormContext();
     const accordion = useGroupSiblingAccordion(linkId);
@@ -92,13 +92,19 @@ function Flex(props: GroupItemProps & { type?: GroupContextProps['type'] }) {
             return null;
         }
 
-        const count = repeats
-            ? (_.get(getValues(), [...parentPath, linkId, 'items']) as unknown[] | undefined)?.length ?? 0
+        // A group-voice wrapper has no `repeats`/text of its own and its wrapped
+        // group's items live one level deeper in the form than a plain repeating
+        // group's would (`[...own path, 'items', <wrapped linkId>, 'items']` instead of
+        // `[...own path, 'items']`) - resolve both through the wrapper transparently.
+        const wrapped = unwrapVoiceGroup(questionItem);
+        const countPath = wrapped === questionItem ? [linkId, 'items'] : [linkId, 'items', wrapped.linkId, 'items'];
+        const count = wrapped.repeats
+            ? (_.get(getValues(), [...parentPath, ...countPath]) as unknown[] | undefined)?.length ?? 0
             : undefined;
 
         return (
             <BreadcrumbSegmentBoundary
-                segment={{ key: linkId, title: text, count, alternatives: accordion.alternatives }}
+                segment={{ key: linkId, title: text ?? wrapped.text, count, alternatives: accordion.alternatives }}
             >
                 <FlexContent {...props} />
             </BreadcrumbSegmentBoundary>

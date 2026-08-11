@@ -99,10 +99,10 @@ describe('Goals and tasks accordion fixture (real-world shape from issue #9)', (
         // Everything collapses into one combined breadcrumb bar - Goal Settings is
         // the default-open sibling, its own count shows in its segment, and only its
         // last repeat is open (the first is collapsed).
-        const goalSettings = screen.getByTestId('breadcrumb-segment-plan-goalstasks-details-goalsetting');
+        const goalSettings = screen.getByTestId('breadcrumb-segment-plan-goalstasks-details-goalsetting-voice');
         expect(within(goalSettings).getByText('(2)')).toBeInTheDocument();
         expect(
-            screen.queryByTestId('breadcrumb-segment-plan-goalstasks-details-interventionsactions'),
+            screen.queryByTestId('breadcrumb-segment-plan-goalstasks-details-interventionsactions-voice'),
         ).not.toBeInTheDocument();
 
         expect(screen.getByDisplayValue('Increase weekly physical activity')).toBeInTheDocument();
@@ -112,8 +112,12 @@ describe('Goals and tasks accordion fixture (real-world shape from issue #9)', (
         fireEvent.click(goalSettings);
         fireEvent.click(screen.getByText('Interventions and Actions'));
 
-        expect(screen.queryByTestId('breadcrumb-segment-plan-goalstasks-details-goalsetting')).not.toBeInTheDocument();
-        const interventions = screen.getByTestId('breadcrumb-segment-plan-goalstasks-details-interventionsactions');
+        expect(
+            screen.queryByTestId('breadcrumb-segment-plan-goalstasks-details-goalsetting-voice'),
+        ).not.toBeInTheDocument();
+        const interventions = screen.getByTestId(
+            'breadcrumb-segment-plan-goalstasks-details-interventionsactions-voice',
+        );
         expect(within(interventions).getByText('(1)')).toBeInTheDocument();
 
         expect(screen.queryByDisplayValue('Increase weekly physical activity')).not.toBeInTheDocument();
@@ -137,7 +141,7 @@ describe('Goals and tasks accordion fixture (real-world shape from issue #9)', (
         fireEvent.click(screen.getByText('Goals and Tasks 2'));
         fireEvent.click(screen.getByText('Goals and Tasks 1'));
 
-        fireEvent.click(screen.getByTestId('breadcrumb-segment-plan-goalstasks-details-goalsetting'));
+        fireEvent.click(screen.getByTestId('breadcrumb-segment-plan-goalstasks-details-goalsetting-voice'));
         fireEvent.click(screen.getByText('Interventions and Actions'));
 
         expect(screen.getByDisplayValue('Home blood pressure monitoring')).toBeInTheDocument();
@@ -154,9 +158,9 @@ describe('Goals and tasks accordion fixture (real-world shape from issue #9)', (
         expect(screen.queryByDisplayValue('Home blood pressure monitoring')).not.toBeInTheDocument();
         expect(screen.getAllByTestId('remove-group-button')).toHaveLength(1);
         expect(
-            within(screen.getByTestId('breadcrumb-segment-plan-goalstasks-details-interventionsactions')).getByText(
-                '(2)',
-            ),
+            within(
+                screen.getByTestId('breadcrumb-segment-plan-goalstasks-details-interventionsactions-voice'),
+            ).getByText('(2)'),
         ).toBeInTheDocument();
     });
 });

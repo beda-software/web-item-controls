@@ -1,16 +1,29 @@
 import { ReactNode, createContext, useContext } from 'react';
 import { FCEQuestionnaireItem } from 'sdc-qrf';
 
+// A `group-voice` group exists purely to give a voice assistant a stable target for the
+// single item it wraps (see e.g. plan-goalstasks-details-goalsetting-voice in the GP
+// Chronic Condition Management Plan questionnaire) - it carries neither the wrapped
+// item's `type`/`repeats` nor its display text. See through that one layer wherever
+// accordion qualification needs the real content rather than the wrapper shell, so a
+// voice-wrapped repeatable group still counts, and a voice-wrapped single leaf field
+// (e.g. "Problems/Needs") doesn't get mistaken for one.
+export function unwrapVoiceGroup(item: FCEQuestionnaireItem): FCEQuestionnaireItem {
+    const isVoiceWrapper = item.itemControl?.coding?.[0]?.code === 'group-voice';
+
+    return isVoiceWrapper && item.item?.length === 1 ? unwrapVoiceGroup(item.item[0]!) : item;
+}
+
 // Only when a group contains multiple nested groups where at least one is repeatable
 // do its group-type children become a collapsible accordion (only one open at a time).
 // This keeps plain groups (including groups with a single nested repeatable group)
 // rendering exactly as before.
 export function getAccordionSiblingCandidates(item: FCEQuestionnaireItem[] | undefined) {
-    return (item ?? []).filter((child) => child.type === 'group' && !child.hidden);
+    return (item ?? []).filter((child) => unwrapVoiceGroup(child).type === 'group' && !child.hidden);
 }
 
 export function qualifiesForAccordion(candidates: FCEQuestionnaireItem[]) {
-    return candidates.length > 1 && candidates.some((child) => child.repeats);
+    return candidates.length > 1 && candidates.some((child) => unwrapVoiceGroup(child).repeats);
 }
 
 // True when `linkId` is this item itself or appears anywhere in its nested items -
@@ -54,7 +67,11 @@ export interface GroupAccordionAlternative {
 export function useGroupSiblingAccordion(linkId: string) {
     const ctx = useContext(GroupSiblingAccordionContext);
 
-    if (!ctx) {
+    // A group-voice wrapper around a single leaf field (e.g. "Problems/Needs") is a
+    // `group`-typed sibling that never made it into `candidates` (see
+    // getAccordionSiblingCandidates) - it must render unconditionally rather than being
+    // hidden just because some other candidate is active.
+    if (!ctx || !ctx.candidates.some((candidate) => candidate.linkId === linkId)) {
         return undefined;
     }
 
@@ -62,7 +79,7 @@ export function useGroupSiblingAccordion(linkId: string) {
 
     const alternatives: GroupAccordionAlternative[] = ctx.candidates.map((candidate) => ({
         key: candidate.linkId,
-        title: candidate.text,
+        title: unwrapVoiceGroup(candidate).text,
         isActive: candidate.linkId === ctx.activeLinkId,
         onSelect: () => ctx.setActiveLinkId(candidate.linkId),
     }));
