@@ -25,8 +25,9 @@ export interface GroupWizardProps extends GroupItemProps {
 }
 
 export const GroupWizardBus = createBus<{
-    type: 'scrollTo';
+    type: 'scrollTo' | 'addItem' | 'removeItem' | 'openLeft' | 'openRight';
     groupLinkId: string;
+    index?: number;
 }>();
 
 export function GroupWizardVertical(props: GroupWizardProps) {
