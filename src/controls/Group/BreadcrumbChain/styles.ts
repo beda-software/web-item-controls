@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const S = {
     Chain: styled.div`
@@ -11,30 +11,96 @@ export const S = {
     `,
     Bar: styled.div`
         display: flex;
+        flex-direction: column;
+        background-color: ${({ theme }) => theme.neutralPalette.gray_3};
+    `,
+    Row: styled.div`
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 8px 16px;
+
+        & + & {
+            border-top: 1px solid ${({ theme }) => theme.neutral.dividers};
+        }
+    `,
+    RowMain: styled.div`
+        display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        padding: 8px 16px;
-        background-color: ${({ theme }) => theme.neutralPalette.gray_3};
     `,
-    Segments: styled.div`
+    LockedHint: styled.div`
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: ${({ theme }) => theme.neutral.secondaryText};
+    `,
+    Tabs: styled.div`
         display: flex;
         align-items: center;
         gap: 6px;
         flex-wrap: wrap;
         min-width: 0;
     `,
-    Segment: styled.span`
+    Separator: styled.span`
+        color: ${({ theme }) => theme.neutral.secondaryText};
+    `,
+    // Plain breadcrumb-style label rather than a filled pill/button - only weight,
+    // color and the "/" separators (see Separator) distinguish the tabs, matching the
+    // original single-trigger look, just with every alternative always shown instead
+    // of hidden behind a dropdown.
+    Tab: styled.button<{ $active?: boolean }>`
         display: inline-flex;
         align-items: center;
         gap: 4px;
         cursor: pointer;
+        border: none;
+        padding: 0;
+        font: inherit;
         font-weight: 600;
         font-size: 14px;
-        color: ${({ theme }) => theme.neutral.title};
+        background: transparent;
+        color: ${({ theme }) => theme.neutral.secondaryText};
 
-        &:hover {
-            color: ${({ theme }) => theme.primary};
+        &:focus-visible {
+            outline: 2px solid ${({ theme }) => theme.primary};
+            outline-offset: 1px;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        ${({ $active, theme }) =>
+            $active
+                ? css`
+                      color: ${theme.neutral.title};
+                  `
+                : css`
+                      &:not(:disabled):hover {
+                          color: ${theme.primary};
+                      }
+                  `}
+    `,
+    AddTab: styled.button`
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        border: none;
+        padding: 0;
+        font: inherit;
+        font-weight: 600;
+        font-size: 14px;
+        background: transparent;
+        color: ${({ theme }) => theme.primary};
+
+        &:focus-visible {
+            outline: 2px solid ${({ theme }) => theme.primary};
+            outline-offset: 1px;
         }
     `,
     StaticSegment: styled.span`
@@ -42,11 +108,9 @@ export const S = {
         font-size: 14px;
         color: ${({ theme }) => theme.neutral.title};
     `,
-    Separator: styled.span`
-        color: ${({ theme }) => theme.neutral.secondaryText};
-    `,
     Count: styled.span`
-        color: ${({ theme }) => theme.neutral.secondaryText};
+        color: inherit;
+        opacity: 0.8;
         font-weight: 400;
     `,
     Content: styled.div`

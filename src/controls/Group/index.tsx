@@ -1,18 +1,18 @@
 import classNames from 'classnames';
-import _ from 'lodash';
 import { useFormContext } from 'react-hook-form';
-import { GroupItemProps, QuestionItems } from 'sdc-qrf';
+import { GroupItemProps } from 'sdc-qrf';
 
 import { ItemHelpText } from 'src/components/BaseQuestionnaireResponseForm/ItemHelpText';
 import { Title } from 'src/components/Typography';
 
-import { unwrapVoiceGroup, useGroupSiblingAccordion } from './accordionContext';
+import { getCandidateItemCount, unwrapVoiceGroup, useGroupSiblingAccordion } from './accordionContext';
 import { BreadcrumbSegmentBoundary } from './BreadcrumbChain';
 import { ChildGroupAccordionProvider } from './ChildGroupAccordionProvider';
 import { GroupContext, GroupContextProps } from './context';
 import { GridGroup } from './GridGroup';
 import s from './group.module.scss';
 import { GroupCard } from './GroupCard';
+import { GroupChildren } from './GroupChildren';
 import { GTable } from './GTable';
 import { RepeatableGroupRow, RepeatableGroups } from './RepeatableGroups';
 import { S } from './styles';
@@ -60,9 +60,13 @@ function FlexContent(props: GroupItemProps & { type?: GroupContextProps['type'] 
                         [s.col as string]: !type || type === 'col',
                     })}
                 >
-                    <ChildGroupAccordionProvider item={item}>
-                        <QuestionItems
-                            questionItems={item}
+                    <ChildGroupAccordionProvider
+                        item={item}
+                        groupLinkId={linkId}
+                        parentPath={[...parentPath, linkId, 'items']}
+                    >
+                        <GroupChildren
+                            item={item}
                             parentPath={[...parentPath, linkId, 'items']}
                             context={context[0]!}
                         />
@@ -81,32 +85,31 @@ function Flex(props: GroupItemProps & { type?: GroupContextProps['type'] }) {
     const { linkId, text, hidden } = questionItem;
 
     const { getValues } = useFormContext();
-    const accordion = useGroupSiblingAccordion(linkId);
+    const accordion = useGroupSiblingAccordion(linkId, parentPath);
 
     if (hidden) {
         return null;
     }
 
     if (accordion) {
-        if (!accordion.isOpen) {
+        if (!accordion.isOpen && !accordion.isAnchor) {
             return null;
         }
 
-        // A group-voice wrapper has no `repeats`/text of its own and its wrapped
-        // group's items live one level deeper in the form than a plain repeating
-        // group's would (`[...own path, 'items', <wrapped linkId>, 'items']` instead of
-        // `[...own path, 'items']`) - resolve both through the wrapper transparently.
         const wrapped = unwrapVoiceGroup(questionItem);
-        const countPath = wrapped === questionItem ? [linkId, 'items'] : [linkId, 'items', wrapped.linkId, 'items'];
-        const count = wrapped.repeats
-            ? (_.get(getValues(), [...parentPath, ...countPath]) as unknown[] | undefined)?.length ?? 0
-            : undefined;
+        const count = getCandidateItemCount(questionItem, parentPath, getValues());
 
         return (
             <BreadcrumbSegmentBoundary
-                segment={{ key: linkId, title: text ?? wrapped.text, count, alternatives: accordion.alternatives }}
+                segment={{
+                    key: linkId,
+                    title: text ?? wrapped.text,
+                    count,
+                    alternatives: accordion.alternatives,
+                    lockedHint: accordion.lockedHint,
+                }}
             >
-                <FlexContent {...props} />
+                {accordion.isOpen ? <FlexContent {...props} /> : null}
             </BreadcrumbSegmentBoundary>
         );
     }

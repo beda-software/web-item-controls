@@ -66,6 +66,11 @@ const QUESTIONNAIRE_RESPONSE: QuestionnaireResponse = {
         {
             linkId: 'root',
             item: [
+                // plain-field gates section-a/section-b (see accordionContext.ts's
+                // getAccordionGateFields) - answered here so these fixtures keep
+                // exercising tab-switching mechanics; the gate itself is covered by
+                // GroupAccordionGate.test.tsx.
+                { linkId: 'plain-field', answer: [{ valueString: 'Plain value' }] },
                 { linkId: 'section-a', item: [{ linkId: 'value', answer: [{ valueString: 'A1 value' }] }] },
                 { linkId: 'section-a', item: [{ linkId: 'value', answer: [{ valueString: 'A2 value' }] }] },
             ],
@@ -199,7 +204,7 @@ describe('Group accordion UX', () => {
         expect(values).toHaveLength(2);
     });
 
-    test('only one sibling group is open at a time, and the collapsed one does not render', () => {
+    test('only one sibling group is open at a time, but every tab (with its count) stays visible', () => {
         act(() => {
             i18n.activate('en');
         });
@@ -212,17 +217,19 @@ describe('Group accordion UX', () => {
 
         expect(screen.getByText('Plain field')).toBeInTheDocument();
 
-        // Section A is the default-active sibling: its count shows in the combined
-        // breadcrumb header, and only its cards render.
+        // Section A is the default-active sibling: its count shows on its tab, and
+        // only its cards render. Section B's tab is visible too, even though it's
+        // collapsed - the collapsed sibling's own name is never hidden.
         expect(screen.getByTestId('breadcrumb-segment-section-a')).toBeInTheDocument();
+        expect(screen.getByTestId('breadcrumb-segment-section-b')).toBeInTheDocument();
         expect(screen.getByText('(2)')).toBeInTheDocument();
         expect(screen.getByDisplayValue('A2 value')).toBeInTheDocument();
         expect(screen.queryByDisplayValue('A1 value')).not.toBeInTheDocument();
 
-        // Open the sibling segment's dropdown and switch to Section B.
-        fireEvent.click(screen.getByTestId('breadcrumb-segment-section-a'));
+        // Switch to Section B directly - no need to open anything first.
         fireEvent.click(screen.getByText('Section B'));
 
+        expect(screen.getByTestId('breadcrumb-segment-section-a')).toBeInTheDocument();
         expect(screen.getByTestId('breadcrumb-segment-section-b')).toBeInTheDocument();
         expect(screen.queryByDisplayValue('A2 value')).not.toBeInTheDocument();
         expect(screen.queryByDisplayValue('A1 value')).not.toBeInTheDocument();
@@ -242,8 +249,7 @@ describe('Group accordion UX', () => {
         expect(screen.getByDisplayValue('A2 value')).toBeInTheDocument();
         expect(screen.queryByDisplayValue('A1 value')).not.toBeInTheDocument();
 
-        // Open the repeat-instance segment's dropdown and switch to the first item.
-        fireEvent.click(screen.getByText('Section A 2'));
+        // Switch to the first item directly - its tab is already visible.
         fireEvent.click(screen.getByText('Section A 1'));
 
         expect(screen.getByDisplayValue('A1 value')).toBeInTheDocument();

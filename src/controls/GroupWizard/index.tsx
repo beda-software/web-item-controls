@@ -59,6 +59,17 @@ export const GroupWizardBus = createBus<
           type: 'removeItem';
           groupLinkId: string;
       }
+    | {
+          // Simulates clicking the "Read-only while editing X - click to edit" gate
+          // field overlay for the group with this linkId (see ChildGroupAccordionProvider.tsx
+          // / GroupChildren.tsx) - closes whichever sibling collection is open and
+          // makes the gate field (e.g. "Problems/Needs") editable again. `groupLinkId`
+          // is the *parent* group's own linkId (e.g. "plan-goalstasks", the "Goals and
+          // Tasks" group), not the gate field's - a no-op if that group doesn't
+          // qualify for the accordion or its gate field is already editable.
+          type: 'reactivateGateField';
+          groupLinkId: string;
+      }
 >();
 
 export function GroupWizardVertical(props: GroupWizardProps) {

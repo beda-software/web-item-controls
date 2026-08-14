@@ -1,10 +1,10 @@
 import { t } from '@lingui/macro';
-import { QuestionItems } from 'sdc-qrf';
 
 import { useRepeatableGroup } from './hooks';
 import { BreadcrumbSegmentBoundary } from '../../BreadcrumbChain';
 import { ChildGroupAccordionProvider } from '../../ChildGroupAccordionProvider';
 import { GroupMainCard, GroupSubCard } from '../../GroupCard';
+import { GroupChildren } from '../../GroupChildren';
 import { RepeatableGroupProps } from '../types';
 
 interface Props extends RepeatableGroupProps {
@@ -14,15 +14,15 @@ interface Props extends RepeatableGroupProps {
 export function RepeatableGroupCard(props: Props) {
     const { index, groupItem, variant, isOpen, alternatives, onAdd, addLabel } = props;
     const { questionItem } = groupItem;
-    const { item, text, readOnly } = questionItem;
+    const { linkId, item, text, readOnly } = questionItem;
 
     const { onRemove, parentPath, context } = useRepeatableGroup(props);
 
     const title = `${text || t`Item`} ${index + 1}`;
 
     const content = (
-        <ChildGroupAccordionProvider item={item}>
-            <QuestionItems questionItems={item!} parentPath={parentPath} context={context} />
+        <ChildGroupAccordionProvider item={item} groupLinkId={linkId} parentPath={parentPath}>
+            <GroupChildren item={item!} parentPath={parentPath} context={context} />
         </ChildGroupAccordionProvider>
     );
 

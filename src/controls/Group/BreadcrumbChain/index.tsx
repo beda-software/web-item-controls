@@ -21,7 +21,13 @@ const DepthContext = createContext(0);
 // an object that's semantically identical but reference-different on every render,
 // which re-renders this component, which re-registers, forever.
 function segmentsAreEquivalent(a: BreadcrumbSegment, b: BreadcrumbSegment) {
-    if (a.key !== b.key || a.title !== b.title || a.count !== b.count || !!a.onRemove !== !!b.onRemove) {
+    if (
+        a.key !== b.key ||
+        a.title !== b.title ||
+        a.count !== b.count ||
+        a.lockedHint !== b.lockedHint ||
+        !!a.onRemove !== !!b.onRemove
+    ) {
         return false;
     }
 
@@ -33,7 +39,9 @@ function segmentsAreEquivalent(a: BreadcrumbSegment, b: BreadcrumbSegment) {
         (alternative, index) =>
             alternative.key === b.alternatives[index]?.key &&
             alternative.title === b.alternatives[index]?.title &&
-            alternative.isActive === b.alternatives[index]?.isActive,
+            alternative.count === b.alternatives[index]?.count &&
+            alternative.isActive === b.alternatives[index]?.isActive &&
+            alternative.disabled === b.alternatives[index]?.disabled,
     );
 }
 

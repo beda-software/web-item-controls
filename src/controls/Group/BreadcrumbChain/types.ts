@@ -16,4 +16,8 @@ export interface BreadcrumbSegment {
     onRemove?: () => void;
     onAdd?: () => void;
     addLabel?: ReactNode;
+    // Set (by useGroupSiblingAccordion) when this segment's alternatives are gated
+    // behind one of the group's own fields not having an answer yet - explains why
+    // they're disabled.
+    lockedHint?: ReactNode;
 }
