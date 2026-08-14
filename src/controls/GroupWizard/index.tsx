@@ -24,10 +24,53 @@ export interface GroupWizardProps extends GroupItemProps {
     wizard?: Partial<WizardProps>;
 }
 
-export const GroupWizardBus = createBus<{
-    type: 'scrollTo';
-    groupLinkId: string;
-}>();
+export const GroupWizardBus = createBus<
+    | {
+          type: 'scrollTo';
+          groupLinkId: string;
+      }
+    | {
+          // Requests that the group/question with this linkId become visible.
+          // Consumers such as the Group accordion (src/controls/Group) resolve which
+          // of their sibling groups leads to it and expand that one, cascading up
+          // through every ancestor group that also gates its children behind the
+          // accordion UX. See ChildGroupAccordionProvider.tsx.
+          type: 'expandGroup';
+          groupLinkId: string;
+      }
+    | {
+          // Adds a new item to the repeatable group with this linkId.
+          // See RepeatableGroups (src/controls/Group/RepeatableGroups).
+          type: 'addItem';
+          groupLinkId: string;
+      }
+    | {
+          // Moves which item of the repeatable group with this linkId is open.
+          type: 'openNextItem';
+          groupLinkId: string;
+      }
+    | {
+          type: 'openPreviousItem';
+          groupLinkId: string;
+      }
+    | {
+          // Removes the currently open item of the repeatable group with this
+          // linkId, after confirming via a dialog.
+          type: 'removeItem';
+          groupLinkId: string;
+      }
+    | {
+          // Simulates clicking the "Read-only while editing X - click to edit" gate
+          // field overlay for the group with this linkId (see ChildGroupAccordionProvider.tsx
+          // / GroupChildren.tsx) - closes whichever sibling collection is open and
+          // makes the gate field (e.g. "Problems/Needs") editable again. `groupLinkId`
+          // is the *parent* group's own linkId (e.g. "plan-goalstasks", the "Goals and
+          // Tasks" group), not the gate field's - a no-op if that group doesn't
+          // qualify for the accordion or its gate field is already editable.
+          type: 'reactivateGateField';
+          groupLinkId: string;
+      }
+>();
 
 export function GroupWizardVertical(props: GroupWizardProps) {
     return (

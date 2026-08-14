@@ -38,4 +38,29 @@ export const S = {
         justify-content: space-between;
         gap: 8px;
     `,
+    // A `disabled` input doesn't dispatch click events at all in most browsers, so a
+    // plain wrapper onClick would never fire for a click landing on the field itself -
+    // this transparent, full-bleed overlay is what actually catches it (see
+    // useGroupGateInfo in accordionContext.ts). The bottom border marks the field as
+    // belonging to the parent, visually separating it from whichever child collection
+    // is open below it while it's locked.
+    GateOverlay: styled.div`
+        position: relative;
+        cursor: pointer;
+        padding-bottom: 16px;
+        border-bottom: 1px solid ${({ theme }) => theme.neutral.dividers};
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+        }
+    `,
+    GateHint: styled.div`
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        color: ${({ theme }) => theme.neutral.secondaryText};
+    `,
 };
