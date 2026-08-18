@@ -8,7 +8,11 @@ import { GroupWizardBus } from 'src/controls/GroupWizard';
 import { SidebarMenu } from 'src/controls/GroupWizard/GroupWizardSidebar/SidebarMenu';
 import { S } from 'src/controls/GroupWizard/GroupWizardSidebar/styles';
 import { SidebarMenuNode, SidebarMenuSection } from 'src/controls/GroupWizard/GroupWizardSidebar/types';
-import { buildRootSection, shouldApplySidebarDesign } from 'src/controls/GroupWizard/GroupWizardSidebar/utils';
+import {
+    buildRootSection,
+    findSectionByLinkId,
+    shouldApplySidebarDesign,
+} from 'src/controls/GroupWizard/GroupWizardSidebar/utils';
 
 interface FlatTree {
     nodesByKey: Map<string, SidebarMenuNode>;
@@ -57,6 +61,15 @@ export function GroupWizardSidebar(props: GroupItemProps) {
     const ancestorNodes = (selectedKey ? ancestorsByKey.get(selectedKey) ?? [] : [])
         .map((key) => nodesByKey.get(key))
         .filter((node): node is SidebarMenuNode => !!node && node.contentItems.length > 0);
+
+    // The top-level row currently in view - a bus command naming a nested subgroup (e.g. "Goal setting") is
+    // resolved against THIS row's own subtree, since the same subgroup linkId produces a distinct section per
+    // top-level repeat instance.
+    const activeRootKey = selectedKey ? ancestorsByKey.get(selectedKey)?.[0] ?? selectedKey : rootSection.nodes[0]?.key;
+    const activeRootNode = activeRootKey ? nodesByKey.get(activeRootKey) : undefined;
+
+    const findTargetSection = (groupLinkId: string) =>
+        activeRootNode ? findSectionByLinkId(activeRootNode.sections, groupLinkId) : undefined;
 
     useEffect(() => {
         if (!selectedNode && rootSection.nodes.length > 0) {
@@ -131,37 +144,41 @@ export function GroupWizardSidebar(props: GroupItemProps) {
     GroupWizardBus.useBus(
         'sidebarGoToPrevious',
         ({ groupLinkId }) => {
-            if (groupLinkId !== linkId) {
+            const section = groupLinkId === linkId ? rootSection : findTargetSection(groupLinkId)?.section;
+
+            if (!section) {
                 return;
             }
 
-            const currentIndex = rootSection.nodes.findIndex((node) => node.key === selectedKey);
-            const previousIndex = Math.max(0, (currentIndex === -1 ? rootSection.nodes.length : currentIndex) - 1);
-            const node = rootSection.nodes[previousIndex];
+            const currentIndex = section.nodes.findIndex((node) => node.key === selectedKey);
+            const previousIndex = Math.max(0, (currentIndex === -1 ? section.nodes.length : currentIndex) - 1);
+            const node = section.nodes[previousIndex];
 
             if (node) {
                 selectNode(node.key);
             }
         },
-        [linkId, rootSection, selectedKey],
+        [linkId, rootSection, activeRootNode, selectedKey],
     );
 
     GroupWizardBus.useBus(
         'sidebarGoToNext',
         ({ groupLinkId }) => {
-            if (groupLinkId !== linkId) {
+            const section = groupLinkId === linkId ? rootSection : findTargetSection(groupLinkId)?.section;
+
+            if (!section) {
                 return;
             }
 
-            const currentIndex = rootSection.nodes.findIndex((node) => node.key === selectedKey);
-            const nextIndex = Math.min(rootSection.nodes.length - 1, currentIndex + 1);
-            const node = rootSection.nodes[nextIndex];
+            const currentIndex = section.nodes.findIndex((node) => node.key === selectedKey);
+            const nextIndex = Math.min(section.nodes.length - 1, currentIndex + 1);
+            const node = section.nodes[nextIndex];
 
             if (node) {
                 selectNode(node.key);
             }
         },
-        [linkId, rootSection, selectedKey],
+        [linkId, rootSection, activeRootNode, selectedKey],
     );
 
     if (hidden || !questionItem.item) {

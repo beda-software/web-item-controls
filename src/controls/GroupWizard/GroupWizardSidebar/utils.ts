@@ -128,3 +128,36 @@ export function buildRootSection(
 ): SidebarMenuSection {
     return buildSection(questionItem, parentPath, formValues, groupContext);
 }
+
+export interface SectionMatch {
+    section: SidebarMenuSection;
+    // Keys of the nodes walked through to reach the section, root-to-leaf order - used to expand exactly the
+    // branch leading to it (mirrors the `nestedAncestors` shape `selectNode` derives from `ancestorsByKey`).
+    nestedAncestorKeys: string[];
+}
+
+// Depth-first search for a subgroup by linkId anywhere under a node's own sections - used to resolve a voice
+// command's target linkId (e.g. "Goal setting") to the specific section instance that belongs to whichever
+// top-level row is currently active, since the same subgroup linkId produces a distinct section per top-level
+// repeat instance.
+export function findSectionByLinkId(
+    sections: SidebarMenuSection[],
+    targetLinkId: string,
+    nestedAncestorKeys: string[] = [],
+): SectionMatch | undefined {
+    for (const section of sections) {
+        if (section.linkId === targetLinkId) {
+            return { section, nestedAncestorKeys };
+        }
+
+        for (const node of section.nodes) {
+            const found = findSectionByLinkId(node.sections, targetLinkId, [...nestedAncestorKeys, node.key]);
+
+            if (found) {
+                return found;
+            }
+        }
+    }
+
+    return undefined;
+}

@@ -1,7 +1,7 @@
 import { QuestionnaireResponse } from 'fhir/r4b';
 import { FCEQuestionnaire, FCEQuestionnaireItem, ItemContext, mapResponseToForm } from 'sdc-qrf';
 
-import { buildRootSection, shouldApplySidebarDesign } from '../utils';
+import { buildRootSection, findSectionByLinkId, shouldApplySidebarDesign } from '../utils';
 
 function questionFactory(linkId: string, extra?: Partial<FCEQuestionnaireItem>): FCEQuestionnaireItem {
     return {
@@ -240,5 +240,63 @@ describe('buildRootSection', () => {
         const node = section.nodes[0]!;
 
         expect(node.sections.map((s) => s.linkId)).toEqual(['g1', 'g2', 'voice']);
+    });
+});
+
+describe('findSectionByLinkId', () => {
+    it('finds a direct child section by linkId', () => {
+        const questionnaire = questionnaireFactory([
+            groupFactory('root', [
+                groupFactory('g1', [questionFactory('g1-q1')], { repeats: true }),
+                groupFactory('g2', [questionFactory('g2-q1')], { repeats: true }),
+            ]),
+        ]);
+        const qr: QuestionnaireResponse = { resourceType: 'QuestionnaireResponse', status: 'completed' };
+        const { formValues, context } = buildContext(questionnaire, qr);
+        const rootItem = questionnaire.item![0]!;
+        const rootSection = buildRootSection(rootItem, [], formValues, context);
+        const node = rootSection.nodes[0]!;
+
+        const found = findSectionByLinkId(node.sections, 'g2');
+
+        expect(found?.section.linkId).toBe('g2');
+        expect(found?.nestedAncestorKeys).toEqual([]);
+    });
+
+    it('finds a doubly-nested section and returns the node keys walked to reach it', () => {
+        const questionnaire = questionnaireFactory([
+            groupFactory('root', [
+                groupFactory('g1', [questionFactory('g1-q1')], { repeats: true }),
+                groupFactory('g2', [groupFactory('g2-nested', [questionFactory('g2-nested-q1')], { repeats: true })], {
+                    repeats: true,
+                }),
+            ]),
+        ]);
+        const qr: QuestionnaireResponse = { resourceType: 'QuestionnaireResponse', status: 'completed' };
+        const formValues = { root: { items: { g2: { items: [{}] } } } };
+        const { context } = buildContext(questionnaire, qr);
+        const rootItem = questionnaire.item![0]!;
+        const rootSection = buildRootSection(rootItem, [], formValues, context);
+        const node = rootSection.nodes[0]!;
+        const g2Section = node.sections.find((s) => s.linkId === 'g2')!;
+        const g2Node = g2Section.nodes[0]!;
+
+        const found = findSectionByLinkId(node.sections, 'g2-nested');
+
+        expect(found?.section.linkId).toBe('g2-nested');
+        expect(found?.nestedAncestorKeys).toEqual([g2Node.key]);
+    });
+
+    it('returns undefined when the linkId does not exist in the subtree', () => {
+        const questionnaire = questionnaireFactory([
+            groupFactory('root', [groupFactory('g1', [questionFactory('g1-q1')], { repeats: true })]),
+        ]);
+        const qr: QuestionnaireResponse = { resourceType: 'QuestionnaireResponse', status: 'completed' };
+        const { formValues, context } = buildContext(questionnaire, qr);
+        const rootItem = questionnaire.item![0]!;
+        const rootSection = buildRootSection(rootItem, [], formValues, context);
+        const node = rootSection.nodes[0]!;
+
+        expect(findSectionByLinkId(node.sections, 'does-not-exist')).toBeUndefined();
     });
 });

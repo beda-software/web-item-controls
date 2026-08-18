@@ -379,4 +379,89 @@ describe('GroupWizardSidebar renders correctly', async () => {
             expect(screen.queryByTestId('sidebar-menu-row-plan-goalstasks.items.0')).not.toBeInTheDocument(),
         );
     }, 60000);
+
+    test('sidebarAddElement bus event adds a new instance to a nested subgroup (voice "add goal setting")', async () => {
+        const { patient, practitioner } = await setup();
+
+        await renderForm(patient, practitioner);
+
+        // A plain repeatable subgroup (unlike a `gtable` one) seeds a default first instance, so it's already
+        // there before anything is added.
+        await screen.findByTestId(
+            'sidebar-menu-row-plan-goalstasks.items.0.plan-goalstasks-details-goalsetting.items.0',
+        );
+
+        act(() => {
+            GroupWizardBus.dispatch({
+                type: 'sidebarAddElement',
+                groupLinkId: 'plan-goalstasks-details-goalsetting',
+            });
+        });
+
+        await screen.findByTestId(
+            'sidebar-menu-row-plan-goalstasks.items.0.plan-goalstasks-details-goalsetting.items.1',
+        );
+        await waitFor(() => expect(screen.getByText('Goals')).toBeInTheDocument());
+    }, 60000);
+
+    test('sidebarGoToPrevious/sidebarGoToNext bus events navigate between instances of a nested subgroup (voice "previous"/"next goal setting")', async () => {
+        const { patient, practitioner } = await setup();
+
+        await renderForm(patient, practitioner);
+
+        // A plain repeatable subgroup (unlike a `gtable` one) seeds a default first instance, so a single click
+        // on its header is enough to reach a 2nd instance to navigate between.
+        await screen.findByTestId(
+            'sidebar-menu-row-plan-goalstasks.items.0.plan-goalstasks-details-goalsetting.items.0',
+        );
+
+        const goalSettingHeader = await screen.findByTestId('sidebar-menu-add-plan-goalstasks-details-goalsetting');
+        act(() => {
+            fireEvent.click(goalSettingHeader);
+        });
+        await screen.findByRole('heading', { name: 'Goal setting 2', level: 4 });
+
+        act(() => {
+            GroupWizardBus.dispatch({
+                type: 'sidebarGoToPrevious',
+                groupLinkId: 'plan-goalstasks-details-goalsetting',
+            });
+        });
+
+        await screen.findByRole('heading', { name: 'Goal setting 1', level: 4 });
+
+        act(() => {
+            GroupWizardBus.dispatch({ type: 'sidebarGoToNext', groupLinkId: 'plan-goalstasks-details-goalsetting' });
+        });
+
+        await screen.findByRole('heading', { name: 'Goal setting 2', level: 4 });
+    }, 60000);
+
+    test('sidebarRemove bus event removes the currently selected nested instance (voice "remove goal setting")', async () => {
+        const { patient, practitioner } = await setup();
+
+        await renderForm(patient, practitioner);
+
+        // A plain repeatable subgroup (unlike a `gtable` one) seeds a default first instance - select it (it
+        // isn't the default selection, which is the top-level "Goals and tasks" row itself) before removing it.
+        const goalSettingRow = await screen.findByTestId(
+            'sidebar-menu-row-plan-goalstasks.items.0.plan-goalstasks-details-goalsetting.items.0',
+        );
+        act(() => {
+            fireEvent.click(goalSettingRow);
+        });
+        await screen.findByRole('heading', { name: 'Goal setting 1', level: 4 });
+
+        act(() => {
+            GroupWizardBus.dispatch({ type: 'sidebarRemove', groupLinkId: 'plan-goalstasks-details-goalsetting' });
+        });
+
+        await waitFor(() =>
+            expect(
+                screen.queryByTestId(
+                    'sidebar-menu-row-plan-goalstasks.items.0.plan-goalstasks-details-goalsetting.items.0',
+                ),
+            ).not.toBeInTheDocument(),
+        );
+    }, 60000);
 });

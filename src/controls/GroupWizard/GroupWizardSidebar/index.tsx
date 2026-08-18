@@ -18,7 +18,7 @@ import { GroupWizardBus } from 'src/controls/GroupWizard';
 import { SidebarMenu } from './SidebarMenu';
 import { S } from './styles';
 import { SidebarMenuNode, SidebarMenuSection } from './types';
-import { buildRootSection, shouldApplySidebarDesign } from './utils';
+import { buildRootSection, findSectionByLinkId, shouldApplySidebarDesign } from './utils';
 
 interface FlatTree {
     nodesByKey: Map<string, SidebarMenuNode>;
@@ -70,6 +70,15 @@ export function GroupWizardSidebar(props: GroupItemProps) {
         .map((key) => nodesByKey.get(key))
         .filter((node): node is SidebarMenuNode => !!node && node.contentItems.length > 0);
 
+    // The top-level row currently in view - a bus command naming a nested subgroup (e.g. "Goal setting") is
+    // resolved against THIS row's own subtree, since the same subgroup linkId produces a distinct section per
+    // top-level repeat instance (there's no other way for a voice command to say which instance it means).
+    const activeRootKey = selectedKey ? ancestorsByKey.get(selectedKey)?.[0] ?? selectedKey : rootSection.nodes[0]?.key;
+    const activeRootNode = activeRootKey ? nodesByKey.get(activeRootKey) : undefined;
+
+    const findTargetSection = (groupLinkId: string) =>
+        activeRootNode ? findSectionByLinkId(activeRootNode.sections, groupLinkId) : undefined;
+
     useEffect(() => {
         if (!selectedNode && rootSection.nodes.length > 0) {
             const firstNode = rootSection.nodes[0]!;
@@ -112,7 +121,7 @@ export function GroupWizardSidebar(props: GroupItemProps) {
         setExpandedRootKey(rootKeys[nextIndex]!);
     };
 
-    const addInstance = (section: SidebarMenuSection) => {
+    const addInstance = (section: SidebarMenuSection, nestedAncestorKeys?: string[]) => {
         const current = _.get(getValues(), section.fieldPath);
         const items = current?.items ?? [];
         const populated = [...items, {}].map(populateItemKey);
@@ -121,11 +130,16 @@ export function GroupWizardSidebar(props: GroupItemProps) {
         setValue(section.fieldPath.join('.'), { ...current, items: populated }, { shouldDirty: true });
         setSelectedKey(newKey);
 
-        // The new key doesn't exist in the (pre-add) tree yet, so its ancestors can't be looked up. Adding to
-        // the root section always means a new top-level (accordion) entry; adding to a nested section relies on
-        // its ancestors already being expanded, since that's how its "+" became visible in the first place.
+        // The new key doesn't exist in the (pre-add) tree yet, so its ancestors can't be looked up from
+        // `ancestorsByKey`. Adding to the root section always means a new top-level (accordion) entry. Adding to
+        // a nested section from the UI relies on its ancestors already being expanded (that's how its "+" became
+        // visible), but a bus-driven add (voice) bypasses the UI entirely, so the caller passes the branch to
+        // expand explicitly - `nestedAncestorKeys` come from `findSectionByLinkId`.
         if (section === rootSection) {
             setExpandedRootKey(newKey);
+        } else if (nestedAncestorKeys && activeRootNode) {
+            setExpandedRootKey(activeRootNode.key);
+            setExpandedKeys((prev) => new Set([...prev, ...nestedAncestorKeys]));
         }
     };
 
@@ -173,61 +187,73 @@ export function GroupWizardSidebar(props: GroupItemProps) {
     GroupWizardBus.useBus(
         'sidebarGoToPrevious',
         ({ groupLinkId }) => {
-            if (groupLinkId !== linkId) {
+            const section = groupLinkId === linkId ? rootSection : findTargetSection(groupLinkId)?.section;
+
+            if (!section) {
                 return;
             }
 
-            const currentIndex = rootSection.nodes.findIndex((node) => node.key === selectedKey);
-            const previousIndex = Math.max(0, (currentIndex === -1 ? rootSection.nodes.length : currentIndex) - 1);
-            const node = rootSection.nodes[previousIndex];
+            const currentIndex = section.nodes.findIndex((node) => node.key === selectedKey);
+            const previousIndex = Math.max(0, (currentIndex === -1 ? section.nodes.length : currentIndex) - 1);
+            const node = section.nodes[previousIndex];
 
             if (node) {
                 selectNode(node.key);
             }
         },
-        [linkId, rootSection, selectedKey],
+        [linkId, rootSection, activeRootNode, selectedKey],
     );
 
     GroupWizardBus.useBus(
         'sidebarGoToNext',
         ({ groupLinkId }) => {
-            if (groupLinkId !== linkId) {
+            const section = groupLinkId === linkId ? rootSection : findTargetSection(groupLinkId)?.section;
+
+            if (!section) {
                 return;
             }
 
-            const currentIndex = rootSection.nodes.findIndex((node) => node.key === selectedKey);
-            const nextIndex = Math.min(rootSection.nodes.length - 1, currentIndex + 1);
-            const node = rootSection.nodes[nextIndex];
+            const currentIndex = section.nodes.findIndex((node) => node.key === selectedKey);
+            const nextIndex = Math.min(section.nodes.length - 1, currentIndex + 1);
+            const node = section.nodes[nextIndex];
 
             if (node) {
                 selectNode(node.key);
             }
         },
-        [linkId, rootSection, selectedKey],
+        [linkId, rootSection, activeRootNode, selectedKey],
     );
 
     GroupWizardBus.useBus(
         'sidebarAddElement',
         ({ groupLinkId }) => {
-            if (groupLinkId !== linkId) {
+            if (groupLinkId === linkId) {
+                addInstance(rootSection);
                 return;
             }
 
-            addInstance(rootSection);
+            const target = findTargetSection(groupLinkId);
+
+            if (target) {
+                addInstance(target.section, target.nestedAncestorKeys);
+            }
         },
-        [linkId, rootSection],
+        [linkId, rootSection, activeRootNode],
     );
 
     GroupWizardBus.useBus(
         'sidebarRemove',
         ({ groupLinkId }) => {
-            if (groupLinkId !== linkId || readOnly || !selectedNode) {
+            // Scoped to whatever's currently selected (root or nested), rather than requiring groupLinkId to
+            // match this sidebar's own top-level linkId - a voice command naming a nested subgroup (e.g. "remove
+            // this goal setting") removes the currently open nested instance the same way the Delete button does.
+            if (readOnly || !selectedNode || selectedNode.item.linkId !== groupLinkId) {
                 return;
             }
 
             removeInstance(selectedNode);
         },
-        [linkId, readOnly, selectedNode],
+        [readOnly, selectedNode],
     );
 
     if (hidden || !questionItem.item) {
