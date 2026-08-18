@@ -195,7 +195,7 @@ describe('buildRootSection', () => {
         expect(g1SectionWithInstances.nodes[0]!.contentItems.map((i) => i.linkId)).toEqual(['g1-q1']);
     });
 
-    it('gives a group-voice item its own section and inlines its children into the parent content', () => {
+    it('excludes a leaf-only group-voice item from sections but keeps it in content', () => {
         const questionnaire = questionnaireFactory([
             groupFactory('root', [
                 groupFactory('g1', [questionFactory('g1-q1')], { repeats: true }),
@@ -214,7 +214,31 @@ describe('buildRootSection', () => {
         const section = buildRootSection(rootItem, [], formValues, context);
         const node = section.nodes[0]!;
 
-        expect(node.sections.map((s) => s.linkId)).toEqual(['g1', 'g2', 'voice']);
+        expect(node.sections.map((s) => s.linkId)).toEqual(['g1', 'g2']);
         expect(node.contentItems.map((i) => i.linkId)).toEqual(['voice']);
+    });
+
+    it('still gives a group-voice item its own section when it wraps a real subgroup', () => {
+        const questionnaire = questionnaireFactory([
+            groupFactory('root', [
+                groupFactory('g1', [questionFactory('g1-q1')], { repeats: true }),
+                groupFactory('g2', [questionFactory('g2-q1')]),
+                controlledGroupFactory('voice', 'group-voice', [
+                    groupFactory('nested-table', [questionFactory('nested-q1')], { repeats: true }),
+                ]),
+            ]),
+        ]);
+        const qr: QuestionnaireResponse = {
+            resourceType: 'QuestionnaireResponse',
+            status: 'completed',
+            item: [{ linkId: 'root', item: [] }],
+        };
+
+        const { formValues, context } = buildContext(questionnaire, qr);
+        const rootItem = questionnaire.item![0]!;
+        const section = buildRootSection(rootItem, [], formValues, context);
+        const node = section.nodes[0]!;
+
+        expect(node.sections.map((s) => s.linkId)).toEqual(['g1', 'g2', 'voice']);
     });
 });

@@ -23,6 +23,13 @@ function isCountableSubgroup(item: FCEQuestionnaireItem): boolean {
     return isGroupItem(item) && !isGroupVoiceItem(item);
 }
 
+// A group-voice wrapper only needs its own sidebar row when it holds a real navigable subgroup (e.g. a
+// repeatable table nested inside it) - a leaf-only group-voice wrapper already renders correctly as inline
+// content (see `contentItems` below) and shouldn't also show up as a spurious, usually-unlabeled tree row.
+function hasCountableSubgroup(item: FCEQuestionnaireItem): boolean {
+    return (item.item ?? []).some(isCountableSubgroup);
+}
+
 export function shouldApplySidebarDesign(questionItem: FCEQuestionnaireItem): boolean {
     const subgroups = (questionItem.item ?? []).filter(isCountableSubgroup);
 
@@ -67,7 +74,9 @@ function buildNode(
     groupContext: ItemContext,
 ): SidebarMenuNode {
     const children = getEnabledChildren(item, path, formValues, groupContext);
-    const groupChildren = children.filter(isGroupItem);
+    const groupChildren = children.filter(
+        (child) => isGroupItem(child) && (!isGroupVoiceItem(child) || hasCountableSubgroup(child)),
+    );
     const contentItems = children.filter((child) => !isGroupItem(child) || isGroupVoiceItem(child));
 
     const sections = groupChildren.map((child) => buildSection(child, path, formValues, groupContext));
