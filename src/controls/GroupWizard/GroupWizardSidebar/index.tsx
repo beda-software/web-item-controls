@@ -4,17 +4,12 @@ import { Button, Popconfirm } from 'antd';
 import _ from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-import {
-    GroupItemProps,
-    QuestionItems,
-    QuestionnaireResponseFormProvider,
-    populateItemKey,
-    useQuestionnaireResponseFormContext,
-} from 'sdc-qrf';
+import { GroupItemProps, QuestionItems, populateItemKey } from 'sdc-qrf';
 
 import { Text } from 'src/components/Typography';
 import { GroupWizardBus } from 'src/controls/GroupWizard';
 
+import { ParentPreviewFields } from './ParentPreviewFields';
 import { SidebarMenu } from './SidebarMenu';
 import { S } from './styles';
 import { SidebarMenuNode, SidebarMenuSection } from './types';
@@ -47,7 +42,6 @@ export function GroupWizardSidebar(props: GroupItemProps) {
     const groupContext = context[0]!;
     const formValues = useWatch();
     const { getValues, setValue } = useFormContext();
-    const qrfContext = useQuestionnaireResponseFormContext();
 
     // Top-level rows behave as an accordion (at most one expanded at a time), tracked separately from
     // deeper rows, which can expand/collapse independently of one another.
@@ -301,20 +295,12 @@ export function GroupWizardSidebar(props: GroupItemProps) {
             <S.Content>
                 {selectedNode ? (
                     <>
-                        {ancestorNodes.length > 0 ? (
-                            <QuestionnaireResponseFormProvider {...qrfContext} readOnly>
-                                {ancestorNodes.map((ancestorNode) => (
-                                    <S.ParentPreview key={ancestorNode.key}>
-                                        <S.ParentPreviewTitle level={5}>{ancestorNode.text}</S.ParentPreviewTitle>
-                                        <QuestionItems
-                                            questionItems={ancestorNode.contentItems}
-                                            parentPath={ancestorNode.path}
-                                            context={groupContext}
-                                        />
-                                    </S.ParentPreview>
-                                ))}
-                            </QuestionnaireResponseFormProvider>
-                        ) : null}
+                        {ancestorNodes.map((ancestorNode) => (
+                            <S.ParentPreview key={ancestorNode.key}>
+                                <S.ParentPreviewTitle level={5}>{ancestorNode.text}</S.ParentPreviewTitle>
+                                <ParentPreviewFields ancestorNode={ancestorNode} formValues={formValues} />
+                            </S.ParentPreview>
+                        ))}
                         <S.ContentHeader>
                             <S.ContentTitle level={4}>{selectedNode.text}</S.ContentTitle>
                             {!readOnly && selectedNode.repeatIndex !== undefined ? (

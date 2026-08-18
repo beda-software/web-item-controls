@@ -5,6 +5,7 @@ import { GroupItemProps, QuestionItems } from 'sdc-qrf';
 
 import { Text } from 'src/components/Typography';
 import { GroupWizardBus } from 'src/controls/GroupWizard';
+import { ParentPreviewFields } from 'src/controls/GroupWizard/GroupWizardSidebar/ParentPreviewFields';
 import { SidebarMenu } from 'src/controls/GroupWizard/GroupWizardSidebar/SidebarMenu';
 import { S } from 'src/controls/GroupWizard/GroupWizardSidebar/styles';
 import { SidebarMenuNode, SidebarMenuSection } from 'src/controls/GroupWizard/GroupWizardSidebar/types';
@@ -228,11 +229,7 @@ export function GroupWizardSidebar(props: GroupItemProps) {
                         {ancestorNodes.map((ancestorNode) => (
                             <S.ParentPreview key={ancestorNode.key}>
                                 <S.ParentPreviewTitle level={5}>{ancestorNode.text}</S.ParentPreviewTitle>
-                                <QuestionItems
-                                    questionItems={ancestorNode.contentItems}
-                                    parentPath={ancestorNode.path}
-                                    context={groupContext}
-                                />
+                                <ParentPreviewFields ancestorNode={ancestorNode} formValues={formValues} />
                             </S.ParentPreview>
                         ))}
                         <S.ContentHeader>

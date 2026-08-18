@@ -113,16 +113,22 @@ export const S = {
         display: flex;
         flex-direction: column;
         gap: 8px;
-        padding: 12px;
-        border-radius: 8px;
-        background-color: ${({ theme }) => theme.neutralPalette.gray_2};
-
-        * {
-            pointer-events: none;
-        }
     `,
     ParentPreviewTitle: styled(Title)`
         margin: 0 !important;
         color: ${({ theme }) => theme.neutral.secondaryText} !important;
+    `,
+    ParentPreviewField: styled.div`
+        display: flex;
+        gap: 8px;
+        font-size: 14px;
+    `,
+    ParentPreviewFieldLabel: styled.span`
+        flex: 0 0 auto;
+        color: ${({ theme }) => theme.neutral.secondaryText};
+
+        &::after {
+            content: ':';
+        }
     `,
 };

@@ -244,11 +244,13 @@ describe('GroupWizardSidebar renders correctly', async () => {
         // The ancestor ("Goals and tasks 1") preview title is a heading, distinct from the plain sidebar row label.
         await screen.findByRole('heading', { name: 'Goals and tasks 1', level: 5 });
 
-        const previewProblemsInput = screen.getByTestId('plan-goalstasks-problemneed').querySelector('input')!;
-        expect(previewProblemsInput).toHaveValue('Chronic pain');
-        expect(previewProblemsInput).toBeDisabled();
+        // The preview is plain text - not the actual editable control - so the value shows up as text and there
+        // is no interactive Form.Item/input bound to that field anywhere while its own group isn't selected.
+        await screen.findByText('Chronic pain');
+        expect(screen.getByText('Problems/Needs')).toBeInTheDocument();
+        expect(screen.queryByTestId('plan-goalstasks-problemneed')).not.toBeInTheDocument();
 
-        // The currently-selected node's own field stays editable.
+        // The currently-selected node's own field stays fully editable via the real control.
         const goalsInput = screen.getByTestId('plan-goalstasks-details-goalsetting-goals').querySelector('input')!;
         expect(goalsInput).not.toBeDisabled();
     }, 60000);
