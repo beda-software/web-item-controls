@@ -146,6 +146,24 @@ export function GroupWizardSidebar(props: GroupItemProps) {
         [linkId, rootSection, selectedKey],
     );
 
+    GroupWizardBus.useBus(
+        'sidebarGoToNext',
+        ({ groupLinkId }) => {
+            if (groupLinkId !== linkId) {
+                return;
+            }
+
+            const currentIndex = rootSection.nodes.findIndex((node) => node.key === selectedKey);
+            const nextIndex = Math.min(rootSection.nodes.length - 1, currentIndex + 1);
+            const node = rootSection.nodes[nextIndex];
+
+            if (node) {
+                selectNode(node.key);
+            }
+        },
+        [linkId, rootSection, selectedKey],
+    );
+
     if (hidden || !questionItem.item) {
         return null;
     }

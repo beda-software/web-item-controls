@@ -16,6 +16,7 @@ import {
     itemControlQuestionItemComponents,
     questionItemComponents,
 } from 'src/controls';
+import { GroupWizardBus } from 'src/controls/GroupWizard';
 import { axiosInstance, service } from 'src/services/fhir';
 import { createPatient, createPractitionerRole, loginAdminUser } from 'src/setupTests';
 import { ThemeProvider } from 'src/theme';
@@ -313,6 +314,65 @@ describe('GroupWizardSidebar renders correctly', async () => {
         const confirmButton = await screen.findByText('OK');
         act(() => {
             fireEvent.click(confirmButton);
+        });
+
+        await waitFor(() =>
+            expect(screen.queryByTestId('sidebar-menu-row-plan-goalstasks.items.0')).not.toBeInTheDocument(),
+        );
+    }, 60000);
+
+    test('sidebarAddElement bus event adds a new top-level instance (voice "add")', async () => {
+        const { patient, practitioner } = await setup();
+
+        await renderForm(patient, practitioner);
+
+        await screen.findByTestId('sidebar-menu-row-plan-goalstasks.items.0');
+
+        act(() => {
+            GroupWizardBus.dispatch({ type: 'sidebarAddElement', groupLinkId: 'plan-goalstasks' });
+        });
+
+        await waitFor(() => expect(screen.getByTestId('sidebar-menu-row-plan-goalstasks.items.1')).toBeInTheDocument());
+    }, 60000);
+
+    test('sidebarGoToPrevious/sidebarGoToNext bus events navigate between top-level instances (voice "previous"/"next")', async () => {
+        const { patient, practitioner } = await setup();
+
+        await renderForm(patient, practitioner);
+
+        await screen.findByTestId('sidebar-menu-row-plan-goalstasks.items.0');
+        await screen.findByRole('heading', { name: 'Goals and tasks 1', level: 4 });
+
+        const addButton = await screen.findByTestId('sidebar-menu-add-plan-goalstasks');
+        act(() => {
+            fireEvent.click(addButton);
+        });
+
+        // Adding the 2nd instance selects it automatically.
+        await screen.findByRole('heading', { name: 'Goals and tasks 2', level: 4 });
+
+        act(() => {
+            GroupWizardBus.dispatch({ type: 'sidebarGoToPrevious', groupLinkId: 'plan-goalstasks' });
+        });
+
+        await screen.findByRole('heading', { name: 'Goals and tasks 1', level: 4 });
+
+        act(() => {
+            GroupWizardBus.dispatch({ type: 'sidebarGoToNext', groupLinkId: 'plan-goalstasks' });
+        });
+
+        await screen.findByRole('heading', { name: 'Goals and tasks 2', level: 4 });
+    }, 60000);
+
+    test('sidebarRemove bus event removes the currently selected instance without a confirmation prompt (voice "remove")', async () => {
+        const { patient, practitioner } = await setup();
+
+        await renderForm(patient, practitioner);
+
+        await screen.findByTestId('sidebar-menu-row-plan-goalstasks.items.0');
+
+        act(() => {
+            GroupWizardBus.dispatch({ type: 'sidebarRemove', groupLinkId: 'plan-goalstasks' });
         });
 
         await waitFor(() =>

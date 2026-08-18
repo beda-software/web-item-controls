@@ -189,6 +189,24 @@ export function GroupWizardSidebar(props: GroupItemProps) {
     );
 
     GroupWizardBus.useBus(
+        'sidebarGoToNext',
+        ({ groupLinkId }) => {
+            if (groupLinkId !== linkId) {
+                return;
+            }
+
+            const currentIndex = rootSection.nodes.findIndex((node) => node.key === selectedKey);
+            const nextIndex = Math.min(rootSection.nodes.length - 1, currentIndex + 1);
+            const node = rootSection.nodes[nextIndex];
+
+            if (node) {
+                selectNode(node.key);
+            }
+        },
+        [linkId, rootSection, selectedKey],
+    );
+
+    GroupWizardBus.useBus(
         'sidebarAddElement',
         ({ groupLinkId }) => {
             if (groupLinkId !== linkId) {
@@ -198,6 +216,18 @@ export function GroupWizardSidebar(props: GroupItemProps) {
             addInstance(rootSection);
         },
         [linkId, rootSection],
+    );
+
+    GroupWizardBus.useBus(
+        'sidebarRemove',
+        ({ groupLinkId }) => {
+            if (groupLinkId !== linkId || readOnly || !selectedNode) {
+                return;
+            }
+
+            removeInstance(selectedNode);
+        },
+        [linkId, readOnly, selectedNode],
     );
 
     if (hidden || !questionItem.item) {

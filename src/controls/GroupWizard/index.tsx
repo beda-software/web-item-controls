@@ -43,6 +43,14 @@ export const GroupWizardBus = createBus<
           groupLinkId: string;
       }
     | {
+          type: 'sidebarGoToNext';
+          groupLinkId: string;
+      }
+    | {
+          type: 'sidebarRemove';
+          groupLinkId: string;
+      }
+    | {
           type: 'sidebarSelect';
           groupLinkId: string;
           key: string;
