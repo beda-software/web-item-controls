@@ -24,10 +24,30 @@ export interface GroupWizardProps extends GroupItemProps {
     wizard?: Partial<WizardProps>;
 }
 
-export const GroupWizardBus = createBus<{
-    type: 'scrollTo';
-    groupLinkId: string;
-}>();
+export const GroupWizardBus = createBus<
+    | {
+          type: 'scrollTo';
+          groupLinkId: string;
+      }
+    | {
+          type: 'sidebarAddElement';
+          groupLinkId: string;
+      }
+    | {
+          type: 'sidebarGoToIndex';
+          groupLinkId: string;
+          index: number;
+      }
+    | {
+          type: 'sidebarGoToPrevious';
+          groupLinkId: string;
+      }
+    | {
+          type: 'sidebarSelect';
+          groupLinkId: string;
+          key: string;
+      }
+>();
 
 export function GroupWizardVertical(props: GroupWizardProps) {
     return (

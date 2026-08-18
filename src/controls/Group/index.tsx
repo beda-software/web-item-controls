@@ -3,6 +3,8 @@ import { GroupItemProps, QuestionItems } from 'sdc-qrf';
 
 import { ItemHelpText } from 'src/components/BaseQuestionnaireResponseForm/ItemHelpText';
 import { Title } from 'src/components/Typography';
+import { GroupWizardSidebar } from 'src/controls/GroupWizard/GroupWizardSidebar';
+import { shouldApplySidebarDesign } from 'src/controls/GroupWizard/GroupWizardSidebar/utils';
 
 import { GroupContext, GroupContextProps } from './context';
 import { GridGroup } from './GridGroup';
@@ -71,6 +73,10 @@ function Flex(props: GroupItemProps & { type?: GroupContextProps['type'] }) {
 }
 
 export function Group(props: GroupItemProps) {
+    if (shouldApplySidebarDesign(props.questionItem)) {
+        return <GroupWizardSidebar {...props} />;
+    }
+
     return <Flex {...props} />;
 }
 
