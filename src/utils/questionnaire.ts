@@ -264,3 +264,15 @@ export function getAnswerCode(o: AnswerValue) {
 
     return JSON.stringify(o);
 }
+
+const GROUP_HIDE_ADD_ITEM_BUTTON_EXTENSION_URL =
+    'https://smartforms.csiro.au/ig/StructureDefinition/GroupHideAddItemButton';
+
+export function isGroupAddItemButtonHidden(questionItem: FCEQuestionnaireItem): boolean {
+    return (
+        questionItem.extension?.some(
+            (extension) =>
+                extension.url === GROUP_HIDE_ADD_ITEM_BUTTON_EXTENSION_URL && extension.valueBoolean === true,
+        ) ?? false
+    );
+}

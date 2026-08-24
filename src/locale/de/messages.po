@@ -211,11 +211,11 @@ msgstr ""
 #~ msgid "Activity"
 #~ msgstr ""
 
-#: src/controls/Group/RepeatableGroups/index.tsx:87
+#: src/controls/Group/RepeatableGroups/index.tsx:198
 msgid "Add {text}"
 msgstr ""
 
-#: src/controls/Group/RepeatableGroups/index.tsx:87
+#: src/controls/Group/RepeatableGroups/index.tsx:198
 msgid "Add another answer"
 msgstr ""
 
@@ -337,6 +337,7 @@ msgstr ""
 #~ msgid "Are you sure you want to delete the document?"
 #~ msgstr ""
 
+#: src/controls/Group/RepeatableGroups/index.tsx:172
 #: src/controls/GroupTable/hooks.tsx:615
 msgid "Are you sure you want to delete this item?"
 msgstr ""
@@ -397,6 +398,7 @@ msgstr ""
 #~ msgstr ""
 
 #: src/components/BaseQuestionnaireResponseForm/FormFooter.tsx:87
+#: src/controls/Group/RepeatableGroups/index.tsx:175
 msgid "Cancel"
 msgstr ""
 
@@ -406,7 +408,7 @@ msgstr ""
 #~ msgid "Cancelled"
 #~ msgstr ""
 
-#: src/components/AudioRecorder/index.tsx:41
+#: src/components/AudioRecorder/index.tsx:40
 msgid "Capture in progress"
 msgstr ""
 
@@ -595,6 +597,11 @@ msgstr ""
 #~ msgid "Default"
 #~ msgstr ""
 
+#: src/controls/Group/accordionContext.ts:164
+msgid "Define {0} first"
+msgstr ""
+
+#: src/controls/Group/RepeatableGroups/index.tsx:173
 #: src/controls/GroupTable/hooks.tsx:618
 msgid "Delete"
 msgstr ""
@@ -637,7 +644,7 @@ msgstr ""
 #~ msgid "Dose form"
 #~ msgstr ""
 
-#: src/components/AudioRecorder/index.tsx:127
+#: src/components/AudioRecorder/index.tsx:126
 msgid "Download audio"
 msgstr ""
 
@@ -832,8 +839,8 @@ msgstr ""
 #~ msgid "Go to the encounter"
 #~ msgstr ""
 
-#: src/controls/Group/GroupCard/index.tsx:67
-#: src/controls/Group/GroupCard/index.tsx:97
+#: src/controls/Group/GroupCard/index.tsx:101
+#: src/controls/Group/GroupCard/index.tsx:131
 msgid "Group"
 msgstr ""
 
@@ -944,7 +951,8 @@ msgstr ""
 #~ msgid "Issued"
 #~ msgstr ""
 
-#: src/controls/Group/RepeatableGroups/RepeatableGroupCard/index.tsx:19
+#: src/controls/Group/RepeatableGroups/index.tsx:191
+#: src/controls/Group/RepeatableGroups/RepeatableGroupCard/index.tsx:21
 msgid "Item"
 msgstr ""
 
@@ -964,7 +972,7 @@ msgstr ""
 msgid "linkIdX or linkIdY not defined"
 msgstr ""
 
-#: src/components/AudioRecorder/index.tsx:70
+#: src/components/AudioRecorder/index.tsx:69
 msgid "Listen to the audio"
 msgstr ""
 
@@ -1291,7 +1299,11 @@ msgstr "Parameter"
 #~ msgid "Rate"
 #~ msgstr ""
 
-#: src/controls/Group/GroupCard/index.tsx:85
+#: src/controls/Group/GroupChildren.tsx:33
+msgid "Read-only while editing {0} - click to edit"
+msgstr ""
+
+#: src/controls/Group/GroupCard/index.tsx:119
 msgid "Remove"
 msgstr ""
 
@@ -1620,7 +1632,7 @@ msgstr ""
 #~ msgid "There are no documents yet"
 #~ msgstr ""
 
-#: src/components/AudioRecorder/index.tsx:96
+#: src/components/AudioRecorder/index.tsx:95
 msgid "This audio cannot be played in Safari, please download the audio or use the Chrome browser"
 msgstr ""
 
@@ -1772,6 +1784,6 @@ msgstr ""
 #~ msgid "You currently lack access to the patient's data. To obtain it, you must secure the patient's signed consent authorizing the release of their activity data."
 #~ msgstr ""
 
-#: src/components/AudioRecorder/index.tsx:105
+#: src/components/AudioRecorder/index.tsx:104
 msgid "Your browser does not support the audio element"
 msgstr ""

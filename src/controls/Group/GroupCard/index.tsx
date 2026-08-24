@@ -2,11 +2,16 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { t, Trans } from '@lingui/macro';
 import { Button } from 'antd';
 import React from 'react';
-import { GroupItemProps, QuestionItems } from 'sdc-qrf';
+import { useFormContext } from 'react-hook-form';
+import { GroupItemProps } from 'sdc-qrf';
 
 import { Title } from 'src/components/Typography';
 
 import { S } from './styles';
+import { getCandidateItemCount, useGroupSiblingAccordion } from '../accordionContext';
+import { BreadcrumbSegmentBoundary } from '../BreadcrumbChain';
+import { ChildGroupAccordionProvider } from '../ChildGroupAccordionProvider';
+import { GroupChildren } from '../GroupChildren';
 import { RepeatableGroups } from '../RepeatableGroups';
 import { RepeatableGroupCard } from '../RepeatableGroups/RepeatableGroupCard';
 
@@ -18,6 +23,9 @@ export function GroupCard(props: GroupCardProps) {
     const { parentPath, questionItem, context, variant = 'main-card' } = props;
     const { linkId, item, repeats, text, hidden } = questionItem;
 
+    const { getValues } = useFormContext();
+    const accordion = useGroupSiblingAccordion(linkId, parentPath);
+
     if (hidden) {
         return null;
     }
@@ -25,18 +33,18 @@ export function GroupCard(props: GroupCardProps) {
     const renderCardContent = () => {
         return (
             item && (
-                <QuestionItems
-                    questionItems={item}
+                <ChildGroupAccordionProvider
+                    item={item}
+                    groupLinkId={linkId}
                     parentPath={[...parentPath, linkId, 'items']}
-                    context={context[0]!}
-                />
+                >
+                    <GroupChildren item={item} parentPath={[...parentPath, linkId, 'items']} context={context[0]!} />
+                </ChildGroupAccordionProvider>
             )
         );
     };
 
-    // TODO: display helpText
-
-    if (repeats) {
+    const renderRepeatable = () => {
         if (variant === 'sub-card') {
             return (
                 <RepeatableGroups
@@ -47,6 +55,36 @@ export function GroupCard(props: GroupCardProps) {
         }
 
         return <RepeatableGroups groupItem={props} />;
+    };
+
+    if (accordion) {
+        if (!accordion.isOpen && !accordion.isAnchor) {
+            return null;
+        }
+
+        const count = getCandidateItemCount(questionItem, parentPath, getValues());
+
+        // Already inside a breadcrumb chain - this group's title is carried by the
+        // chain's combined header, so render its own repeat instances/content
+        // directly instead of wrapping them in another card with its own header.
+        return (
+            <BreadcrumbSegmentBoundary
+                segment={{
+                    key: linkId,
+                    title: text,
+                    count,
+                    alternatives: accordion.alternatives,
+                    lockedHint: accordion.lockedHint,
+                }}
+            >
+                {accordion.isOpen ? (repeats ? renderRepeatable() : renderCardContent()) : null}
+            </BreadcrumbSegmentBoundary>
+        );
+    }
+
+    // TODO: display helpText
+    if (repeats) {
+        return renderRepeatable();
     }
 
     if (variant === 'sub-card') {

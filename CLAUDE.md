@@ -26,6 +26,10 @@ yarn test                  # vitest --no-threads
 yarn test-storybook        # storybook test-runner against a built Storybook (used in CI, needs build-storybook first)
 ```
 
+Before starting `yarn start`/Storybook or any other long-running dev process, check whether it's already running
+(e.g. `lsof -i :6006`, or just ask) instead of blindly launching a second instance — the user is often already
+running it.
+
 Run a single test file or test name with vitest directly, e.g.:
 
 ```sh
