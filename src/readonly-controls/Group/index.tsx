@@ -2,6 +2,8 @@ import _ from 'lodash';
 import { GroupItemProps, QuestionItems } from 'sdc-qrf';
 
 import { Paragraph } from 'src/components/Typography';
+import { shouldApplySidebarDesign } from 'src/controls/GroupWizard/GroupWizardSidebar/utils';
+import { GroupWizardSidebar } from 'src/readonly-controls/GroupWizardSidebar';
 
 import { RepeatableGroups } from './RepeatableGroups';
 
@@ -31,6 +33,10 @@ function Flex(props: GroupItemProps & { type?: 'row' | 'col' }) {
 }
 
 export function Group(props: GroupItemProps) {
+    if (shouldApplySidebarDesign(props.questionItem)) {
+        return <GroupWizardSidebar {...props} />;
+    }
+
     return <Flex {...props} />;
 }
 

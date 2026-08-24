@@ -2,6 +2,8 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { QuestionItems } from 'sdc-qrf';
 
+import { isGroupAddItemButtonHidden } from 'src/utils/questionnaire';
+
 import { useRepeatableGroup } from './RepeatableGroupCard/hooks';
 import { S } from './styles';
 import { RepeatableGroupProps } from './types';
@@ -17,7 +19,7 @@ export function RepeatableGroupRow(props: RepeatableGroupProps) {
             <S.RowItems>
                 <QuestionItems questionItems={item!} parentPath={parentPath} context={context} />
             </S.RowItems>
-            {!readOnly ? (
+            {!readOnly && !isGroupAddItemButtonHidden(questionItem) ? (
                 <S.RowControls>
                     <Button icon={<DeleteOutlined />} type="default" onClick={onRemove} size="middle" />
                 </S.RowControls>

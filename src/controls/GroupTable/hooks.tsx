@@ -12,6 +12,7 @@ import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm
 import { ColumnFilterValue, SearchBarColumn } from 'src/components/SearchBar/types';
 import { TableFilter } from 'src/components/Table/TableFilter';
 import { RenderFormItemReadOnly } from 'src/controls/GroupTable/RenderFormItemReadOnly';
+import { isGroupAddItemButtonHidden } from 'src/utils/questionnaire';
 
 import { S } from './styles';
 import { GroupTableItem, GroupTableProps, GroupTableRow } from './types';
@@ -383,6 +384,8 @@ export function useGroupTable(props: GroupTableProps) {
 
     const fieldName = useMemo(() => [...parentPath, linkId], [parentPath, linkId]);
 
+    const hideAddButton = isGroupAddItemButtonHidden(questionItem);
+
     const chartLinkIdX = questionItem.enableChart?.linkIdX;
     const chartLinkIdY = questionItem.enableChart?.linkIdY;
 
@@ -611,17 +614,23 @@ export function useGroupTable(props: GroupTableProps) {
                                 handleOpen(value?.index);
                             }}
                         >{t`Edit`}</Button>
-                        <Popconfirm
-                            title={t`Are you sure you want to delete this item?`}
-                            onConfirm={() => handleDelete(value.index)}
-                        >
-                            <Button type="link" danger onClick={(event) => event.stopPropagation()}>{t`Delete`}</Button>
-                        </Popconfirm>
+                        {hideAddButton ? null : (
+                            <Popconfirm
+                                title={t`Are you sure you want to delete this item?`}
+                                onConfirm={() => handleDelete(value.index)}
+                            >
+                                <Button
+                                    type="link"
+                                    danger
+                                    onClick={(event) => event.stopPropagation()}
+                                >{t`Delete`}</Button>
+                            </Popconfirm>
+                        )}
                     </S.ActionButtons>
                 );
             },
         };
-    }, [fields, handleOpen, handleDelete]);
+    }, [fields, handleOpen, handleDelete, hideAddButton]);
 
     const columns = useMemo(() => {
         return [...dataColumns, actionColumn];
@@ -641,6 +650,7 @@ export function useGroupTable(props: GroupTableProps) {
         repeats,
         hidden,
         title,
+        hideAddButton,
         handleAdd,
         dataSource,
         columns,
