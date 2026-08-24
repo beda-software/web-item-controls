@@ -20,6 +20,7 @@ export function GroupTable(props: GroupTableProps) {
         repeats,
         hidden,
         title,
+        hideAddButton,
         handleAdd,
         dataSource,
         columns,
@@ -65,7 +66,9 @@ export function GroupTable(props: GroupTableProps) {
                             {isAllExpandableRowsExpanded ? t`Collapse all` : t`Expand all`}
                         </Button>
                     )}
-                    <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>{t`Add entry`}</Button>
+                    {hideAddButton ? null : (
+                        <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>{t`Add entry`}</Button>
+                    )}
                 </Space>
             </Flex>
 

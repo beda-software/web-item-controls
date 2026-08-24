@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import { FCEQuestionnaireItem, FormItems, ItemContext, getEnabledQuestions } from 'sdc-qrf';
 
+import { isGroupAddItemButtonHidden } from 'src/utils/questionnaire';
+
 import { SidebarMenuNode, SidebarMenuSection } from './types';
 
 export function getItemControlCode(item: FCEQuestionnaireItem): string | undefined {
@@ -101,12 +103,13 @@ function buildSection(
 ): SidebarMenuSection {
     const { linkId, text = linkId, repeats } = item;
     const fieldPath = [...containerPath, linkId];
+    const hideAddButton = isGroupAddItemButtonHidden(item);
 
     if (!repeats) {
         const path = [...fieldPath, 'items'];
         const node = buildNode(item, text, path, undefined, undefined, formValues, groupContext);
 
-        return { key: fieldPath.join('.'), linkId, text, isRepeatable: false, fieldPath, nodes: [node] };
+        return { key: fieldPath.join('.'), linkId, text, isRepeatable: false, hideAddButton, fieldPath, nodes: [node] };
     }
 
     const count = getRepeatCount(formValues, fieldPath);
@@ -117,7 +120,7 @@ function buildSection(
         return buildNode(item, label, path, fieldPath, index, formValues, groupContext);
     });
 
-    return { key: fieldPath.join('.'), linkId, text, isRepeatable: true, fieldPath, nodes };
+    return { key: fieldPath.join('.'), linkId, text, isRepeatable: true, hideAddButton, fieldPath, nodes };
 }
 
 export function buildRootSection(

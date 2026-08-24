@@ -18,6 +18,7 @@ export interface SidebarMenuSection {
     linkId: string;
     text: string;
     isRepeatable: boolean;
+    hideAddButton: boolean;
     fieldPath: string[];
     nodes: SidebarMenuNode[];
 }

@@ -58,7 +58,7 @@ export function SidebarMenu(props: SidebarMenuProps) {
             return (
                 <S.Row $depth={depth}>
                     <S.RowLabel>{section.text}</S.RowLabel>
-                    {section.isRepeatable && onAdd ? (
+                    {section.isRepeatable && !section.hideAddButton && onAdd ? (
                         <S.ExpandButton
                             type="button"
                             aria-label={t`Add ${section.text}`}
@@ -75,7 +75,7 @@ export function SidebarMenu(props: SidebarMenuProps) {
         return (
             <S.Section>
                 {nodes}
-                {section.isRepeatable && onAdd ? (
+                {section.isRepeatable && !section.hideAddButton && onAdd ? (
                     <S.Row $depth={depth}>
                         <S.AddButton
                             type="button"
@@ -99,7 +99,7 @@ export function SidebarMenu(props: SidebarMenuProps) {
             <S.Section>
                 <S.Row $depth={depth}>
                     <S.RowLabel>{section.text}</S.RowLabel>
-                    {onAdd ? (
+                    {!section.hideAddButton && onAdd ? (
                         <S.ExpandButton
                             type="button"
                             aria-label={t`Add ${section.text}`}

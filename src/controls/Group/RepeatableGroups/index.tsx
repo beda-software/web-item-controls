@@ -7,6 +7,7 @@ import { useFormContext } from 'react-hook-form';
 import { GroupItemProps, RepeatableFormGroupItems, getItemKey, populateItemKey } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
+import { isGroupAddItemButtonHidden } from 'src/utils/questionnaire';
 
 import { RepeatableGroupCard } from './RepeatableGroupCard';
 import { RepeatableGroupRow } from './RepeatableGroupRow';
@@ -71,7 +72,7 @@ export function RepeatableGroups(props: RepeatableGroupsProps) {
                     />
                 );
             })}
-            {groupItem.questionItem.readOnly ? null : (
+            {groupItem.questionItem.readOnly || isGroupAddItemButtonHidden(groupItem.questionItem) ? null : (
                 <S.Footer>
                     <Button
                         icon={<PlusOutlined />}

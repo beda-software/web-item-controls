@@ -2,6 +2,8 @@ import { act, renderHook, waitFor } from '@testing-library/react';
 import { FCEQuestionnaireItem, FormAnswerItems, FormItems } from 'sdc-qrf';
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
+import { GROUP_HIDE_ADD_ITEM_BUTTON_EXTENSION_URL } from 'src/utils/constants';
+
 import { useGroupTable, useRowExpandability } from '../hooks';
 import type { GroupTableProps, GroupTableRow } from '../types';
 import { getColumnWidth, getDataSource } from '../utils';
@@ -32,11 +34,15 @@ const getFormItem = (date: string, weight: number): FormItems => {
     };
 };
 
-const getGroupQuestionnaireItem = (repeats: boolean): FCEQuestionnaireItem => {
+const getGroupQuestionnaireItem = (
+    repeats: boolean,
+    extension?: FCEQuestionnaireItem['extension'],
+): FCEQuestionnaireItem => {
     return {
         type: 'group',
         repeats,
         linkId: 'group',
+        extension,
         item: [
             {
                 linkId: 'date',
@@ -223,6 +229,31 @@ describe('useGroupTable', () => {
         await waitFor(() => {
             expect(groupTableHookMocks.mockOnChange).toHaveBeenLastCalledWith({ items: [latestRow2, latestRow3] });
         });
+    });
+
+    test('hides add entry and delete action when GroupHideAddItemButton extension is true, keeps edit', () => {
+        const row1 = getFormItem('2022-01-01', 70);
+        groupTableHookMocks.formValuesState = { group: { items: [row1] } };
+        groupTableHookMocks.watchedFormValuesState = { group: { items: [row1] } };
+
+        const props: GroupTableProps = {
+            parentPath: [],
+            context: [],
+            questionItem: getGroupQuestionnaireItem(true, [
+                { url: GROUP_HIDE_ADD_ITEM_BUTTON_EXTENSION_URL, valueBoolean: true },
+            ]),
+        };
+
+        const { result } = renderHook(() => useGroupTable(props));
+
+        expect(result.current.hideAddButton).toBe(true);
+
+        const actionColumn: any = result.current.columns[result.current.columns.length - 1];
+        const actionCell: any = actionColumn.render(result.current.dataSource[0]!.date);
+        const children = [actionCell.props.children].flat().filter(Boolean);
+
+        expect(children).toHaveLength(1);
+        expect(children[0]!.props.children).toBe('Edit');
     });
 });
 

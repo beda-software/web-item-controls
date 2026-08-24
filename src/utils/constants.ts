@@ -8,3 +8,8 @@
 export const practitionerRoleDoctor = 'doctor';
 
 export const LOINC_CODESYSTEM = 'http://loinc.org';
+
+// https://smartforms.csiro.au/ig/StructureDefinition/GroupHideAddItemButton
+// Applied to a repeating group item (type=group, repeats=true) to hide the "add item" button for it.
+export const GROUP_HIDE_ADD_ITEM_BUTTON_EXTENSION_URL =
+    'https://smartforms.csiro.au/ig/StructureDefinition/GroupHideAddItemButton';

@@ -11,10 +11,20 @@ import * as yup from 'yup';
 
 import { parseFHIRTime } from '@beda.software/fhir-react';
 
+import { GROUP_HIDE_ADD_ITEM_BUTTON_EXTENSION_URL } from './constants';
 import { formatHumanDate, formatHumanDateTime } from './date';
 import { getQuestionItemEnableWhenSchema } from './enableWhen';
 import { evaluate } from './fhirpath';
 import { yupLocale } from './yup-locale';
+
+export function isGroupAddItemButtonHidden(item: FCEQuestionnaireItem): boolean {
+    return (
+        item.extension?.some(
+            (extension) =>
+                extension.url === GROUP_HIDE_ADD_ITEM_BUTTON_EXTENSION_URL && extension.valueBoolean === true,
+        ) ?? false
+    );
+}
 
 export function getDisplay(
     value?: AnswerValue,
