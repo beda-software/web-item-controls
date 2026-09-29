@@ -11,9 +11,8 @@ item:
     itemControl:
       coding:
         - code: image-annotation
-    # The real image url is provided by the story (bundled asset)
     backgroundImage:
-      url: dental-chart.svg
+      url: /images/dental-chart.svg
     item:
       - linkId: position-x
         type: decimal
@@ -25,18 +24,102 @@ item:
         type: choice
         text: Select tooth
         answerOption:
-          - value:
-              Coding: { code: '11', display: 11 — Upper right central incisor }
-          - value:
-              Coding: { code: '12', display: 12 — Upper right lateral incisor }
-          - value:
-              Coding: { code: '13', display: 13 — Upper right canine }
-          - value:
-              Coding: { code: '21', display: 21 — Upper left central incisor }
-          - value:
-              Coding: { code: '22', display: 22 — Upper left lateral incisor }
-          - value:
-              Coding: { code: '23', display: 23 — Upper left canine }
+          - valueCoding:
+              code: '11'
+              display: 11 — Upper right central incisor
+          - valueCoding:
+              code: '12'
+              display: 12 — Upper right lateral incisor
+          - valueCoding:
+              code: '13'
+              display: 13 — Upper right canine
+          - valueCoding:
+              code: '14'
+              display: 14 — Upper right first premolar
+          - valueCoding:
+              code: '15'
+              display: 15 — Upper right second premolar
+          - valueCoding:
+              code: '16'
+              display: 16 — Upper right first molar
+          - valueCoding:
+              code: '17'
+              display: 17 — Upper right second molar
+          - valueCoding:
+              code: '18'
+              display: 18 — Upper right third molar
+          - valueCoding:
+              code: '21'
+              display: 21 — Upper left central incisor
+          - valueCoding:
+              code: '22'
+              display: 22 — Upper left lateral incisor
+          - valueCoding:
+              code: '23'
+              display: 23 — Upper left canine
+          - valueCoding:
+              code: '24'
+              display: 24 — Upper left first premolar
+          - valueCoding:
+              code: '25'
+              display: 25 — Upper left second premolar
+          - valueCoding:
+              code: '26'
+              display: 26 — Upper left first molar
+          - valueCoding:
+              code: '27'
+              display: 27 — Upper left second molar
+          - valueCoding:
+              code: '28'
+              display: 28 — Upper left third molar
+          - valueCoding:
+              code: '31'
+              display: 31 — Lower left central incisor
+          - valueCoding:
+              code: '32'
+              display: 32 — Lower left lateral incisor
+          - valueCoding:
+              code: '33'
+              display: 33 — Lower left canine
+          - valueCoding:
+              code: '34'
+              display: 34 — Lower left first premolar
+          - valueCoding:
+              code: '35'
+              display: 35 — Lower left second premolar
+          - valueCoding:
+              code: '36'
+              display: 36 — Lower left first molar
+          - valueCoding:
+              code: '37'
+              display: 37 — Lower left second molar
+          - valueCoding:
+              code: '38'
+              display: 38 — Lower left third molar
+          - valueCoding:
+              code: '41'
+              display: 41 — Lower right central incisor
+          - valueCoding:
+              code: '42'
+              display: 42 — Lower right lateral incisor
+          - valueCoding:
+              code: '43'
+              display: 43 — Lower right canine
+          - valueCoding:
+              code: '44'
+              display: 44 — Lower right first premolar
+          - valueCoding:
+              code: '45'
+              display: 45 — Lower right second premolar
+          - valueCoding:
+              code: '46'
+              display: 46 — Lower right first molar
+          - valueCoding:
+              code: '47'
+              display: 47 — Lower right second molar
+          - valueCoding:
+              code: '48'
+              display: 48 — Lower right third molar
       - linkId: comment
         type: text
         text: Comment

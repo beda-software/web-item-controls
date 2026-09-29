@@ -18,6 +18,9 @@ const config: StorybookConfig = {
         options: {},
     },
 
+    // Served as-is by the Storybook webserver (e.g. /images/dental-chart.svg)
+    staticDirs: ['./static'],
+
     docs: {},
 
     typescript: {

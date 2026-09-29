@@ -3,7 +3,6 @@ import { FCEQuestionnaire } from 'sdc-qrf';
 import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 
 import { withColorSchemeDecorator, withDemoWidthDecorator } from 'src/storybook/decorators';
-import dentalChartImage from 'src/storybook/demo/assets/dental-chart.svg';
 import { QuestionnaireDemo } from 'src/storybook/demo/QuestionnaireDemo';
 
 const QUESTIONNAIRE: FCEQuestionnaire = {
@@ -16,7 +15,7 @@ const QUESTIONNAIRE: FCEQuestionnaire = {
             text: 'Note',
             repeats: true,
             itemControl: { coding: [{ code: 'image-annotation' }] },
-            backgroundImage: { url: dentalChartImage },
+            backgroundImage: { url: '/images/dental-chart.svg' },
             item: [
                 { linkId: 'x', type: 'decimal', text: 'X' },
                 { linkId: 'y', type: 'decimal', text: 'Y' },
