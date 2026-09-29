@@ -53,6 +53,33 @@ before running the suite locally; CI does this via `cp contrib/emr-config/config
 as `storybook`. It is only reachable while `yarn start` is running — start Storybook first, then use its tools to
 look up story-writing instructions, find stories for a component, and preview rendered stories.
 
+Tools it exposes (prefer them over guessing when working on UI or stories):
+
+- `get-storybook-story-instructions` — call before creating or editing components or stories; it is the source of
+  truth for story imports, patterns and testing conventions.
+- `docs-list` / `docs-show` / `docs-show-story` — discover component IDs, then read documented props and usage. Only
+  use props that these tools document; don't assume props from naming conventions.
+- `stories-find-by-component`, `stories-changed` — locate the stories for a component or for the current changes.
+- `stories-preview` — call after any change that affects how the UI looks; include the returned preview URLs in the
+  final response. For a shared file with no stories of its own, preview its consumers' stories.
+- `test-run` — run story tests through Storybook (focused while iterating, broad before handoff) instead of a
+  `package.json` script; fix failures before reporting completion.
+
+## Validation checklist
+
+Once a task is done, run all of the following to validate it and fix anything you caused:
+
+```sh
+yarn typecheck
+yarn lint
+yarn test --run
+yarn test-storybook
+```
+
+Note: `yarn lint` currently fails on the baseline (unused `eslint-disable` errors in the generated
+`src/locale/*/messages.ts` files, plus existing warnings under `--max-warnings 0`), so compare against the baseline
+rather than expecting a clean run — just make sure you don't add new problems.
+
 The `prepare` script (`husky install && yarn compile && yarn build:lib`) runs on install. A pre-commit hook runs
 `yarn typecheck` and `lint-staged` (eslint --fix + prettier --write on staged `.ts(x)`/`.js(x)` files).
 
