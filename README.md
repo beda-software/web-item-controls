@@ -4,6 +4,10 @@ Reusable FHIR Questionnaire web itemControls and readonly itemControls for Beda-
 
 This repository is a package, not a standalone frontend application. Storybook is the local development surface, and the library build publishes only the package entry points described below.
 
+## Storybook
+
+The latest published Storybook (most recent `master` build on Chromatic): https://master--6a0186ef4bcbb3928488373e.chromatic.com
+
 ## Public API
 
 Only these package subpaths are supported:
