@@ -1,0 +1,42 @@
+id: dental-chart
+name: dental-chart
+title: Dental chart
+resourceType: Questionnaire
+status: active
+item:
+  - linkId: dental-notes
+    type: group
+    text: Dental note
+    repeats: true
+    itemControl:
+      coding:
+        - code: image-annotation
+    # The real image url is provided by the story (bundled asset)
+    backgroundImage:
+      url: dental-chart.svg
+    item:
+      - linkId: position-x
+        type: decimal
+        text: X
+      - linkId: position-y
+        type: decimal
+        text: Y
+      - linkId: tooth
+        type: choice
+        text: Select tooth
+        answerOption:
+          - value:
+              Coding: { code: '11', display: 11 — Upper right central incisor }
+          - value:
+              Coding: { code: '12', display: 12 — Upper right lateral incisor }
+          - value:
+              Coding: { code: '13', display: 13 — Upper right canine }
+          - value:
+              Coding: { code: '21', display: 21 — Upper left central incisor }
+          - value:
+              Coding: { code: '22', display: 22 — Upper left lateral incisor }
+          - value:
+              Coding: { code: '23', display: 23 — Upper left canine }
+      - linkId: comment
+        type: text
+        text: Comment

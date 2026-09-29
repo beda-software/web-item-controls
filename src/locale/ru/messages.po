@@ -324,6 +324,11 @@ msgstr ""
 #~ msgid "Amount"
 #~ msgstr ""
 
+#: src/controls/ImageAnnotation/index.tsx:49
+#: src/controls/ImageAnnotation/index.tsx:142
+msgid "Annotation"
+msgstr ""
+
 #: src/containers/Scheduling/ScheduleCalendar/components/AppointmentDetailsModal/index.tsx:105
 #~ msgid "Appointment"
 #~ msgstr ""
@@ -435,7 +440,7 @@ msgstr ""
 #~ msgid "Cancelled"
 #~ msgstr ""
 
-#: src/components/AudioRecorder/index.tsx:41
+#: src/components/AudioRecorder/index.tsx:40
 msgid "Capture in progress"
 msgstr ""
 
@@ -468,6 +473,10 @@ msgstr ""
 #: src/components/SearchBar/index.tsx:38
 #: src/components/SearchBar/SearchBarMobile/index.tsx:52
 msgid "Clear filters"
+msgstr ""
+
+#: src/controls/ImageAnnotation/index.tsx:119
+msgid "Click on the diagram to place a marker"
 msgstr ""
 
 #: src/controls/UploadFileControl/index.tsx:32
@@ -702,7 +711,7 @@ msgstr ""
 #~ msgid "Dose form"
 #~ msgstr ""
 
-#: src/components/AudioRecorder/index.tsx:127
+#: src/components/AudioRecorder/index.tsx:126
 msgid "Download audio"
 msgstr ""
 
@@ -1107,7 +1116,7 @@ msgstr ""
 msgid "linkIdX or linkIdY not defined"
 msgstr ""
 
-#: src/components/AudioRecorder/index.tsx:70
+#: src/components/AudioRecorder/index.tsx:69
 msgid "Listen to the audio"
 msgstr ""
 
@@ -1236,6 +1245,10 @@ msgstr ""
 
 #: src/utils/questionnaire.ts:63
 msgid "No"
+msgstr ""
+
+#: src/controls/ImageAnnotation/index.tsx:162
+msgid "No annotations"
 msgstr ""
 
 #: src/components/ResourceTable/index.tsx:65
@@ -1404,6 +1417,10 @@ msgstr "Параметр"
 #~ msgid "Phone widget"
 #~ msgstr ""
 
+#: src/controls/ImageAnnotation/index.tsx:162
+msgid "Place a marker on the diagram to add an annotation"
+msgstr ""
+
 #: src/containers/App/DefaultUserWithNoRoles.tsx:21
 #~ msgid "Please ask administrator to add a role for your user"
 #~ msgstr ""
@@ -1477,6 +1494,10 @@ msgstr "Параметр"
 
 #: src/controls/Group/GroupCard/index.tsx:85
 msgid "Remove"
+msgstr ""
+
+#: src/controls/ImageAnnotation/index.tsx:57
+msgid "Remove annotation"
 msgstr ""
 
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/index.tsx:54
@@ -1845,7 +1866,7 @@ msgstr ""
 #~ msgid "There are no documents yet"
 #~ msgstr ""
 
-#: src/components/AudioRecorder/index.tsx:96
+#: src/components/AudioRecorder/index.tsx:95
 msgid "This audio cannot be played in Safari, please download the audio or use the Chrome browser"
 msgstr ""
 
@@ -2001,6 +2022,6 @@ msgstr ""
 #~ msgid "You currently lack access to the patient's data. To obtain it, you must secure the patient's signed consent authorizing the release of their activity data."
 #~ msgstr ""
 
-#: src/components/AudioRecorder/index.tsx:105
+#: src/components/AudioRecorder/index.tsx:104
 msgid "Your browser does not support the audio element"
 msgstr ""

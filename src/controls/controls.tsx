@@ -20,6 +20,7 @@ import {
     GroupWizardVertical,
     GroupWizardWithTooltips,
     Gtable,
+    ImageAnnotation,
     InlineChoice,
     InlineReference,
     MainCard,
@@ -105,4 +106,5 @@ export const itemControlGroupItemComponents: ItemControlGroupItemComponentMappin
     'group-tabs': GroupTabs,
     'group-table': GroupTable,
     'editable-group': EditableGroup,
+    'image-annotation': ImageAnnotation,
 };
