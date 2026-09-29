@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { isValidElement } from 'react';
 import Markdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import remarkDirective from 'remark-directive';
 import remarkGfm from 'remark-gfm';
 import { QuestionItemProps } from 'sdc-qrf';
@@ -15,12 +16,26 @@ import { S as ROWidgetsStyles } from 'src/readonly-controls/ReadonlyWidgets.styl
 import { S } from './styles';
 import { remarkAdmonition, remarkRestoreUnsupportedDirectives } from './utils';
 
+// rehypeRaw parses the item's raw HTML, so without sanitization a `display` item could
+// carry arbitrary markup (e.g. <iframe srcdoc> / <script>) that executes for anyone who
+// opens the form (stored XSS, CVE-2026-PENDING). We sanitize the parsed tree with the
+// default schema extended to keep only the raw-HTML features this renderer supports:
+// <u> and the admonition wrapper <div class="admonition ...">.
+const markdownSanitizeSchema = {
+    ...defaultSchema,
+    tagNames: [...(defaultSchema.tagNames ?? []), 'u'],
+    attributes: {
+        ...defaultSchema.attributes,
+        div: [...(defaultSchema.attributes?.div ?? []), 'className'],
+    },
+};
+
 export function MarkdownRender({ text }: { text: string }) {
     return (
         <RenderImageCacheProvider>
             <S.WrapperMDRender>
                 <Markdown
-                    rehypePlugins={[rehypeRaw]}
+                    rehypePlugins={[rehypeRaw, [rehypeSanitize, markdownSanitizeSchema]]}
                     remarkPlugins={[remarkGfm, remarkDirective, remarkRestoreUnsupportedDirectives, remarkAdmonition]}
                     components={{
                         img({ src, alt }) {
