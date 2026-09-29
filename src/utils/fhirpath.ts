@@ -1,6 +1,17 @@
 import fhirpath, { Context, Model, Path, UserInvocationTable } from 'fhirpath';
 
+import { parseFHIRDateTime } from '@beda.software/fhir-react';
+
 const FHIRPATH_EVALUATE_INVOCATION_TABLE: UserInvocationTable = {};
+
+export const formatDateUserInvocationTable: UserInvocationTable = {
+    formatDate: {
+        fn: (inputs: string[], format: string) => {
+            return inputs.map((i) => parseFHIRDateTime(i).format(format));
+        },
+        arity: { 0: [], 1: ['String'] },
+    },
+};
 
 export function evaluate(
     fhirData: any,

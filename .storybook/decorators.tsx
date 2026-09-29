@@ -1,6 +1,6 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { Decorator } from '@storybook/react';
+import { Decorator } from '@storybook/react-vite';
 import { ThemeProvider } from '../src/theme/ThemeProvider';
 import { messages as enMessages } from '../src/locale/en/messages';
 import React from 'react';

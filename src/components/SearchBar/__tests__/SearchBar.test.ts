@@ -1,48 +1,16 @@
 import { act, renderHook } from '@testing-library/react';
 import moment from 'moment';
 
-import { createPatient, loginAdminUser } from 'src/setupTests';
-
 import { useSearchBar } from '../hooks';
 import { SearchBarColumnType } from '../types';
 
-const PATIENTS_ADDITION_DATA = [
-    {
-        name: [
-            {
-                given: ['Search'],
-                family: 'Bar',
-            },
-        ],
-        birthDate: '2000-01-01',
-    },
-    {
-        name: [
-            {
-                given: ['Alec'],
-                family: 'Baldwin',
-            },
-        ],
-        birthDate: '1958-03-04',
-    },
-];
-
 describe('SearchBar filters testing', () => {
-    beforeAll(async () => {
-        await loginAdminUser();
-    });
-
-    test('String one filters', async () => {
-        const [patient1, patient2] = await Promise.all([
-            createPatient(PATIENTS_ADDITION_DATA[0]),
-            createPatient(PATIENTS_ADDITION_DATA[1]),
-        ]);
-
+    test('String one filters', () => {
         const patientReference1 = {
             value: {
                 Reference: {
                     resourceType: 'Patient',
-                    id: patient1.id,
+                    id: 'patient-1',
                 },
             },
         };
@@ -50,7 +18,7 @@ describe('SearchBar filters testing', () => {
             value: {
                 Reference: {
                     resourceType: 'Patient',
-                    id: patient2.id,
+                    id: 'patient-2',
                 },
             },
         };

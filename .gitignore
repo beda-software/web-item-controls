@@ -14,7 +14,6 @@ contrib/emr-config/config.js
 sentry.properties
 .env.test.local
 .env
-docker-compose.local-run.yaml
 
 backend/config/jwtRS256.key
 backend/config/jwtRS256.key.pub

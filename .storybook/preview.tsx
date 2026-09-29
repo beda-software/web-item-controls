@@ -1,7 +1,10 @@
 import 'antd/dist/reset.css';
 import 'src/styles/index.scss';
-import { Preview } from '@storybook/react';
+import { Preview } from '@storybook/react-vite';
+import { formatDateUserInvocationTable, initFHIRPathEvaluateOptions } from 'src/utils/fhirpath';
 import { withI18nDecorator, withThemeDecorator } from './decorators';
+
+initFHIRPathEvaluateOptions(formatDateUserInvocationTable);
 
 const preview: Preview = {
     parameters: {

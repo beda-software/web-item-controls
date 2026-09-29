@@ -1,4 +1,5 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
+import { createElement, ReactNode } from 'react';
 import { expect, test, describe, vi } from 'vitest';
 
 import { useSearchBar } from 'src/components/SearchBar/hooks';
@@ -8,9 +9,8 @@ import {
     SearchBarChoiceColumn,
     SearchBarColumnType,
 } from 'src/components/SearchBar/types';
-import { createValueSet, loginAdminUser } from 'src/setupTests';
+import { ValueSetExpandProvider } from 'src/contexts';
 
-import { valuesetEncounterStatusData } from './valuesetEncounterStatus';
 import { useChoiceColumn } from '../hooks';
 
 const OPTIONS_COLUMN_CASES: SearchBarChoiceColumn[] = [
@@ -35,39 +35,36 @@ const OPTIONS_COLUMN_CASES: SearchBarChoiceColumn[] = [
     },
 ];
 
+const wrapper = ({ children }: { children: ReactNode }) =>
+    createElement(ValueSetExpandProvider.Provider, { value: async () => [] }, children);
+
 describe('SelectChoiceColumn component testing', () => {
-    beforeAll(async () => {
-        await loginAdminUser();
-        await createValueSet(valuesetEncounterStatusData);
-    });
-
-    beforeEach(async () => {
-        await loginAdminUser();
-    });
-
     test.each(OPTIONS_COLUMN_CASES)(
         'It renders options correctly for options choice column: %s',
         async (columnCase) => {
-            const { result } = renderHook(() => {
-                const { columnsFilterValues, onChangeColumnFilter, onResetFilters } = useSearchBar({
-                    columns: [columnCase],
-                });
+            const { result } = renderHook(
+                () => {
+                    const { columnsFilterValues, onChangeColumnFilter, onResetFilters } = useSearchBar({
+                        columns: [columnCase],
+                    });
 
-                const { onSelect, isOptionSelected, getOptionLabel, debouncedLoadOptions } = useChoiceColumn({
-                    columnFilterValue: columnsFilterValues[0] as ChoiceTypeColumnFilterValue,
-                    onChange: onChangeColumnFilter,
-                });
+                    const { onSelect, isOptionSelected, getOptionLabel, debouncedLoadOptions } = useChoiceColumn({
+                        columnFilterValue: columnsFilterValues[0] as ChoiceTypeColumnFilterValue,
+                        onChange: onChangeColumnFilter,
+                    });
 
-                return {
-                    onSelect,
-                    isOptionSelected,
-                    getOptionLabel,
-                    onChangeColumnFilter,
-                    onResetFilters,
-                    columnsFilterValues,
-                    debouncedLoadOptions,
-                };
-            });
+                    return {
+                        onSelect,
+                        isOptionSelected,
+                        getOptionLabel,
+                        onChangeColumnFilter,
+                        onResetFilters,
+                        columnsFilterValues,
+                        debouncedLoadOptions,
+                    };
+                },
+                { wrapper },
+            );
 
             expect(result.current.columnsFilterValues).toHaveLength(1);
             expect(isChoiceColumnFilterValue(result.current.columnsFilterValues[0]!)).toBeTruthy();

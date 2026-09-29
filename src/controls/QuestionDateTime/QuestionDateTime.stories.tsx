@@ -1,5 +1,5 @@
 import { t } from '@lingui/macro';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 import { ItemContext } from 'sdc-qrf';
 
 import { QuestionDateTime } from 'src/controls/QuestionDateTime';

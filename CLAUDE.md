@@ -22,31 +22,36 @@ yarn typecheck             # tsc --noEmit
 yarn lint                  # eslint src --ext ts,tsx --max-warnings 0
 yarn extract               # lingui extract -> updates src/locale/*/messages.po
 yarn compile               # lingui compile --typescript -> generates message catalogs consumed by lingui/macro
-yarn test                  # vitest --no-threads
-yarn test-storybook        # storybook test-runner against a built Storybook (used in CI, needs build-storybook first)
+yarn test                  # vitest --project unit (jsdom unit tests; add --run to skip watch mode)
+yarn test-storybook        # vitest --project storybook: renders every story in headless Chromium via @storybook/addon-vitest
 ```
 
 Run a single test file or test name with vitest directly, e.g.:
 
 ```sh
-yarn vitest run src/controls/GroupWizard/__tests__/GroupWizard.test.tsx
-yarn vitest run -t "wizard renders group"
+yarn vitest run --project unit src/controls/GroupWizard/__tests__/GroupWizard.test.tsx
+yarn vitest run --project unit -t "wizard renders group"
+yarn vitest run --project storybook src/controls/Boolean/boolean.stories.tsx
 ```
 
-Many tests exercise real FHIR resources against a live Aidbox instance (via `@beda.software/fhir-react` /
-`aidbox-react`, see `src/setupTests.ts`, `src/services/fhir.ts`). To run the full suite as CI does, bring up the
-test backend first:
+Both test projects are defined in `vite.config.ts` (`test.projects`). The story tests need Playwright's Chromium
+(`yarn playwright install chromium`).
 
-```sh
-make up-test     # starts Aidbox + seeds via docker-compose.tests.yaml
-yarn test
-make down-test
-make logs-test   # tail backend logs if a test run fails
-```
+Tests need no backend. Anything that talks to a FHIR server uses the in-memory service in
+`src/__tests__/fhir-service-mock.ts`: pass `createInMemoryFHIRService().service` as the form's `serviceProvider`
+and assert on its `resources`, or replace `src/services/fhir` with `vi.mock('src/services/fhir', ...)` +
+`mockFHIRServicesModule(seedResources)`. Value set expansion is stubbed by wrapping in
+`ValueSetExpandProvider.Provider`.
 
 `yarn compile` must be run before typecheck/lint/build/test in a fresh checkout — lingui macros resolve against the
 compiled catalogs. `contrib/emr-config/config.js` must exist (copy `contrib/emr-config/config.local.js` if missing)
 before running the suite locally; CI does this via `cp contrib/emr-config/config.local.js contrib/emr-config/config.js`.
+
+### Storybook MCP
+
+`@storybook/addon-mcp` serves an MCP server at `http://localhost:6006/mcp`, registered for Claude Code in `.mcp.json`
+as `storybook`. It is only reachable while `yarn start` is running — start Storybook first, then use its tools to
+look up story-writing instructions, find stories for a component, and preview rendered stories.
 
 The `prepare` script (`husky install && yarn compile && yarn build:lib`) runs on install. A pre-commit hook runs
 `yarn typecheck` and `lint-staged` (eslint --fix + prettier --write on staged `.ts(x)`/`.js(x)` files).

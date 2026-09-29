@@ -1,4 +1,4 @@
-import type { Decorator, Meta, StoryObj } from '@storybook/react';
+import type { Decorator, Meta, StoryObj } from '@storybook/react-vite';
 import { Questionnaire, QuestionnaireResponse } from 'fhir/r4b';
 import { FormProvider, useForm } from 'react-hook-form';
 import {

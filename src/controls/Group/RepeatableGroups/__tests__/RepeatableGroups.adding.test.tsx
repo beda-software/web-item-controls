@@ -1,14 +1,14 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { screen, render, fireEvent, waitFor, act } from '@testing-library/react';
-import { Patient, Practitioner, Questionnaire, QuestionnaireResponse } from 'fhir/r4b';
+import { Questionnaire, QuestionnaireResponse } from 'fhir/r4b';
 import { describe, expect, test, vi } from 'vitest';
 
 import { QuestionnaireResponseForm } from '@beda.software/fhir-questionnaire';
 import { questionnaireServiceLoader } from '@beda.software/fhir-questionnaire/components';
-import { ensure, extractBundleResources, WithId, withRootAccess } from '@beda.software/fhir-react';
 import { success } from '@beda.software/remote-data';
 
+import { createInMemoryFHIRService } from 'src/__tests__/fhir-service-mock';
 import { FormWrapper } from 'src/components/FormWrapper';
 import {
     itemControlGroupItemComponents,
@@ -16,10 +16,10 @@ import {
     questionItemComponents,
     groupItemComponent,
 } from 'src/controls';
-import { axiosInstance, getFHIRResources, service } from 'src/services/fhir';
-import { createPatient, createPractitionerRole, loginAdminUser } from 'src/setupTests';
 import { ThemeProvider } from 'src/theme';
 import { evaluate } from 'src/utils/fhirpath';
+
+type FHIRService = ReturnType<typeof createInMemoryFHIRService>;
 
 const getQuestionnaire = (): Questionnaire => {
     return {
@@ -117,20 +117,11 @@ const CASES: ProcedureCase[] = [
 ];
 
 describe('Repeatable group creates correct questionnaire response', async () => {
-    async function setup() {
-        await loginAdminUser();
-        return await withRootAccess(axiosInstance, async () => {
-            const patient = await createPatient({
-                name: [{ given: ['John'], family: 'Smith' }],
-            });
-
-            const { practitioner, practitionerRole } = await createPractitionerRole({});
-
-            return { patient, practitioner, practitionerRole };
-        });
+    function setup() {
+        return createInMemoryFHIRService();
     }
 
-    async function renderRepeatableGroupForm(patient: Patient, practitioner: WithId<Practitioner>) {
+    async function renderRepeatableGroupForm(fhirService: FHIRService) {
         const onSuccess = vi.fn();
 
         act(() => {
@@ -145,7 +136,7 @@ describe('Repeatable group creates correct questionnaire response', async () => 
                             Promise.resolve(success(getQuestionnaire())),
                         )}
                         onSuccess={onSuccess}
-                        serviceProvider={{ service }}
+                        serviceProvider={{ service: fhirService.service }}
                         FormWrapper={FormWrapper}
                         groupItemComponent={groupItemComponent}
                         questionItemComponents={questionItemComponents}
@@ -160,9 +151,9 @@ describe('Repeatable group creates correct questionnaire response', async () => 
     }
 
     test('Test questionnaire loading', async () => {
-        const { patient, practitioner } = await setup();
+        const fhirService = setup();
 
-        const onSuccess = await renderRepeatableGroupForm(patient, practitioner);
+        const onSuccess = await renderRepeatableGroupForm(fhirService);
 
         await waitFor(async () => await screen.findByTestId('submit-button'), { timeout: 2000 });
 
@@ -179,9 +170,9 @@ describe('Repeatable group creates correct questionnaire response', async () => 
     test.each(CASES)(
         'Test group adding first and then filling all fields',
         async (caseData) => {
-            const { patient, practitioner } = await setup();
+            const fhirService = setup();
 
-            const onSuccess = await renderRepeatableGroupForm(patient, practitioner);
+            const onSuccess = await renderRepeatableGroupForm(fhirService);
 
             await waitFor(async () => await screen.findByTestId('submit-button'), { timeout: 2000 });
 
@@ -215,26 +206,22 @@ describe('Repeatable group creates correct questionnaire response', async () => 
 
             await waitFor(() => expect(onSuccess).toHaveBeenCalled());
 
-            await withRootAccess(axiosInstance, async () => {
-                const qrsBundleRD = await getFHIRResources<QuestionnaireResponse>('QuestionnaireResponse', {
-                    questionnaire: 'repeatable-group',
-                    _sort: ['-createdAt', '_id'],
-                });
+            const qrs = fhirService.resources.filter(
+                (r): r is QuestionnaireResponse =>
+                    r.resourceType === 'QuestionnaireResponse' && r.questionnaire === 'repeatable-group',
+            );
+            expect(qrs.length).toBeGreaterThan(0);
 
-                const qrs = extractBundleResources(ensure(qrsBundleRD)).QuestionnaireResponse;
-                expect(qrs.length).toBeGreaterThan(0);
+            const currentQR = qrs[qrs.length - 1];
 
-                const currentQR = qrs[0];
+            const repeatableGroupTexts = evaluate(
+                currentQR,
+                "QuestionnaireResponse.repeat(item).where(linkId='repeatable-group-text')",
+            );
+            expect(repeatableGroupTexts.length).toBe(caseData.case.length);
 
-                const repeatableGroupTexts = evaluate(
-                    currentQR,
-                    "QuestionnaireResponse.repeat(item).where(linkId='repeatable-group-text')",
-                );
-                expect(repeatableGroupTexts.length).toBe(caseData.case.length);
-
-                repeatableGroupTexts.forEach((text, textIndex) => {
-                    expect(text!.answer[0].valueString).toBe(caseData.case[textIndex]!.text);
-                });
+            repeatableGroupTexts.forEach((text, textIndex) => {
+                expect(text!.answer[0].valueString).toBe(caseData.case[textIndex]!.text);
             });
         },
         60000,
@@ -243,9 +230,9 @@ describe('Repeatable group creates correct questionnaire response', async () => 
     test.each(CASES)(
         'Test filling all fields and adding one by one',
         async (caseData) => {
-            const { patient, practitioner } = await setup();
+            const fhirService = setup();
 
-            const onSuccess = await renderRepeatableGroupForm(patient, practitioner);
+            const onSuccess = await renderRepeatableGroupForm(fhirService);
 
             for (const [caseIndex, caseItem] of caseData.case.entries()) {
                 const textFields = await screen.findAllByTestId('repeatable-group-text');
@@ -277,30 +264,26 @@ describe('Repeatable group creates correct questionnaire response', async () => 
 
             await waitFor(() => expect(onSuccess).toHaveBeenCalled());
 
-            await withRootAccess(axiosInstance, async () => {
-                const qrsBundleRD = await getFHIRResources<QuestionnaireResponse>('QuestionnaireResponse', {
-                    questionnaire: 'repeatable-group',
-                    _sort: ['-createdAt', '_id'],
-                });
+            const qrs = fhirService.resources.filter(
+                (r): r is QuestionnaireResponse =>
+                    r.resourceType === 'QuestionnaireResponse' && r.questionnaire === 'repeatable-group',
+            );
+            expect(qrs.length).toBeGreaterThan(0);
 
-                const qrs = extractBundleResources(ensure(qrsBundleRD)).QuestionnaireResponse;
-                expect(qrs.length).toBeGreaterThan(0);
+            const currentQR = qrs[qrs.length - 1];
 
-                const currentQR = qrs[0];
+            const repeatableGroupTexts = evaluate(
+                currentQR,
+                "QuestionnaireResponse.repeat(item).where(linkId='repeatable-group-text')",
+            );
+            expect(repeatableGroupTexts.length).toBe(caseData.case.length);
 
-                const repeatableGroupTexts = evaluate(
-                    currentQR,
-                    "QuestionnaireResponse.repeat(item).where(linkId='repeatable-group-text')",
-                );
-                expect(repeatableGroupTexts.length).toBe(caseData.case.length);
+            repeatableGroupTexts.forEach((text, textIndex) => {
+                expect(text!.answer[0].valueString).toBe(caseData.case[textIndex]!.text);
+            });
 
-                repeatableGroupTexts.forEach((text, textIndex) => {
-                    expect(text!.answer[0].valueString).toBe(caseData.case[textIndex]!.text);
-                });
-
-                repeatableGroupTexts.forEach((text, textIndex) => {
-                    expect(text!.answer[0].valueString).toBe(caseData.case[textIndex]!.text);
-                });
+            repeatableGroupTexts.forEach((text, textIndex) => {
+                expect(text!.answer[0].valueString).toBe(caseData.case[textIndex]!.text);
             });
         },
         60000,

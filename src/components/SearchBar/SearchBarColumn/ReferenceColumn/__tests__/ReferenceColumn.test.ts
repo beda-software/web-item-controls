@@ -8,9 +8,17 @@ import {
     SearchBarColumnType,
     SearchBarReferenceColumn,
 } from 'src/components/SearchBar/types';
-import { createPatient, createPractitioner, loginAdminUser } from 'src/setupTests';
 
 import { useReferenceColumn } from '../hooks';
+
+vi.mock('src/services/fhir', async () => {
+    const { mockFHIRServicesModule } = await import('src/__tests__/fhir-service-mock');
+
+    return mockFHIRServicesModule([
+        { resourceType: 'Patient', id: 'patient-1', name: [{ given: ['John'], family: 'Smith' }] },
+        { resourceType: 'Practitioner', id: 'practitioner-1', name: [{ given: ['Jane'], family: 'Doe' }] },
+    ]);
+});
 
 const COLUMN_CASES: SearchBarReferenceColumn[] = [
     {
@@ -30,13 +38,7 @@ const COLUMN_CASES: SearchBarReferenceColumn[] = [
 ];
 
 describe('ReferenceColumn component testing', () => {
-    beforeEach(async () => {
-        await loginAdminUser();
-    });
-
     test.each(COLUMN_CASES)('It loads options correctly for column %s', async (testColumnCase) => {
-        await createPatient();
-        await createPractitioner();
         const { result } = renderHook(() => {
             const { columnsFilterValues, onChangeColumnFilter, onResetFilters } = useSearchBar({
                 columns: [testColumnCase],
@@ -68,7 +70,7 @@ describe('ReferenceColumn component testing', () => {
             expect(mockCallback).toHaveBeenCalled();
         });
 
-        const options = mockCallback.mock.calls[0][0];
+        const options = mockCallback.mock.calls[0]![0];
         await waitFor(() => {
             expect(options.length).toBeGreaterThan(0);
         });

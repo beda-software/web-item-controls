@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 import { Button, StepsProps } from 'antd';
 import { useCallback, useMemo, useState } from 'react';
 import styled, { css } from 'styled-components';

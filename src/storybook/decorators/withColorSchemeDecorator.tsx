@@ -1,4 +1,4 @@
-import { Decorator } from '@storybook/react';
+import { Decorator } from '@storybook/react-vite';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 

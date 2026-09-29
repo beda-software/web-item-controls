@@ -1,4 +1,4 @@
-import type { Decorator, StoryObj } from '@storybook/react';
+import type { Decorator, StoryObj } from '@storybook/react-vite';
 import { Questionnaire, QuestionnaireResponse } from 'fhir/r4b';
 import { FormProvider, useForm } from 'react-hook-form';
 import { FCEQuestionnaireItem, FormItems, ItemContext, QuestionnaireResponseFormProvider } from 'sdc-qrf';

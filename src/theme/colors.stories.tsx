@@ -1,4 +1,4 @@
-import { Meta, StoryFn } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react-vite';
 import _ from 'lodash';
 import React from 'react';
 import styled, { DefaultTheme } from 'styled-components';

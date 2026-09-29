@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 // ColorSchemedecorator is not compatible with storybook tests
 /* import { withColorSchemeDecorator } from 'src/storybook/decorators'; */

@@ -1,14 +1,14 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { screen, render, act, fireEvent, waitFor } from '@testing-library/react';
-import { Patient, Practitioner, Questionnaire } from 'fhir/r4b';
+import { Questionnaire } from 'fhir/r4b';
 import { expect, test, vi } from 'vitest';
 
 import { QuestionnaireResponseForm } from '@beda.software/fhir-questionnaire';
 import { questionnaireServiceLoader } from '@beda.software/fhir-questionnaire/components';
-import { WithId, withRootAccess } from '@beda.software/fhir-react';
 import { success } from '@beda.software/remote-data';
 
+import { createInMemoryFHIRService } from 'src/__tests__/fhir-service-mock';
 import { FormWrapper } from 'src/components/FormWrapper';
 import {
     groupItemComponent,
@@ -16,9 +16,9 @@ import {
     itemControlQuestionItemComponents,
     questionItemComponents,
 } from 'src/controls';
-import { axiosInstance, service } from 'src/services/fhir';
-import { createPatient, createPractitionerRole, loginAdminUser } from 'src/setupTests';
 import { ThemeProvider } from 'src/theme';
+
+type FHIRService = ReturnType<typeof createInMemoryFHIRService>;
 
 const getQuestionnaire = (): Questionnaire => {
     return {
@@ -131,20 +131,11 @@ const WIZARD_GROUPS: WizardGroup[] = [
 ];
 
 describe('WizardGroup renders correctly', async () => {
-    async function setup() {
-        await loginAdminUser();
-        return await withRootAccess(axiosInstance, async () => {
-            const patient = await createPatient({
-                name: [{ given: ['John'], family: 'Smith' }],
-            });
-
-            const { practitioner, practitionerRole } = await createPractitionerRole({});
-
-            return { patient, practitioner, practitionerRole };
-        });
+    function setup() {
+        return createInMemoryFHIRService();
     }
 
-    async function renderWizardGroupForm(patient: Patient, practitioner: WithId<Practitioner>) {
+    async function renderWizardGroupForm(fhirService: FHIRService) {
         const onSuccess = vi.fn();
 
         act(() => {
@@ -159,7 +150,7 @@ describe('WizardGroup renders correctly', async () => {
                             Promise.resolve(success(getQuestionnaire())),
                         )}
                         onSuccess={onSuccess}
-                        serviceProvider={{ service }}
+                        serviceProvider={{ service: fhirService.service }}
                         FormWrapper={FormWrapper}
                         groupItemComponent={groupItemComponent}
                         questionItemComponents={questionItemComponents}
@@ -174,9 +165,9 @@ describe('WizardGroup renders correctly', async () => {
     }
 
     test('Test only steps with errors are invalid', async () => {
-        const { patient, practitioner } = await setup();
+        const fhirService = setup();
 
-        await renderWizardGroupForm(patient, practitioner);
+        await renderWizardGroupForm(fhirService);
 
         const stepsIcons = [];
         for (const group of WIZARD_GROUPS) {

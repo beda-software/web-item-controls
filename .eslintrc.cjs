@@ -20,7 +20,7 @@ module.exports = {
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        project: 'tsconfig.json',
+        project: ['tsconfig.json', 'tsconfig.node.json'],
         ecmaVersion: 'latest',
         sourceType: 'module',
     },
@@ -35,7 +35,8 @@ module.exports = {
             },
             'typescript': {
                 'alwaysTryTypes': true,
-                'project': './tsconfig.json'
+                'project': ['./tsconfig.json', './tsconfig.node.json'],
+                'noWarnOnMultipleProjects': true
             },
             'node': {
                 'extensions': ['.js', '.jsx', '.ts', '.tsx']

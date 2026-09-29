@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ItemContext } from 'sdc-qrf';
 
 import { WithQuestionFormProviderDecorator, withColorSchemeDecorator } from 'src/storybook/decorators';

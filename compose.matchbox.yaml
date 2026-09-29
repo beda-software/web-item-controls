@@ -1,6 +1,0 @@
-services:
-  matchbox:
-    image: eu.gcr.io/fhir-ch/matchbox:v314
-    container_name: matchbox
-    ports:
-      - "8084:8080"

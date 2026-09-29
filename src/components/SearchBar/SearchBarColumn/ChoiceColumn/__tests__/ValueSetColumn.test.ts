@@ -1,4 +1,5 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
+import { createElement, ReactNode } from 'react';
 import { expect, test, describe, vi } from 'vitest';
 
 import { useSearchBar } from 'src/components/SearchBar/hooks';
@@ -8,10 +9,10 @@ import {
     SearchBarChoiceColumn,
     SearchBarColumnType,
 } from 'src/components/SearchBar/types';
+import { ValueSetExpandProvider } from 'src/contexts';
 import { ValueSetOption } from 'src/services';
-import { createCodeSystem, createValueSet, loginAdminUser } from 'src/setupTests';
 
-import { codeSystemEncounterStatusData, valuesetEncounterStatusData } from './valuesetEncounterStatus';
+import { codeSystemEncounterStatusData } from './valuesetEncounterStatus';
 import { useChoiceColumn } from '../hooks';
 
 const VALUE_SET_COLUMN_CASES: SearchBarChoiceColumn[] = [
@@ -30,41 +31,40 @@ const VALUE_SET_COLUMN_CASES: SearchBarChoiceColumn[] = [
     },
 ];
 
-describe.skip('ValueSetColumn component testing', () => {
-    beforeAll(async () => {
-        await loginAdminUser();
-        await createCodeSystem(codeSystemEncounterStatusData);
-        await createValueSet(valuesetEncounterStatusData);
-    });
+const expandEncounterStatus = async (): Promise<ValueSetOption[]> =>
+    codeSystemEncounterStatusData.concept!.map(({ code, display }) => ({
+        value: { Coding: { system: codeSystemEncounterStatusData.url, code, display } },
+    }));
 
-    beforeEach(async () => {
-        await loginAdminUser();
-    });
+const wrapper = ({ children }: { children: ReactNode }) =>
+    createElement(ValueSetExpandProvider.Provider, { value: expandEncounterStatus }, children);
 
+describe('ValueSetColumn component testing', () => {
     test.each(VALUE_SET_COLUMN_CASES)(
         'It loads options correctly for valueset choice column: %s',
         async (columnCase) => {
-            const { result } = renderHook(() => {
-                const { columnsFilterValues, onChangeColumnFilter, onResetFilters } = useSearchBar({
-                    columns: [columnCase],
-                });
+            const { result } = renderHook(
+                () => {
+                    const { columnsFilterValues, onChangeColumnFilter, onResetFilters } = useSearchBar({
+                        columns: [columnCase],
+                    });
 
-                const { onSelect, isOptionSelected, getOptionLabel, debouncedLoadOptions } = useChoiceColumn({
-                    columnFilterValue: columnsFilterValues[0] as ChoiceTypeColumnFilterValue,
-                    onChange: onChangeColumnFilter,
-                });
+                    const { onSelect, isOptionSelected, getOptionLabel, debouncedLoadOptions } = useChoiceColumn({
+                        columnFilterValue: columnsFilterValues[0] as ChoiceTypeColumnFilterValue,
+                        onChange: onChangeColumnFilter,
+                    });
 
-                return {
-                    onSelect,
-                    isOptionSelected,
-                    getOptionLabel,
-                    onResetFilters,
-                    columnsFilterValues,
-                    debouncedLoadOptions,
-                };
-            });
-
-            await new Promise((r) => setTimeout(r, 2000));
+                    return {
+                        onSelect,
+                        isOptionSelected,
+                        getOptionLabel,
+                        onResetFilters,
+                        columnsFilterValues,
+                        debouncedLoadOptions,
+                    };
+                },
+                { wrapper },
+            );
 
             expect(result.current.columnsFilterValues).toHaveLength(1);
             expect(isChoiceColumnFilterValue(result.current.columnsFilterValues[0]!)).toBeTruthy();
@@ -79,7 +79,7 @@ describe.skip('ValueSetColumn component testing', () => {
                 expect(mockCallback).toHaveBeenCalled();
             });
 
-            const options = mockCallback.mock.calls[0][0];
+            const options = mockCallback.mock.calls[0]![0];
 
             const valuesetEncounterStatusCodes = codeSystemEncounterStatusData.concept!.map((concept) => concept.code);
 

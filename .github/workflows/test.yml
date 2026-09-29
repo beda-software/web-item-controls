@@ -14,23 +14,14 @@ jobs:
           node-version: 24
       - name: Prepare config
         run: cp contrib/emr-config/config.local.js contrib/emr-config/config.js
-      - name: Prepare secrets
-        run: echo AIDBOX_LICENSE=${AIDBOX_LICENSE} > .env
       - name: Install deps
         run: yarn install
       - run: yarn extract
       - run: yarn compile
       - name: Install Playwright
-        run: yarn playwright install --with-deps
-      - name: Build Storybook
-        env:
-          NODE_OPTIONS: "--max_old_space_size=4096"
-        run: yarn build-storybook --quiet
+        run: yarn playwright install --with-deps chromium
       - name: Test storybook
-        run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static --port 6006 --silent" \
-            "npx wait-on tcp:127.0.0.1:6006 && yarn test-storybook"
+        run: yarn test-storybook --run
       - name: Publish to Chromatic
         uses: chromaui/action@latest
         env:
@@ -39,8 +30,6 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
   Tests:
-    env:
-      AIDBOX_LICENSE: ${{ secrets.AIDBOX_LICENSE }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -53,8 +42,6 @@ jobs:
           node-version: 24
       - name: Prepare config
         run: cp contrib/emr-config/config.local.js contrib/emr-config/config.js
-      - name: Prepare secrets
-        run: echo AIDBOX_LICENSE=${AIDBOX_LICENSE} > .env
       - name: Install deps
         run: yarn install
       - run: yarn extract
@@ -67,10 +54,5 @@ jobs:
         run: yarn eslint src/
       - name: Check formatting
         run: yarn prettier -c "src/**/*.ts?"
-      - name: Run aidbox
-        run: make up-test
-      - name: Show logs
-        if: ${{ failure() }}
-        run: make logs-test
       - name: Run tests
-        run: yarn test --silent
+        run: yarn test --run --silent

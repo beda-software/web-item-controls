@@ -1,14 +1,14 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { screen, render, fireEvent, waitFor, act } from '@testing-library/react';
-import { Patient, Practitioner, Questionnaire } from 'fhir/r4b';
+import { Questionnaire } from 'fhir/r4b';
 import { expect, test, vi } from 'vitest';
 
 import { QuestionnaireResponseForm } from '@beda.software/fhir-questionnaire';
 import { questionnaireServiceLoader } from '@beda.software/fhir-questionnaire/components';
-import { WithId, withRootAccess } from '@beda.software/fhir-react';
 import { success } from '@beda.software/remote-data';
 
+import { createInMemoryFHIRService } from 'src/__tests__/fhir-service-mock';
 import { FormWrapper } from 'src/components/FormWrapper';
 import {
     groupItemComponent,
@@ -16,11 +16,11 @@ import {
     itemControlQuestionItemComponents,
     questionItemComponents,
 } from 'src/controls';
-import { axiosInstance, service } from 'src/services/fhir';
-import { createPatient, createPractitionerRole, loginAdminUser } from 'src/setupTests';
 import { ThemeProvider } from 'src/theme';
 
 import { ProcedureCase } from './types';
+
+type FHIRService = ReturnType<typeof createInMemoryFHIRService>;
 
 const getQuestionnaire = (): Questionnaire => {
     return {
@@ -77,20 +77,11 @@ const CASE: ProcedureCase = {
 };
 
 describe('Repeatable group creates correct questionnaire response', async () => {
-    async function setup() {
-        await loginAdminUser();
-        return await withRootAccess(axiosInstance, async () => {
-            const patient = await createPatient({
-                name: [{ given: ['John'], family: 'Smith' }],
-            });
-
-            const { practitioner, practitionerRole } = await createPractitionerRole({});
-
-            return { patient, practitioner, practitionerRole };
-        });
+    function setup() {
+        return createInMemoryFHIRService();
     }
 
-    async function renderRepeatableGroupForm(patient: Patient, practitioner: WithId<Practitioner>) {
+    async function renderRepeatableGroupForm(fhirService: FHIRService) {
         const onSuccess = vi.fn();
 
         act(() => {
@@ -105,7 +96,7 @@ describe('Repeatable group creates correct questionnaire response', async () => 
                             Promise.resolve(success(getQuestionnaire())),
                         )}
                         onSuccess={onSuccess}
-                        serviceProvider={{ service }}
+                        serviceProvider={{ service: fhirService.service }}
                         FormWrapper={FormWrapper}
                         groupItemComponent={groupItemComponent}
                         questionItemComponents={questionItemComponents}
@@ -120,11 +111,11 @@ describe('Repeatable group creates correct questionnaire response', async () => 
     }
 
     test('Test group removes correct item', async () => {
-        const { patient, practitioner } = await setup();
+        const fhirService = setup();
 
         const DELETING_INDEX = 1;
 
-        await renderRepeatableGroupForm(patient, practitioner);
+        await renderRepeatableGroupForm(fhirService);
 
         await waitFor(async () => await screen.findByTestId('submit-button'), { timeout: 2000 });
 
@@ -184,9 +175,9 @@ describe('Repeatable group creates correct questionnaire response', async () => 
     }, 60000);
 
     test('Test group removes all items and add again', async () => {
-        const { patient, practitioner } = await setup();
+        const fhirService = setup();
 
-        await renderRepeatableGroupForm(patient, practitioner);
+        await renderRepeatableGroupForm(fhirService);
 
         const addAnotherAnswerButton = await screen.findByTestId('add-another-answer-button');
 

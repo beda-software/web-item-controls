@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 import { ItemContext } from 'sdc-qrf';
 import { expect, within, userEvent } from 'storybook/test';
 
