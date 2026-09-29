@@ -58,3 +58,35 @@ export const Default: Story = {
         await waitFor(() => expect(canvas.queryByTestId('annotation-marker-1')).not.toBeInTheDocument());
     },
 };
+
+const answer = (type: 'decimal' | 'string', value: number | string) => [{ value: { [type]: value } }];
+
+export const Readonly: Story = {
+    globals: { scheme: 'light' },
+    render: () => (
+        <QuestionnaireDemo
+            questionnaire={QUESTIONNAIRE}
+            readonly
+            defaultValues={{
+                annotations: {
+                    items: [
+                        {
+                            x: answer('decimal', 45),
+                            y: answer('decimal', 10),
+                            title: answer('string', 'Missing tooth'),
+                        },
+                        { x: answer('decimal', 70), y: answer('decimal', 20), title: answer('string', 'Mobility') },
+                    ],
+                },
+            }}
+        />
+    ),
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+
+        await waitFor(() => expect(canvas.getByTestId('annotation-marker-1')).toBeInTheDocument());
+        // Readonly view lists all the annotations at once
+        expect(canvas.getByText('Missing tooth')).toBeInTheDocument();
+        expect(canvas.getByText('Mobility')).toBeInTheDocument();
+    },
+};

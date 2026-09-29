@@ -15,12 +15,8 @@ import { success } from '@beda.software/remote-data';
 
 import s from 'src/components/BaseQuestionnaireResponseForm/BaseQuestionnaireResponseForm.module.scss';
 import { ValueSetExpandProvider } from 'src/contexts';
-import {
-    groupItemComponent,
-    itemControlGroupItemComponents,
-    itemControlQuestionItemComponents,
-    questionItemComponents,
-} from 'src/controls';
+import * as editableControls from 'src/controls';
+import * as readonlyControls from 'src/readonly-controls';
 import { evaluate } from 'src/utils/fhirpath';
 
 // sdc-qrf falls back to plain `fhirpath.evaluate` when no evaluateFhirpath is given, which
@@ -36,10 +32,19 @@ const EMPTY_QUESTIONNAIRE_RESPONSE: QuestionnaireResponse = {
 
 export interface QuestionnaireDemoProps {
     questionnaire: FCEQuestionnaire;
+    /** Render with the readonly (display-only) controls instead of the editable ones */
+    readonly?: boolean;
+    defaultValues?: FormItems;
 }
 
-export function QuestionnaireDemo({ questionnaire }: QuestionnaireDemoProps) {
-    const methods = useForm<FormItems>({ defaultValues: {} });
+export function QuestionnaireDemo({ questionnaire, readonly = false, defaultValues = {} }: QuestionnaireDemoProps) {
+    const {
+        groupItemComponent,
+        itemControlGroupItemComponents,
+        itemControlQuestionItemComponents,
+        questionItemComponents,
+    } = readonly ? readonlyControls : editableControls;
+    const methods = useForm<FormItems>({ defaultValues });
     const formValues = methods.watch();
 
     const context = useMemo(

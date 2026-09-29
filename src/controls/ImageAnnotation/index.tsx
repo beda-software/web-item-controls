@@ -4,7 +4,6 @@ import { Button } from 'antd';
 import _ from 'lodash';
 import { MouseEvent, useState } from 'react';
 import {
-    FormAnswerItems,
     FormItems,
     GroupItemProps,
     QuestionItems,
@@ -17,18 +16,13 @@ import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm
 import { Title } from 'src/components/Typography';
 import { useRepeatableGroup } from 'src/controls/Group/RepeatableGroups/RepeatableGroupCard/hooks';
 
+import { AnnotationImage } from './AnnotationImage';
 import { S } from './styles';
 
 const COORDINATES_PRECISION = 2;
 
 function toPercent(value: number, total: number) {
     return _.round(_.clamp((value / total) * 100, 0, 100), COORDINATES_PRECISION);
-}
-
-function getCoordinate(item: FormItems | undefined, linkId: string): number | undefined {
-    const value = (item?.[linkId] as FormAnswerItems[] | undefined)?.[0]?.value?.decimal;
-
-    return _.isNumber(value) ? value : undefined;
 }
 
 function buildCoordinateAnswer(value: number) {
@@ -125,36 +119,16 @@ export function ImageAnnotation(props: GroupItemProps) {
         <S.Container data-testid={linkId} data-linkid={linkId}>
             <S.ImagePane>
                 {readOnly ? null : <S.Hint>{t`Click on the diagram to place a marker`}</S.Hint>}
-                <S.ImageWrapper $clickable={!readOnly} onClick={onImageClick} data-testid="image-annotation-canvas">
-                    {backgroundImage?.url ? (
-                        <S.Image src={backgroundImage.url} alt={questionItem.text ?? ''} draggable={false} />
-                    ) : null}
-                    {items.map((annotation, index) => {
-                        const x = getCoordinate(annotation, xItem.linkId);
-                        const y = getCoordinate(annotation, yItem.linkId);
-
-                        if (x === undefined || y === undefined) {
-                            return null;
-                        }
-
-                        return (
-                            <S.Marker
-                                key={getItemKey(annotation)}
-                                type="button"
-                                $active={index === activeIndex}
-                                style={{ left: `${x}%`, top: `${y}%` }}
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                    setSelectedIndex(index);
-                                }}
-                                aria-label={`${t`Annotation`} ${index + 1}`}
-                                data-testid={`annotation-marker-${index}`}
-                            >
-                                {index + 1}
-                            </S.Marker>
-                        );
-                    })}
-                </S.ImageWrapper>
+                <AnnotationImage
+                    imageUrl={backgroundImage?.url}
+                    alt={questionItem.text}
+                    items={items}
+                    xLinkId={xItem.linkId}
+                    yLinkId={yItem.linkId}
+                    activeIndex={activeIndex}
+                    onImageClick={readOnly ? undefined : onImageClick}
+                    onMarkerClick={setSelectedIndex}
+                />
             </S.ImagePane>
             <S.Details>
                 {items[activeIndex] ? (

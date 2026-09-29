@@ -13,6 +13,7 @@ import {
     Display,
     Group,
     GroupWizardVertical,
+    ImageAnnotation,
     MarkdownCard,
     MarkdownDisplay,
     MarkdownRenderControl,
@@ -66,4 +67,5 @@ export const itemControlGroupItemComponents: ItemControlGroupItemComponentMappin
     'time-range-picker': TimeRangePickerControl,
     'wizard-navigation-group': NavigationGroup,
     'wizard-vertical': GroupWizardVertical,
+    'image-annotation': ImageAnnotation,
 };

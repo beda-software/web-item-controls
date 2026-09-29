@@ -7,6 +7,7 @@ export * from './Group';
 export * from './Group/GroupSidebarNavigation';
 export * from './Group/NavigationGroup';
 export * from './GroupWizard';
+export * from './ImageAnnotation';
 export * from './MarkdownRender';
 export * from './Number';
 export * from './Reference';
