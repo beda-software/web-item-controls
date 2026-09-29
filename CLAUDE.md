@@ -159,3 +159,42 @@ eslint rule. Locales live in `src/locale/{en,es,ru,de}`; run `yarn extract` afte
 - Import order is enforced by eslint (`import/order`): builtin → external (with `aidbox-react/**` and
   `@beda.software/**` grouped after other externals) → internal `src/**` → relative, alphabetized within each
   group, blank line between groups.
+
+## Release process ("bump")
+
+The maintainer typing **"bump"** (or "bump X.Y.Z") to Claude is standing, in-the-moment
+authorization for the full state-changing sequence below — commit, push, tag, push tag, and
+GitHub release — for that one release only. No separate confirmation is needed per step; run
+the whole sequence end-to-end without pausing to ask "should I push now?" etc.
+
+**Version to release:**
+- Plain **"bump"** → increment the patch version (Z in X.Y.Z) of whatever's currently in
+  `package.json`.
+- **"bump X.Y.Z"** (an explicit version, e.g. for a minor/major bump like `0.2.0`) → set the
+  version to exactly that string instead of incrementing.
+
+**Steps, in order:**
+1. `git status` — working tree must be clean and up to date with `origin/master` before starting.
+   If it isn't (uncommitted changes, unrelated local commits), stop and ask rather than
+   assuming they should be swept into the release.
+2. Set the new version in `package.json` (`npm pkg set version=X.Y.Z`, or edit the field directly).
+3. Run the validation checklist (`yarn compile`, `yarn typecheck`, `yarn test --run`) and
+   `yarn build:lib`; confirm they succeed. Lint failures on the known baseline are not blockers.
+   If the build fails, stop — do not tag or release a broken build.
+4. `git add package.json` (plus any other files that were part of this bump) and commit as
+   `Bump X.Y.Z`, with whatever commit attribution footer is currently in effect for the session.
+5. `git push origin master`.
+6. `git tag -a vX.Y.Z -m "Bump X.Y.Z"` and `git push origin vX.Y.Z`.
+7. `gh release create vX.Y.Z --title "vX.Y.Z" --generate-notes` — this triggers
+   `.github/workflows/publish.yml`, which builds and publishes to npm (with provenance).
+8. `gh run watch <run-id> --exit-status` (find the run with `gh run list --workflow=publish.yml
+   --limit 1`) and confirm it completes successfully.
+9. Final live-artifact check: `npm view @beda.software/web-item-controls@X.Y.Z version` confirms
+   the version is actually on the registry.
+10. Report back: new version, release URL, and confirmation that the package is published.
+
+Prereleases (e.g. `v0.1.25-group-new-design.1`) are a separate flow: no version-bump commit;
+just tag and `gh release create` with `--prerelease`. `publish.yml` sets the version from the
+tag and publishes under the `beta` dist-tag.
+
+If the workflow fails, the release is not done — do not stop at "release created".
