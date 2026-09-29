@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FCEQuestionnaire } from 'sdc-qrf';
-import { expect, fireEvent, userEvent, within } from 'storybook/test';
+import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 
 import { withColorSchemeDecorator, withDemoWidthDecorator } from 'src/storybook/decorators';
 
@@ -24,7 +24,10 @@ export const Default: Story = {
     play: async ({ canvasElement }) => {
         const canvas = within(canvasElement);
 
-        fireEvent.click(await canvas.findByTestId('image-annotation-canvas'), { clientX: 100, clientY: 100 });
+        const area = await canvas.findByTestId('image-annotation-canvas');
+        // The click handler needs the laid out image size, so wait until it is loaded
+        await waitFor(() => expect(within(area).getByRole('img')).toHaveProperty('complete', true));
+        fireEvent.click(area, { clientX: 100, clientY: 100 });
 
         const select = await canvas.findByTestId('question-choice');
         await userEvent.click(within(select).getByRole('combobox'));

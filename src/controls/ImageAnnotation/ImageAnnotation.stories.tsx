@@ -42,6 +42,8 @@ export const Default: Story = {
     play: async ({ canvasElement }) => {
         const canvas = within(canvasElement);
         const area = await canvas.findByTestId('image-annotation-canvas');
+        // The click handler needs the laid out image size, so wait until it is loaded
+        await waitFor(() => expect(within(area).getByRole('img')).toHaveProperty('complete', true));
 
         fireEvent.click(area, { clientX: 100, clientY: 100 });
         fireEvent.click(area, { clientX: 200, clientY: 150 });
