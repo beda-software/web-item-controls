@@ -46,6 +46,8 @@ export const Default: Story = {
         await waitFor(() => expect(within(area).getByRole('img')).toHaveProperty('complete', true));
 
         fireEvent.click(area, { clientX: 100, clientY: 100 });
+        // A click builds the new list from the rendered value, so let the first marker render before the next click
+        await waitFor(() => expect(canvas.getByTestId('annotation-marker-0')).toBeInTheDocument());
         fireEvent.click(area, { clientX: 200, clientY: 150 });
 
         await waitFor(() => expect(canvas.getByTestId('annotation-marker-1')).toBeInTheDocument());
