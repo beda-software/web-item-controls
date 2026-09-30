@@ -1,19 +1,11 @@
 import { t } from '@lingui/macro';
 import { MouseEvent } from 'react';
-import { FCEQuestionnaireItem, FormItems, getItemKey, populateItemKey } from 'sdc-qrf';
+import { getItemKey, populateItemKey } from 'sdc-qrf';
+
+import { AnnotationImageProps } from 'src/contexts/image-annotation';
 
 import { S } from './styles';
 import { buildCoordinateAnswer, getCoordinate, getCoordinateItems, toPercent } from './utils';
-
-interface AnnotationImageProps {
-    questionItem: FCEQuestionnaireItem;
-    items: FormItems[];
-    activeIndex?: number;
-    /** Fired with a new annotation item holding the clicked position. Omit to make the image readonly */
-    onAdd?: (item: FormItems) => void;
-    /** Fired when a marker is clicked. Omit to disable markers */
-    onSelect?: (index: number) => void;
-}
 
 /**
  * Image (`backgroundImage` of the group) with numbered markers positioned by x/y percentages

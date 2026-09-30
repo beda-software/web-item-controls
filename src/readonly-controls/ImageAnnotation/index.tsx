@@ -3,8 +3,8 @@ import { FormItems, GroupItemProps, QuestionItems, RepeatableFormGroupItems, get
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
 import { Title } from 'src/components/Typography';
-import { AnnotationImage } from 'src/controls/ImageAnnotation/AnnotationImage';
 import { S } from 'src/controls/ImageAnnotation/styles';
+import { useAnnotationImageComponent } from 'src/controls/ImageAnnotation/useAnnotationImageComponent';
 import { getAnnotationDetailItems } from 'src/controls/ImageAnnotation/utils';
 
 /** Readonly counterpart of the `image-annotation` control: image with markers and all the annotations listed. */
@@ -14,6 +14,7 @@ export function ImageAnnotation(props: GroupItemProps) {
 
     const { value } = useFieldController<RepeatableFormGroupItems>([...parentPath, linkId], questionItem);
     const items: FormItems[] = value?.items ?? [];
+    const AnnotationImage = useAnnotationImageComponent(questionItem);
 
     const detailItems = hidden ? undefined : getAnnotationDetailItems(questionItem);
     if (!detailItems) {

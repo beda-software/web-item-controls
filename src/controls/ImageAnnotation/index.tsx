@@ -15,8 +15,8 @@ import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm
 import { Title } from 'src/components/Typography';
 import { useRepeatableGroup } from 'src/controls/Group/RepeatableGroups/RepeatableGroupCard/hooks';
 
-import { AnnotationImage } from './AnnotationImage';
 import { S } from './styles';
+import { useAnnotationImageComponent } from './useAnnotationImageComponent';
 import { getAnnotationDetailItems } from './utils';
 
 interface AnnotationDetailsProps {
@@ -68,6 +68,7 @@ export function ImageAnnotation(props: GroupItemProps) {
     const fieldName = [...parentPath, linkId];
     const { value, onChange } = useFieldController<RepeatableFormGroupItems>(fieldName, questionItem);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const AnnotationImage = useAnnotationImageComponent(questionItem);
 
     const detailItems = getAnnotationDetailItems(questionItem);
     if (!detailItems) {
