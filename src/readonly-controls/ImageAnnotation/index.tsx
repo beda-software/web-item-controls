@@ -5,32 +5,25 @@ import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm
 import { Title } from 'src/components/Typography';
 import { AnnotationImage } from 'src/controls/ImageAnnotation/AnnotationImage';
 import { S } from 'src/controls/ImageAnnotation/styles';
+import { getAnnotationDetailItems } from 'src/controls/ImageAnnotation/utils';
 
 /** Readonly counterpart of the `image-annotation` control: image with markers and all the annotations listed. */
 export function ImageAnnotation(props: GroupItemProps) {
     const { parentPath, questionItem, context } = props;
-    const { linkId, item, text, hidden, backgroundImage } = questionItem;
-    const [xItem, yItem] = item ?? [];
+    const { linkId, text, hidden } = questionItem;
 
     const { value } = useFieldController<RepeatableFormGroupItems>([...parentPath, linkId], questionItem);
     const items: FormItems[] = value?.items ?? [];
 
-    if (hidden || !xItem || !yItem) {
+    const detailItems = hidden ? undefined : getAnnotationDetailItems(questionItem);
+    if (!detailItems) {
         return null;
     }
-
-    const annotationItems = (item ?? []).slice(2);
 
     return (
         <S.Container data-testid={linkId} data-linkid={linkId}>
             <S.ImagePane>
-                <AnnotationImage
-                    imageUrl={backgroundImage?.url}
-                    alt={text}
-                    items={items}
-                    xLinkId={xItem.linkId}
-                    yLinkId={yItem.linkId}
-                />
+                <AnnotationImage questionItem={questionItem} items={items} />
             </S.ImagePane>
             <S.Details>
                 {items.length ? (
@@ -38,7 +31,7 @@ export function ImageAnnotation(props: GroupItemProps) {
                         <S.DetailsItems key={getItemKey(annotation)}>
                             <Title level={5}>{`${text || t`Annotation`} ${index + 1}`}</Title>
                             <QuestionItems
-                                questionItems={annotationItems}
+                                questionItems={detailItems}
                                 parentPath={[...parentPath, linkId, 'items', index.toString()]}
                                 context={(context[index] ?? context[0])!}
                             />

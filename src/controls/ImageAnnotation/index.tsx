@@ -1,15 +1,14 @@
 import { DeleteOutlined } from '@ant-design/icons';
 import { t } from '@lingui/macro';
 import { Button } from 'antd';
-import _ from 'lodash';
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
 import {
+    FCEQuestionnaireItem,
     FormItems,
     GroupItemProps,
     QuestionItems,
     RepeatableFormGroupItems,
     getItemKey,
-    populateItemKey,
 } from 'sdc-qrf';
 
 import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm/hooks';
@@ -18,16 +17,7 @@ import { useRepeatableGroup } from 'src/controls/Group/RepeatableGroups/Repeatab
 
 import { AnnotationImage } from './AnnotationImage';
 import { S } from './styles';
-
-const COORDINATES_PRECISION = 2;
-
-function toPercent(value: number, total: number) {
-    return _.round(_.clamp((value / total) * 100, 0, 100), COORDINATES_PRECISION);
-}
-
-function buildCoordinateAnswer(value: number) {
-    return [{ value: { decimal: value } }];
-}
+import { getAnnotationDetailItems } from './utils';
 
 interface AnnotationDetailsProps {
     index: number;
@@ -35,15 +25,13 @@ interface AnnotationDetailsProps {
     onChange: (value: RepeatableFormGroupItems) => void;
     onRemoved: (index: number) => void;
     groupItem: GroupItemProps;
+    detailItems: FCEQuestionnaireItem[];
 }
 
 function AnnotationDetails(props: AnnotationDetailsProps) {
-    const { index, items, onChange, onRemoved, groupItem } = props;
-    const { text, readOnly, item } = groupItem.questionItem;
+    const { index, items, onChange, onRemoved, groupItem, detailItems } = props;
+    const { text, readOnly } = groupItem.questionItem;
     const { onRemove, parentPath, context } = useRepeatableGroup({ index, items, onChange, groupItem });
-
-    // The first two children hold the marker position, only the rest are edited by the user
-    const annotationItems = (item ?? []).slice(2);
 
     return (
         <>
@@ -62,7 +50,7 @@ function AnnotationDetails(props: AnnotationDetailsProps) {
                 )}
             </S.DetailsHeader>
             <S.DetailsItems>
-                <QuestionItems questionItems={annotationItems} parentPath={parentPath} context={context} />
+                <QuestionItems questionItems={detailItems} parentPath={parentPath} context={context} />
             </S.DetailsItems>
         </>
     );
@@ -70,47 +58,26 @@ function AnnotationDetails(props: AnnotationDetailsProps) {
 
 /**
  * Repeatable group rendered on top of an image (`backgroundImage` extension).
- * The first two children must be decimals: they store the marker position as a percentage
- * of the image width (x) and height (y). All the other children describe the annotation
- * and are shown for the currently selected marker only.
+ * The image interaction and marker positions are handled by `AnnotationImage`;
+ * the details of the currently selected annotation are shown next to it.
  */
 export function ImageAnnotation(props: GroupItemProps) {
     const { parentPath, questionItem } = props;
-    const { linkId, item, readOnly, backgroundImage } = questionItem;
-    const [xItem, yItem] = item ?? [];
+    const { linkId, readOnly } = questionItem;
 
     const fieldName = [...parentPath, linkId];
     const { value, onChange } = useFieldController<RepeatableFormGroupItems>(fieldName, questionItem);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    if (!xItem || !yItem || xItem.type !== 'decimal' || yItem.type !== 'decimal') {
-        console.warn(`ImageAnnotation (${linkId}): the first two child items must be of type decimal`);
-
+    const detailItems = getAnnotationDetailItems(questionItem);
+    if (!detailItems) {
         return null;
-    }
-
-    if (!questionItem.repeats) {
-        console.warn(`ImageAnnotation (${linkId}): the group must be repeatable`);
     }
 
     const items: FormItems[] = value?.items ?? [];
     const activeIndex = items[selectedIndex] ? selectedIndex : items.length - 1;
 
-    const onImageClick = (event: MouseEvent<HTMLDivElement>) => {
-        if (readOnly) {
-            return;
-        }
-
-        const rect = event.currentTarget.getBoundingClientRect();
-        if (!rect.width || !rect.height) {
-            return;
-        }
-
-        const newItem = populateItemKey({
-            [xItem.linkId]: buildCoordinateAnswer(toPercent(event.clientX - rect.left, rect.width)),
-            [yItem.linkId]: buildCoordinateAnswer(toPercent(event.clientY - rect.top, rect.height)),
-        });
-
+    const onAdd = (newItem: FormItems) => {
         onChange({ ...value, items: [...items, newItem] });
         setSelectedIndex(items.length);
     };
@@ -118,16 +85,12 @@ export function ImageAnnotation(props: GroupItemProps) {
     return (
         <S.Container data-testid={linkId} data-linkid={linkId}>
             <S.ImagePane>
-                {readOnly ? null : <S.Hint>{t`Click on the diagram to place a marker`}</S.Hint>}
                 <AnnotationImage
-                    imageUrl={backgroundImage?.url}
-                    alt={questionItem.text}
+                    questionItem={questionItem}
                     items={items}
-                    xLinkId={xItem.linkId}
-                    yLinkId={yItem.linkId}
                     activeIndex={activeIndex}
-                    onImageClick={readOnly ? undefined : onImageClick}
-                    onMarkerClick={setSelectedIndex}
+                    onAdd={readOnly ? undefined : onAdd}
+                    onSelect={setSelectedIndex}
                 />
             </S.ImagePane>
             <S.Details>
@@ -139,6 +102,7 @@ export function ImageAnnotation(props: GroupItemProps) {
                         onChange={onChange}
                         onRemoved={(removedIndex) => setSelectedIndex(Math.max(0, removedIndex - 1))}
                         groupItem={props}
+                        detailItems={detailItems}
                     />
                 ) : (
                     <S.Empty>
