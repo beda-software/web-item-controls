@@ -21,6 +21,7 @@ export * from './GroupTable/RenderFormItemReadOnly';
 export * from './GroupTabs';
 export * from './GroupWizard';
 export * from './ImageAnnotation';
+export * from './ImageAnnotation/BodyAnnotationImage';
 export * from './InlineChoice';
 export * from './InlineReference';
 export * from './InsideText';

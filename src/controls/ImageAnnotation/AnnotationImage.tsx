@@ -5,7 +5,7 @@ import { getItemKey, populateItemKey } from 'sdc-qrf';
 import { AnnotationImageProps } from 'src/contexts/image-annotation';
 
 import { S } from './styles';
-import { buildCoordinateAnswer, getCoordinate, getCoordinateItems, toPercent } from './utils';
+import { buildCoordinateAnswer, getAnnotationDetailItems, getCoordinate, getCoordinateItems, toPercent } from './utils';
 
 /**
  * Image (`backgroundImage` of the group) with numbered markers positioned by x/y percentages
@@ -76,3 +76,5 @@ export function AnnotationImage(props: AnnotationImageProps) {
         </>
     );
 }
+
+AnnotationImage.getDetailItems = getAnnotationDetailItems;

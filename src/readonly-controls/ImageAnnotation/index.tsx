@@ -5,7 +5,6 @@ import { useFieldController } from 'src/components/BaseQuestionnaireResponseForm
 import { Title } from 'src/components/Typography';
 import { S } from 'src/controls/ImageAnnotation/styles';
 import { useAnnotationImageComponent } from 'src/controls/ImageAnnotation/useAnnotationImageComponent';
-import { getAnnotationDetailItems } from 'src/controls/ImageAnnotation/utils';
 
 /** Readonly counterpart of the `image-annotation` control: image with markers and all the annotations listed. */
 export function ImageAnnotation(props: GroupItemProps) {
@@ -16,7 +15,7 @@ export function ImageAnnotation(props: GroupItemProps) {
     const items: FormItems[] = value?.items ?? [];
     const AnnotationImage = useAnnotationImageComponent(questionItem);
 
-    const detailItems = hidden ? undefined : getAnnotationDetailItems(questionItem);
+    const detailItems = hidden ? undefined : AnnotationImage.getDetailItems(questionItem);
     if (!detailItems) {
         return null;
     }

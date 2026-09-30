@@ -324,9 +324,9 @@ msgstr ""
 #~ msgid "Amount"
 #~ msgstr "Cantidad"
 
-#: src/controls/ImageAnnotation/AnnotationImage.tsx:51
-#: src/controls/ImageAnnotation/index.tsx:51
-#: src/readonly-controls/ImageAnnotation/index.tsx:39
+#: src/controls/ImageAnnotation/AnnotationImage.tsx:68
+#: src/controls/ImageAnnotation/index.tsx:38
+#: src/readonly-controls/ImageAnnotation/index.tsx:32
 msgid "Annotation"
 msgstr ""
 
@@ -383,6 +383,22 @@ msgstr "¿Estás seguro que deseas eliminar este ítem?"
 #~ msgid "Available units"
 #~ msgstr "Unidades disponibles"
 
+#: src/controls/ImageAnnotation/BodyAnnotationImage/index.tsx:84
+msgid "Back"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:8
+msgid "Back of head"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:35
+msgid "Back of left knee"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:36
+msgid "Back of right knee"
+msgstr ""
+
 #: src/containers/InvoiceList/components/InvoiceStatus.tsx:14
 #~ msgid "Balanced"
 #~ msgstr "Saldada"
@@ -406,6 +422,10 @@ msgstr "Fecha de nacimiento"
 #: src/containers/PatientDetails/PatientOverviewDynamic/containers/GeneralIInformationDashboardContainer/hooks.ts:41
 #~ msgid "BMI"
 #~ msgstr "IMC"
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/index.tsx:80
+msgid "Body view"
+msgstr ""
 
 #: src/containers/Scheduling/Availability/index.tsx:171
 #~ msgid "Break"
@@ -476,7 +496,7 @@ msgstr "Ejecución en curso"
 msgid "Clear filters"
 msgstr "Limpiar filtros"
 
-#: src/controls/ImageAnnotation/index.tsx:121
+#: src/controls/ImageAnnotation/AnnotationImage.tsx:40
 msgid "Click on the diagram to place a marker"
 msgstr ""
 
@@ -871,6 +891,10 @@ msgstr ""
 #~ msgid "Extract medical documents"
 #~ msgstr "Extraer documentos clínicos"
 
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:7
+msgid "Face"
+msgstr ""
+
 #: src/readonly-controls/Boolean/index.tsx:21
 msgid "False"
 msgstr "Falso"
@@ -930,6 +954,10 @@ msgstr "Filtros"
 #: src/containers/Scheduling/available-time.ts:17
 #~ msgid "Friday"
 #~ msgstr "Viernes"
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/index.tsx:83
+msgid "Front"
+msgstr ""
 
 #: src/containers/PatientResourceListExample/index.tsx:55
 #~ msgid "Gender"
@@ -1109,6 +1137,74 @@ msgstr "Ítem"
 #~ msgid "Last name"
 #~ msgstr "Apellido"
 
+#: src/controls/ImageAnnotation/BodyAnnotationImage/index.tsx:95
+msgid "Left"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:19
+msgid "Left abdomen"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:29
+msgid "Left buttock"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:39
+msgid "Left calf"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:13
+msgid "Left chest"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:17
+msgid "Left flank"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:25
+msgid "Left forearm"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:27
+msgid "Left groin"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:41
+msgid "Left heel"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:33
+msgid "Left knee"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:21
+msgid "Left lower back"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:37
+msgid "Left lower leg"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:11
+msgid "Left shoulder"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:9
+msgid "Left side of neck"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:31
+msgid "Left thigh"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:23
+msgid "Left upper arm"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:15
+msgid "Left upper back"
+msgstr ""
+
 #: src/controls/GroupTable/index.tsx:98
 msgid "linkIdX or linkIdY not defined"
 msgstr ""
@@ -1240,8 +1336,8 @@ msgstr ""
 msgid "No"
 msgstr "No"
 
-#: src/controls/ImageAnnotation/index.tsx:145
-#: src/readonly-controls/ImageAnnotation/index.tsx:48
+#: src/controls/ImageAnnotation/index.tsx:109
+#: src/readonly-controls/ImageAnnotation/index.tsx:41
 msgid "No annotations"
 msgstr ""
 
@@ -1407,7 +1503,7 @@ msgstr "Parámetro"
 #~ msgid "Phone widget"
 #~ msgstr "Widget de teléfono"
 
-#: src/controls/ImageAnnotation/index.tsx:145
+#: src/controls/ImageAnnotation/index.tsx:109
 msgid "Place a marker on the diagram to add an annotation"
 msgstr ""
 
@@ -1486,7 +1582,7 @@ msgstr ""
 msgid "Remove"
 msgstr "Eliminar"
 
-#: src/controls/ImageAnnotation/index.tsx:59
+#: src/controls/ImageAnnotation/index.tsx:46
 msgid "Remove annotation"
 msgstr ""
 
@@ -1534,6 +1630,74 @@ msgstr ""
 #: src/containers/PatientDetails/PatientHeader/index.tsx:98
 #~ msgid "Resources"
 #~ msgstr "Recursos"
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/index.tsx:94
+msgid "Right"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:20
+msgid "Right abdomen"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:30
+msgid "Right buttock"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:40
+msgid "Right calf"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:14
+msgid "Right chest"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:18
+msgid "Right flank"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:26
+msgid "Right forearm"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:28
+msgid "Right groin"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:42
+msgid "Right heel"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:34
+msgid "Right knee"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:22
+msgid "Right lower back"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:38
+msgid "Right lower leg"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:12
+msgid "Right shoulder"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:10
+msgid "Right side of neck"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:32
+msgid "Right thigh"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:24
+msgid "Right upper arm"
+msgstr ""
+
+#: src/controls/ImageAnnotation/BodyAnnotationImage/labels.ts:16
+msgid "Right upper back"
+msgstr ""
 
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/controls.tsx:64
 #~ msgid "Row"

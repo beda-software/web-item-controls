@@ -17,7 +17,6 @@ import { useRepeatableGroup } from 'src/controls/Group/RepeatableGroups/Repeatab
 
 import { S } from './styles';
 import { useAnnotationImageComponent } from './useAnnotationImageComponent';
-import { getAnnotationDetailItems } from './utils';
 
 interface AnnotationDetailsProps {
     index: number;
@@ -70,7 +69,7 @@ export function ImageAnnotation(props: GroupItemProps) {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const AnnotationImage = useAnnotationImageComponent(questionItem);
 
-    const detailItems = getAnnotationDetailItems(questionItem);
+    const detailItems = AnnotationImage.getDetailItems(questionItem);
     if (!detailItems) {
         return null;
     }
