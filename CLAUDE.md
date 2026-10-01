@@ -173,7 +173,10 @@ the whole sequence end-to-end without pausing to ask "should I push now?" etc.
 - **"bump X.Y.Z"** (an explicit version, e.g. for a minor/major bump like `0.2.0`) → set the
   version to exactly that string instead of incrementing.
 
-**Steps, in order:**
+The branch you're on decides the flow: on `master`, follow the steps below; on any other branch,
+follow **Feature branches (prereleases)** further down.
+
+**Steps, in order (on `master`):**
 1. `git status` — working tree must be clean and up to date with `origin/master` before starting.
    If it isn't (uncommitted changes, unrelated local commits), stop and ask rather than
    assuming they should be swept into the release.
@@ -193,8 +196,28 @@ the whole sequence end-to-end without pausing to ask "should I push now?" etc.
    the version is actually on the registry.
 10. Report back: new version, release URL, and confirmation that the package is published.
 
-Prereleases (e.g. `v0.1.25-group-new-design.1`) are a separate flow: no version-bump commit;
-just tag and `gh release create` with `--prerelease`. `publish.yml` sets the version from the
-tag and publishes under the `beta` dist-tag.
+### Feature branches (prereleases)
+
+**"bump"** on any branch other than `master` means a **branch-specific prerelease**, not a full
+release. Don't stop because you're not on `master`, and don't treat the branch's unmerged or WIP
+commits as a blocker: the prerelease exists to publish exactly that work.
+
+**Tag:** `v<next patch of package.json>-<branch-name>.<N>`. For example, package.json `0.1.24` on
+branch `group-new-design` gives `v0.1.25-group-new-design.8`. N is one more than the highest existing
+tag for this branch (`git fetch --tags && git tag -l 'v*-<branch-name>.*'`); the first one is `.1`.
+
+**Steps, in order:**
+1. `git status` — working tree must be clean. If it isn't, stop and ask.
+2. Don't touch `package.json` and don't make a version-bump commit.
+3. Run the validation checklist (`yarn compile`, `yarn typecheck`, `yarn test --run`) and
+   `yarn build:lib`. If anything fails, stop.
+4. `git tag -a <tag> -m "Prerelease <version>"` and `git push origin <tag>`. Pushing the tag
+   uploads the commit too, so the branch doesn't need to be pushed.
+5. `gh release create <tag> --title "<tag>" --prerelease --generate-notes`. This triggers
+   `publish.yml`, which sets the version from the tag and publishes under the `beta` dist-tag.
+6. `gh run watch <run-id> --exit-status` (find the run with
+   `gh run list --workflow=publish.yml --limit 1`) and confirm it succeeds.
+7. `npm view @beda.software/web-item-controls@<version> version` to confirm it's on the registry.
+8. Report back: tag, release URL, and confirmation that the package is published.
 
 If the workflow fails, the release is not done — do not stop at "release created".
