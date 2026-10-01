@@ -2,6 +2,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { t } from '@lingui/macro';
 import { Button } from 'antd';
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import {
     FCEQuestionnaireItem,
     FormItems,
@@ -65,7 +66,8 @@ export function ImageAnnotation(props: GroupItemProps) {
     const { linkId, readOnly } = questionItem;
 
     const fieldName = [...parentPath, linkId];
-    const { value, onChange } = useFieldController<RepeatableFormGroupItems>(fieldName, questionItem);
+    const { value } = useFieldController<RepeatableFormGroupItems>(fieldName, questionItem);
+    const { setValue, formState } = useFormContext();
     const [selectedIndex, setSelectedIndex] = useState(0);
     const AnnotationImage = useAnnotationImageComponent(questionItem);
 
@@ -77,8 +79,18 @@ export function ImageAnnotation(props: GroupItemProps) {
     const items: FormItems[] = value?.items ?? [];
     const activeIndex = items[selectedIndex] ? selectedIndex : items.length - 1;
 
+    // Writing the whole group through the validating onChange would surface errors for every child item
+    // of the annotations at once (e.g. the empty required details of a just added one),
+    // so the group is validated only once the form has been submitted
+    const setGroupValue = (newValue: RepeatableFormGroupItems) =>
+        setValue(fieldName.join('.'), newValue, {
+            shouldDirty: true,
+            shouldTouch: true,
+            shouldValidate: formState.isSubmitted,
+        });
+
     const onAdd = (newItem: FormItems) => {
-        onChange({ ...value, items: [...items, newItem] });
+        setGroupValue({ ...value, items: [...items, newItem] });
         setSelectedIndex(items.length);
     };
 
@@ -99,7 +111,7 @@ export function ImageAnnotation(props: GroupItemProps) {
                         key={getItemKey(items[activeIndex])}
                         index={activeIndex}
                         items={items}
-                        onChange={onChange}
+                        onChange={setGroupValue}
                         onRemoved={(removedIndex) => setSelectedIndex(Math.max(0, removedIndex - 1))}
                         groupItem={props}
                         detailItems={detailItems}
