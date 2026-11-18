@@ -7,6 +7,8 @@ import { useGroupTableChart } from './hooks';
 import { GroupTableChartProps } from './types';
 
 export { useGroupTableChart } from './hooks';
+export { HighlightArea } from './HighlightArea';
+export type { HighlightProps, HighlightParams } from './HighlightArea';
 export type { GroupTableChartProps, ChartType } from './types';
 
 export function GroupTableChart(props: GroupTableChartProps) {
